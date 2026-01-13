@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  data-on-demand-frontend-dir-compose:
+    build: Dev.Dockerfile
+    container_name: dev-data-on-demand-frontend-dir-compose
+    networks:
+      - dod-network
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app/frontend
+    
+  mongodb:
+    image: mongo
+    container_name: dev-mongodb
+    volumes:
+      - dev-mongo-data:/data/db
+    networks:
+      - dod-network
+
+volumes:
+  dev-mongo-data:
+    name: dev-mongo-data
+
+networks:
+  dod-network:
+    name: dod-network

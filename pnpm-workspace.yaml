@@ -1,0 +1,11 @@
+ignoredBuiltDependencies:
+  - '@heroui/shared-utils'
+
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@parcel/watcher'
+  - '@prisma/client'
+  - '@prisma/engines'
+  - prisma
+  - sharp
+  - unrs-resolver

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": [
+    "tsconfig.json",
+    "tailwind.config.ts",
+    "next.config.ts"
+  ],
+  "globalEnv": [
+    "NODE_ENV",
+    "GITHUB_TOKEN"
+  ],
+  "concurrency": "100%",
+  "tasks": {
+    "dev": {
+      "dependsOn": [
+        "ins",
+        "lint",
+        "lint:fix",
+        "format:check",
+        "format"
+      ],
+      "cache": true,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": [
+        "ins",
+        "lint:fix",
+        "format"
+      ],
+      "cache": true,
+      "persistent": false
+    },
+    "start": {
+      "dependsOn": [
+        "ins",
+        "lint:fix",
+        "format"
+      ],
+      "cache": true,
+      "persistent": true
+    },
+    "ci": {
+      "dependsOn": [
+        "ins",
+        "lint:fix",
+        "format",
+        "build"
+      ],
+      "cache": true,
+      "persistent": false
+    },
+    "clean": {
+      "dependsOn": [
+        "clean:out",
+        "clean:next",
+        "clean:turbo"
+      ],
+      "cache": true,
+      "persistent": false
+    }
+  }
+}

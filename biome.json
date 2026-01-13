@@ -1,0 +1,106 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"includes": [
+			"src/**/*.ts",
+			"src/**/*.tsx",
+			"app/**/*.ts",
+			"app/**/*.tsx",
+			"!next.config.*",
+			"!postcss.config.*",
+			"!tailwind.config.*",
+			"!biome.*",
+			"!.eslint*.*",
+			"!node_modules/**/*",
+			"!**/.git/**/*",
+			"!**/.old*",
+			"!**/.next/**/*",
+			"!**/.turbo/**/*",
+			"!**/src/components/ui/**/*",
+			"!**/app/components/ui/**/*",
+			"!!**/dist",
+			"!!**/.dist",
+			"!!**/.next",
+			"!!**/.out"
+		],
+		"ignoreUnknown": false
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": true,
+		"lineEnding": "lf",
+		"lineWidth": 100,
+		"indentStyle": "tab",
+		"indentWidth": 2
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"a11y": {
+				"recommended": true,
+				"noNoninteractiveElementInteractions": "off",
+				"noStaticElementInteractions": "off",
+				"useKeyWithClickEvents": "off",
+				"noLabelWithoutControl": "off",
+				"noSvgWithoutTitle": "off"
+			},
+			"complexity": {
+				"recommended": true
+			},
+			"correctness": {
+				"recommended": true,
+				"noUndeclaredVariables": "off",
+				"noUnusedVariables": "off"
+			},
+			"nursery": {},
+			"performance": {
+				"recommended": true
+			},
+			"security": {
+				"recommended": true
+			},
+			"style": {
+				"recommended": true,
+				"useNamingConvention": "off",
+				"noDefaultExport": "off",
+				"useNodejsImportProtocol": "off"
+			},
+			"suspicious": {
+				"recommended": true
+			}
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"useSortedAttributes": "off",
+				"useSortedProperties": "on",
+				"useSortedKeys": "off"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"enabled": true,
+			"quoteStyle": "double",
+			"jsxQuoteStyle": "double",
+			"indentStyle": "tab",
+			"indentWidth": 2,
+			"lineEnding": "lf",
+			"semicolons": "always",
+			"trailingCommas": "es5"
+		}
+	},
+	"json": {
+		"parser": {
+			"allowComments": true,
+			"allowTrailingCommas": true
+		}
+	}
+}

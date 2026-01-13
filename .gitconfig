@@ -1,0 +1,4 @@
+[core]
+  # true would mean we auto convert, 'input' or false means no items are changed
+  autocrlf = input
+  eol = lf

@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  data-on-demand-frontend-dir-compose:
+    build: .
+    container_name: data-on-demand-frontend-dir-compose
+    networks:
+      - dod-network
+    ports:
+      - "3000:3000"
+
+networks:
+  dod-network:
+    name: dod-network
