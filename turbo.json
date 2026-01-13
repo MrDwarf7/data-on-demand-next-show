@@ -22,6 +22,17 @@
       "cache": true,
       "persistent": true
     },
+    "devn": {
+      "dependsOn": [
+        "ins",
+        "lint",
+        "lint:fix",
+        "format:check",
+        "format"
+      ],
+      "cache": true,
+      "persistent": true
+    },
     "build": {
       "dependsOn": [
         "ins",
