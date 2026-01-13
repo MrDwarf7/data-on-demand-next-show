@@ -12,6 +12,7 @@ interface DashboardCard extends Partial<ClassNameDataWithIcon> {
 }
 
 export default function DashboardPage() {
+	// TODO: [consolidate paths] : Use same const array across application for paths
 	const dashboardCards: DashboardCard[] = [
 		{
 			title: "Create News Post",

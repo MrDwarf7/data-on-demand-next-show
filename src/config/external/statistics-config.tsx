@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { FiMinus, FiTrendingDown, FiTrendingUp } from "react-icons/fi";
 import type { IconType } from "react-icons/lib";
 
@@ -89,7 +90,7 @@ export interface StatisticsRow {
 	process: string;
 	status: "Active" | "Idle" | "Paused" | "Failed";
 	count: string | number;
-	avgTime: string | keyof Duration;
+	avgTime: string | ReactNode;
 	successRate: string | number;
 }
 

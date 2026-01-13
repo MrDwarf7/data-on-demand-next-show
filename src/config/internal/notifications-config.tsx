@@ -1,3 +1,5 @@
+import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+
 export type NotificationType = "info" | "success" | "warning" | "error";
 
 export interface Notification {
@@ -10,6 +12,45 @@ export interface Notification {
 	actionLink?: string;
 }
 
+// We want to _only_ change the type of the icon property here
+// we want to make it EITHER IconType OR string
+export interface NotificationStyle extends Omit<ClassNameDataWithIcon, "icon"> {
+	// bg: string;
+	classNameBorder: string;
+	// classNameText: string;
+	iconColor: string;
+	icon?: keyof ClassNameDataWithIcon["icon"] | string;
+}
+
+export const NOTIFICATION_STYLES: Record<NotificationType, NotificationStyle> = {
+	success: {
+		classNameBg: "bg-green-500/10",
+		classNameBorder: "border-green-500/30",
+		classNameColor: "text-green-600 dark:text-green-400",
+		iconColor: "bg-green-500/20 text-green-600",
+		icon: "✓",
+	},
+	warning: {
+		classNameBg: "bg-orange-500/10",
+		classNameBorder: "border-orange-500/30",
+		classNameColor: "text-orange-600 dark:text-orange-400",
+		iconColor: "bg-orange-500/20 text-orange-600",
+	},
+	error: {
+		classNameBg: "bg-red-500/10",
+		classNameBorder: "border-red-500/30",
+		classNameColor: "text-red-600 dark:text-red-400",
+		iconColor: "bg-red-500/20 text-red-600",
+	},
+	info: {
+		classNameBg: "bg-blue-500/10",
+		classNameBorder: "border-blue-500/30",
+		classNameColor: "text-blue-600 dark:text-blue-400",
+		iconColor: "bg-blue-500/20 text-blue-600",
+	},
+};
+
+// TODO: [consolidate - paths] : Use same const array across application for paths
 export const SAMPLE_NOTIFICATIONS: Notification[] = [
 	{
 		id: 1,
@@ -62,48 +103,14 @@ export const SAMPLE_NOTIFICATIONS: Notification[] = [
 	},
 ];
 
+// TODO: extract these out entirely to use utils.lookups.lookupStyleOf
+
 export const getNotificationIcon = (type: NotificationType) => {
-	switch (type) {
-		case "success":
-			return "✓";
-		case "warning":
-			return "⚠";
-		case "error":
-			return "✕";
-		default:
-			return "ℹ";
-	}
+	const styles = NOTIFICATION_STYLES[type];
+	return styles.icon;
 };
 
 export const getNotificationStyles = (type: NotificationType) => {
-	switch (type) {
-		case "success":
-			return {
-				bg: "bg-green-500/10",
-				border: "border-green-500/30",
-				text: "text-green-600 dark:text-green-400",
-				icon: "bg-green-500/20 text-green-600",
-			};
-		case "warning":
-			return {
-				bg: "bg-orange-500/10",
-				border: "border-orange-500/30",
-				text: "text-orange-600 dark:text-orange-400",
-				icon: "bg-orange-500/20 text-orange-600",
-			};
-		case "error":
-			return {
-				bg: "bg-red-500/10",
-				border: "border-red-500/30",
-				text: "text-red-600 dark:text-red-400",
-				icon: "bg-red-500/20 text-red-600",
-			};
-		default:
-			return {
-				bg: "bg-blue-500/10",
-				border: "border-blue-500/30",
-				text: "text-blue-600 dark:text-blue-400",
-				icon: "bg-blue-500/20 text-blue-600",
-			};
-	}
+	const styles = NOTIFICATION_STYLES[type];
+	return styles;
 };

@@ -125,7 +125,7 @@ export const NotificationsDrawer = () => {
 										className={`p-3 rounded-xl border transition-all ${
 											notification.read
 												? "bg-accent/10 border-accent/30 opacity-60"
-												: `${styles.bg} ${styles.border}`
+												: `${styles.classNameBg} ${styles.classNameBorder}`
 										}`}
 									>
 										<div className="flex gap-3">

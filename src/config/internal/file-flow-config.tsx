@@ -2,7 +2,7 @@ import { FiAlertCircle, FiCheckCircle, FiClock, FiUpload } from "react-icons/fi"
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
 import type { LabelValuePair } from "../external/contact-config";
 
-// TODO: Flatten out the data inn here and ensure we're not repeating things,
+// TODO: Flatten out the data in here and ensure we're not repeating things,
 // once we're calling API's and such it will be easier to manage though.
 
 export interface FileStat extends ClassNameDataWithIcon {

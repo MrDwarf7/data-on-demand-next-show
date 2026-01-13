@@ -8,6 +8,8 @@ export interface ExternalMenuItem {
 	icon?: JSX.Element; // | IconType;
 }
 
+// TODO: [consolidate - paths] : Use same const array across application for paths
+
 export const EXTERNAL_MENU_ITEMS = [
 	{
 		title: "Home",

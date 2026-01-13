@@ -141,7 +141,7 @@ export default function StatsOverviewPage() {
 								</div>
 								<div className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
 									<div
-										className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500 group-hover:from-green-400 group-hover:to-emerald-400"
+										className="h-full bg-linear-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500 group-hover:from-green-400 group-hover:to-emerald-400"
 										style={{ width: `${process.percentage}%` }}
 									/>
 								</div>
@@ -164,7 +164,7 @@ export default function StatsOverviewPage() {
 								className="flex items-start gap-3 p-3 rounded-lg bg-background/50 border border-accent/30 hover:border-accent/60 transition-all"
 							>
 								<div
-									className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${
+									className={`mt-1 w-2 h-2 rounded-full shrink-0 ${
 										activity.status === "success"
 											? "bg-green-500"
 											: activity.status === "error"
@@ -180,10 +180,10 @@ export default function StatsOverviewPage() {
 									<p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
 								</div>
 								{activity.status === "error" && (
-									<FiAlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+									<FiAlertCircle className="w-4 h-4 text-red-500 shrink-0" />
 								)}
 								{activity.status === "success" && (
-									<FiCheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+									<FiCheckCircle className="w-4 h-4 text-green-500 shrink-0" />
 								)}
 							</div>
 						))}
