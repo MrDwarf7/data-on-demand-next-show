@@ -1,7 +1,14 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiLoader, FiPauseCircle } from "react-icons/fi";
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
 
-export const QUEUE_FILTERS = ["all", "pending", "processing", "completed", "failed", "paused"];
+export const QUEUE_FILTERS = [
+	"all",
+	"pending",
+	"processing",
+	"completed",
+	"failed",
+	"paused",
+] as const;
 export type QueueFilter = (typeof QUEUE_FILTERS)[number];
 export type QueueStatsType = Capitalize<QueueFilter>;
 

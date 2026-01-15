@@ -14,7 +14,7 @@ export const SETTINGS_SECTIONS = [
 		label: "Preferences",
 		icon: <FiGlobe className="w-4 h-4" />,
 	},
-];
+] as const;
 
 export const LANGUAGE_OPTIONS: LabelValuePair[] = [
 	{ value: "en-us", label: "English (US)" },

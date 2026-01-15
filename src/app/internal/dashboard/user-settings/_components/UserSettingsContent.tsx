@@ -10,12 +10,15 @@ import {
 	DATE_FORMAT_OPTIONS,
 	LANGUAGE_OPTIONS,
 	PROFILE_CONFIG,
+	type SETTINGS_SECTIONS,
 	TIMEZONE_OPTIONS,
 } from "@/config/internal/user-settings-config";
 import { NotificationsSection } from "./NotificationsSection";
 
+type Section = (typeof SETTINGS_SECTIONS)[number]["id"];
+
 export function UserSettingsContent() {
-	const [activeSection, setActiveSection] = useState("profile");
+	const [activeSection, setActiveSection] = useState<Section>("profile");
 
 	return (
 		<div className="lg:col-span-3">
