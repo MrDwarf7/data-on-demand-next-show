@@ -1,4 +1,7 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiUpload } from "react-icons/fi";
+import { MOCK_USERS } from "@/constants/mock-users";
+import { PROCESSES } from "@/constants/processes";
+import { STATUS_STYLES } from "@/constants/statuses";
 import type { ClassNameDataWithIcon } from "@/types/common";
 import { createStyleGetter } from "@/utils/lookups";
 import type { LabelValuePair } from "../external/contact-config";
@@ -17,21 +20,9 @@ export type FileStatus = (typeof FILE_TABS)[number];
 export const FILE_TABS = ["recent", "processed", "processing", "failed"] as const;
 
 export const STATUS_BADGE_STYLES: Record<string, ClassNameDataWithIcon> = {
-	processed: {
-		icon: FiCheckCircle,
-		classNameColor: "text-green-600",
-		classNameBg: "bg-green-500/10",
-	},
-	processing: {
-		icon: FiClock,
-		classNameColor: "text-info-foreground",
-		classNameBg: "bg-info-10",
-	},
-	failed: {
-		icon: FiAlertCircle,
-		classNameColor: "text-error-foreground",
-		classNameBg: "bg-error-10",
-	},
+	processed: STATUS_STYLES.processed,
+	processing: STATUS_STYLES.processing,
+	failed: STATUS_STYLES.failed,
 };
 
 export const getFileFlowStyles = createStyleGetter(STATUS_BADGE_STYLES);
@@ -96,47 +87,47 @@ export const RECENT_FILES: RecentFile[] = [
 		id: "F-1047",
 		name: "invoice_batch_2024_01.pdf",
 		size: "2.4 MB",
-		uploadedBy: "John Doe",
+		uploadedBy: MOCK_USERS[0],
 		uploadedAt: "5 mins ago",
 		status: "processed",
-		processType: "Invoice Processing",
+		processType: PROCESSES[0],
 	},
 	{
 		id: "F-1046",
 		name: "contract_review_draft.docx",
 		size: "845 KB",
-		uploadedBy: "Jane Smith",
+		uploadedBy: MOCK_USERS[1],
 		uploadedAt: "12 mins ago",
 		status: "processing",
-		processType: "Contract Review",
+		processType: PROCESSES[1],
 	},
 	{
 		id: "F-1045",
 		name: "data_export_jan.xlsx",
 		size: "5.1 MB",
-		uploadedBy: "Bob Johnson",
+		uploadedBy: MOCK_USERS[2],
 		uploadedAt: "25 mins ago",
 		status: "processed",
-		processType: "Data Extraction",
+		processType: PROCESSES[2],
 	},
 	{
 		id: "F-1044",
 		name: "report_q1_2024.pdf",
 		size: "1.8 MB",
-		uploadedBy: "Alice Williams",
+		uploadedBy: MOCK_USERS[3],
 		uploadedAt: "1 hour ago",
 		status: "failed",
-		processType: "Report Generation",
+		processType: PROCESSES[4],
 		error: "Invalid file format",
 	},
 	{
 		id: "F-1043",
 		name: "email_list_customers.csv",
 		size: "324 KB",
-		uploadedBy: "Charlie Brown",
+		uploadedBy: MOCK_USERS[4],
 		uploadedAt: "2 hours ago",
 		status: "processed",
-		processType: "Email Automation",
+		processType: PROCESSES[3],
 	},
 ];
 

@@ -1,6 +1,5 @@
-import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
 import { INTERNAL_PATHS } from "@/constants/paths";
-import type { StatusType } from "@/types/common";
+import type { ClassNameDataWithIcon, StatusType } from "@/types/common";
 import { createStyleGetter } from "@/utils/lookups";
 
 export type NotificationType = StatusType;

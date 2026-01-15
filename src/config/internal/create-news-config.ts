@@ -1,11 +1,8 @@
-import { PRIORITY_OPTIONS } from "@/constants/priorities";
+import { NEWS_CATEGORIES } from "@/constants/news-categories";
 
-export const NEWS_CATEGORIES = [
-	{ value: "announcement", label: "Announcement" },
-	{ value: "maintenance", label: "Maintenance" },
-	{ value: "update", label: "Update" },
-	{ value: "alert", label: "Alert" },
-];
+export { NEWS_CATEGORIES };
+
+import { PRIORITY_OPTIONS } from "@/constants/priorities";
 
 export const NEWS_PRIORITIES = PRIORITY_OPTIONS;
 

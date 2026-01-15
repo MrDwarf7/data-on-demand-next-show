@@ -87,7 +87,7 @@ export default function StatisticsPage() {
 							<tbody>
 								{SAMPLE_TABLE_DATA.rows.map((row, index) => (
 									<tr
-										key={row.id}
+										key={`${row.id}-${index}`}
 										className={`border-b border-accent/50 hover:bg-accent/30 transition-colors ${
 											index % 2 === 0 ? "bg-accent/10" : ""
 										}`}

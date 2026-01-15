@@ -1,6 +1,10 @@
-import { FiAlertCircle, FiCheckCircle, FiClock, FiLoader, FiPauseCircle } from "react-icons/fi";
+import { MOCK_USERS } from "@/constants/mock-users";
+import type { PRIORITIES } from "@/constants/priorities";
+import { PROCESSES } from "@/constants/processes";
+import { STATUS_STYLES } from "@/constants/statuses";
 import type { ClassNameDataWithIcon, Priority } from "@/types/common";
 import { createStyleGetter } from "@/utils/lookups";
+import { FiClock } from "react-icons/fi";
 
 export const QUEUE_FILTERS = [
 	"all",
@@ -39,9 +43,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	ClassNameDataWithIconPriority
 > = {
 	all: {
-		icon: FiClock,
-		classNameColor: "text-neutral-foreground",
-		classNameBg: "bg-neutral-10",
+		...STATUS_STYLES.all,
 		priority: {
 			priorityLevel: "low",
 			classNamePriority: "border-neutral-30",
@@ -49,9 +51,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	},
 
 	completed: {
-		icon: FiCheckCircle,
-		classNameColor: "text-success-foreground",
-		classNameBg: "bg-success-10",
+		...STATUS_STYLES.completed,
 		priority: {
 			priorityLevel: "high",
 			classNamePriority: "border-success-30",
@@ -59,9 +59,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	},
 
 	failed: {
-		icon: FiAlertCircle,
-		classNameColor: "text-error-foreground",
-		classNameBg: "bg-error-10",
+		...STATUS_STYLES.failed,
 		priority: {
 			priorityLevel: "urgent",
 			classNamePriority: "border-error-30",
@@ -69,9 +67,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	},
 
 	pending: {
-		icon: FiClock,
-		classNameColor: "text-info-foreground",
-		classNameBg: "bg-info-10",
+		...STATUS_STYLES.pending,
 		priority: {
 			priorityLevel: "normal",
 			classNamePriority: "border-info-30",
@@ -79,9 +75,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	},
 
 	processing: {
-		icon: FiLoader,
-		classNameColor: "text-info-foreground",
-		classNameBg: "bg-info-10",
+		...STATUS_STYLES.processing,
 		priority: {
 			priorityLevel: "normal",
 			classNamePriority: "border-info-30",
@@ -89,9 +83,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	},
 
 	paused: {
-		icon: FiPauseCircle,
-		classNameColor: "text-warning-foreground",
-		classNameBg: "bg-warning-10",
+		...STATUS_STYLES.paused,
 		priority: {
 			priorityLevel: "high",
 			classNamePriority: "border-warning-30",
@@ -175,7 +167,7 @@ export const QUEUE_STATS: QueueStats[] = [
 	},
 ];
 
-export type QueueItemPriority = "low" | "normal" | "high" | "urgent";
+export type QueueItemPriority = (typeof PRIORITIES)[number];
 
 export interface QueueItem extends Partial<Record<QueueStatsType, string>> {
 	id: string;
@@ -197,7 +189,7 @@ export interface QueueItem extends Partial<Record<QueueStatsType, string>> {
 export const QUEUE_ITEMS: QueueItem[] = [
 	{
 		id: "Q-00847",
-		process: "Invoice Processing",
+		process: PROCESSES[0],
 		status: "processing",
 		priority: {
 			priorityLevel: "high",
@@ -205,11 +197,11 @@ export const QUEUE_ITEMS: QueueItem[] = [
 		},
 		submitted: "2 mins ago",
 		estimatedTime: "3 mins",
-		user: "John Doe",
+		user: MOCK_USERS[0],
 	},
 	{
 		id: "Q-00846",
-		process: "Contract Review",
+		process: PROCESSES[1],
 		status: "pending",
 		priority: {
 			priorityLevel: "normal",
@@ -217,72 +209,72 @@ export const QUEUE_ITEMS: QueueItem[] = [
 		},
 		submitted: "5 mins ago",
 		estimatedTime: "8 mins",
-		user: "Jane Smith",
+		user: MOCK_USERS[1],
 	},
 	{
 		id: "Q-00845",
-		process: "Data Extraction",
+		process: PROCESSES[2],
 		status: "completed",
 		priority: {
 			priorityLevel: "normal",
 		},
 		submitted: "12 mins ago",
 		completedIn: "4 mins",
-		user: "Bob Johnson",
+		user: MOCK_USERS[2],
 	},
 	{
 		id: "Q-00844",
-		process: "Email Automation",
+		process: PROCESSES[3],
 		status: "failed",
 		priority: {
 			priorityLevel: "urgent",
 		},
 		submitted: "15 mins ago",
 		error: "Connection timeout",
-		user: "Alice Williams",
+		user: MOCK_USERS[3],
 	},
 	{
 		id: "Q-00843",
-		process: "Report Generation",
+		process: PROCESSES[4],
 		status: "pending",
 		priority: {
 			priorityLevel: "low",
 		},
 		submitted: "18 mins ago",
 		estimatedTime: "12 mins",
-		user: "Charlie Brown",
+		user: MOCK_USERS[4],
 	},
 	{
 		id: "Q-00842",
-		process: "Invoice Processing",
+		process: PROCESSES[0],
 		status: "processing",
 		priority: {
 			priorityLevel: "normal",
 		},
 		submitted: "22 mins ago",
 		estimatedTime: "5 mins",
-		user: "Diana Prince",
+		user: MOCK_USERS[5],
 	},
 	{
 		id: "Q-00841",
-		process: "Contract Review",
+		process: PROCESSES[1],
 		status: "completed",
 		priority: {
 			priorityLevel: "high",
 		},
 		submitted: "25 mins ago",
 		completedIn: "6 mins",
-		user: "Eve Martinez",
+		user: MOCK_USERS[6],
 	},
 	{
 		id: "Q-00840",
-		process: "Data Extraction",
+		process: PROCESSES[2],
 		status: "paused",
 		priority: {
 			priorityLevel: "normal",
 		},
 		submitted: "30 mins ago",
 		reason: "Awaiting input",
-		user: "Frank Castle",
+		user: MOCK_USERS[7],
 	},
 ];

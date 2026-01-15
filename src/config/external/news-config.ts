@@ -45,10 +45,6 @@ export const NEWS_POSTS = [
 	},
 ];
 
-export const NEWS_CATEGORIES = [
-	{ value: "all", label: "All News" },
-	{ value: "announcement", label: "Announcements" },
-	{ value: "maintenance", label: "Maintenance" },
-	{ value: "update", label: "Updates" },
-	{ value: "alert", label: "Alerts" },
-];
+import { NEWS_CATEGORIES } from "@/constants/news-categories";
+
+export { NEWS_CATEGORIES };

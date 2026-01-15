@@ -1,4 +1,5 @@
 import { FiActivity, FiCheckCircle, FiClock, FiUsers } from "react-icons/fi";
+import { PROCESSES } from "@/constants/processes";
 
 export const STATS_CARDS = [
 	{
@@ -43,28 +44,28 @@ export const RECENT_ACTIVITY = [
 	{
 		id: 1,
 		action: "Batch process completed",
-		process: "Invoice Processing",
+		process: PROCESSES[0],
 		time: "2 minutes ago",
 		status: "success",
 	},
 	{
 		id: 2,
 		action: "New document uploaded",
-		process: "Contract Review",
+		process: PROCESSES[1],
 		time: "5 minutes ago",
 		status: "processing",
 	},
 	{
 		id: 3,
 		action: "Error detected",
-		process: "Data Extraction",
+		process: PROCESSES[2],
 		time: "12 minutes ago",
 		status: "error",
 	},
 	{
 		id: 4,
 		action: "Queue cleared",
-		process: "Email Automation",
+		process: PROCESSES[3],
 		time: "25 minutes ago",
 		status: "success",
 	},
