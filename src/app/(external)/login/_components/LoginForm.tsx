@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
+import { SubmitButton } from "@/components/generic/SubmitButton";
+import { authenticateUser } from "../actions";
 
 export function LoginForm() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -11,11 +13,6 @@ export function LoginForm() {
 		password: "",
 		remember: false,
 	});
-
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		console.log("Login attempt:", formData);
-	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -27,7 +24,7 @@ export function LoginForm() {
 
 	return (
 		<div className="bg-accent/30 border border-accent/50 rounded-xl p-8 shadow-xl">
-			<form onSubmit={handleSubmit} className="space-y-6">
+			<form action={authenticateUser} className="space-y-6">
 				<div>
 					<label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
 					<div className="relative">
@@ -94,12 +91,7 @@ export function LoginForm() {
 					</Link>
 				</div>
 
-				<button
-					type="submit"
-					className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl hover:scale-[1.02]"
-				>
-					Sign In
-				</button>
+				<SubmitButton text="Sign In" pendingText="Signing In..." />
 			</form>
 
 			<div className="mt-6 text-center">

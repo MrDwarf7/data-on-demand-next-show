@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { FiSend } from "react-icons/fi";
+
+import { SubmitButton } from "@/components/generic/SubmitButton";
 import { CONTACT_SUBJECTS, FORM_CONFIG } from "@/config/external/contact-config";
 import { sendContactMessage } from "../actions";
 
@@ -82,13 +83,7 @@ export function ContactForm() {
 					/>
 				</div>
 
-				<button
-					type="submit"
-					className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl hover:scale-[1.02]"
-				>
-					<FiSend className="w-4 h-4" />
-					Send Message
-				</button>
+				<SubmitButton text="Send Message" pendingText="Sending..." />
 			</form>
 		</div>
 	);

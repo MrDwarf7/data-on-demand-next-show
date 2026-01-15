@@ -75,7 +75,7 @@ const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
 										<DropdownMenuTrigger asChild={true}>
 											<Button
 												className={cn(
-													"w-[250px] justify-between",
+													"w-62.5 justify-between",
 													!field.name && "text-muted-foreground"
 												)}
 												role="combobox"
