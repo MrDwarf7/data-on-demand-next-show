@@ -48,3 +48,11 @@ function getStatusDisplay(item: QueueItem) {
 			};
 	}
 }
+
+/**
+ * Get a filter function for queue items based on selected filter
+ */
+export const getQueueFilter = (filter: string) => (item: QueueItemDisplay) => {
+	if (filter === "all") return true;
+	return item.status === filter;
+};

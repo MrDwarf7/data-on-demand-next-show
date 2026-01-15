@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FiFilter, FiRefreshCw } from "react-icons/fi";
 import { PriorityBadge, StatusBadge, StatusIcon } from "@/components/generic/QueueBadges";
 import { QUEUE_FILTERS } from "@/config/internal/queue-data-config";
-import type { QueueItemDisplay } from "@/lib/queue-utils";
+import { getQueueFilter, type QueueItemDisplay } from "@/lib/queue-utils";
 
 interface QueueDataClientProps {
 	items: QueueItemDisplay[];
@@ -19,7 +19,7 @@ export function QueueDataClient({ items }: QueueDataClientProps) {
 		setTimeout(() => setRefreshing(false), 1000);
 	};
 
-	const filteredItems = filter === "all" ? items : items.filter((item) => item.status === filter);
+	const filteredItems = items.filter(getQueueFilter(filter));
 
 	return (
 		<div className="bg-accent/30 border border-accent/50 rounded-xl p-4 sm:p-6">
