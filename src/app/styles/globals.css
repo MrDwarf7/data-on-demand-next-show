@@ -86,27 +86,27 @@
 		--success-10: 142.1 72% 29% / 0.1;
 		--success-20: 142.1 72% 29% / 0.2;
 		--success-30: 142.1 72% 29% / 0.3;
-		--success-foreground: 210 40% 98%;
+		--success-foreground: 222.2 47.4% 11.2%;
 		--warning: 25 95% 53%;
 		--warning-10: 25 95% 53% / 0.1;
 		--warning-20: 25 95% 53% / 0.2;
 		--warning-30: 25 95% 53% / 0.3;
-		--warning-foreground: 210 40% 98%;
+		--warning-foreground: 222.2 47.4% 11.2%;
 		--error: 0 62.8% 30.6%;
 		--error-10: 0 62.8% 30.6% / 0.1;
 		--error-20: 0 62.8% 30.6% / 0.2;
 		--error-30: 0 62.8% 30.6% / 0.3;
-		--error-foreground: 210 40% 98%;
+		--error-foreground: 222.2 47.4% 11.2%;
 		--info: 217.2 91.2% 59.8%;
 		--info-10: 217.2 91.2% 59.8% / 0.1;
 		--info-20: 217.2 91.2% 59.8% / 0.2;
 		--info-30: 217.2 91.2% 59.8% / 0.3;
-		--info-foreground: 210 40% 98%;
+		--info-foreground: 222.2 47.4% 11.2%;
 		--neutral: 215 20.2% 65.1%;
 		--neutral-10: 215 20.2% 65.1% / 0.1;
 		--neutral-20: 215 20.2% 65.1% / 0.2;
 		--neutral-30: 215 20.2% 65.1% / 0.3;
-		--neutral-foreground: 210 40% 98%;
+		--neutral-foreground: 222.2 47.4% 11.2%;
 		--border: 217.2 32.6% 17.5%;
 		--input: 217.2 32.6% 17.5%;
 		--ring: 224.3 76.3% 48%;
@@ -243,6 +243,89 @@
 
 	body {
 		@apply bg-background text-foreground;
+	}
+}
+
+@layer utilities {
+	/* Semantic color utilities */
+	.bg-success-10 {
+		background-color: hsl(142.1 69% 58% / 0.1);
+	}
+	.bg-success-20 {
+		background-color: hsl(142.1 69% 58% / 0.2);
+	}
+	.bg-success-30 {
+		background-color: hsl(142.1 69% 58% / 0.3);
+	}
+	.text-success-foreground {
+		color: hsl(210 40% 98%);
+	}
+	.dark .text-success-foreground {
+		color: hsl(222.2 47.4% 11.2%);
+	}
+
+	.bg-warning-10 {
+		background-color: hsl(25 95% 53% / 0.1);
+	}
+	.bg-warning-20 {
+		background-color: hsl(25 95% 53% / 0.2);
+	}
+	.bg-warning-30 {
+		background-color: hsl(25 95% 53% / 0.3);
+	}
+	.text-warning-foreground {
+		color: hsl(210 40% 98%);
+	}
+	.dark .text-warning-foreground {
+		color: hsl(222.2 47.4% 11.2%);
+	}
+
+	.bg-error-10 {
+		background-color: hsl(0 84.2% 60.2% / 0.1);
+	}
+	.bg-error-20 {
+		background-color: hsl(0 84.2% 60.2% / 0.2);
+	}
+	.bg-error-30 {
+		background-color: hsl(0 84.2% 60.2% / 0.3);
+	}
+	.text-error-foreground {
+		color: hsl(210 40% 98%);
+	}
+	.dark .text-error-foreground {
+		color: hsl(222.2 47.4% 11.2%);
+	}
+
+	.bg-info-10 {
+		background-color: hsl(217.2 91.2% 59.8% / 0.1);
+	}
+	.bg-info-20 {
+		background-color: hsl(217.2 91.2% 59.8% / 0.2);
+	}
+	.bg-info-30 {
+		background-color: hsl(217.2 91.2% 59.8% / 0.3);
+	}
+	.text-info-foreground {
+		color: hsl(210 40% 98%);
+	}
+	.dark .text-info-foreground {
+		color: hsl(222.2 47.4% 11.2%);
+	}
+
+	.bg-neutral-10 {
+		background-color: hsl(215.4 16.3% 46.9% / 0.1);
+	}
+	.bg-neutral-20 {
+		background-color: hsl(215.4 16.3% 46.9% / 0.2);
+	}
+	.bg-neutral-30 {
+		background-color: hsl(215.4 16.3% 46.9% / 0.3);
+	}
+	.text-neutral-foreground {
+		color: hsl(210 40% 98%);
+	}
+	.dark .text-neutral-foreground {
+		color: hsl(222.2 47.4% 11.2%);
 	}
 }
 
