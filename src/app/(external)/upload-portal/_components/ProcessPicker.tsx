@@ -28,12 +28,8 @@ import type { DataItemsProps, ProcessPickerProps } from "@/types/local";
 
 const formSchema = z.object({
 	process: z.object({
-		id: z.string({
-			required_error: "Please select a process with an id.",
-		}),
-		name: z.string({
-			required_error: "Please select a process with a name.",
-		}),
+		id: z.string().min(1, "Please select a process with an id."),
+		name: z.string().min(1, "Please select a process with a name."),
 	}),
 });
 
