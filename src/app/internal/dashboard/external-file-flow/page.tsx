@@ -1,3 +1,4 @@
+import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
 import { useFileStats } from "@/hooks/use-file-flow";
 import { FileHistory } from "./_components/FileHistory";
 import { UploadArea } from "./_components/UploadArea";
@@ -27,6 +28,10 @@ export default function FileFlowPage() {
 						<p className={`text-3xl font-bold ${stat.classNameColor}`}>{stat.lv.value}</p>
 					</div>
 				))}
+			</div>
+
+			<div className="flex justify-end">
+				<ProcessPicker className="w-full sm:w-80" />
 			</div>
 
 			<UploadArea />

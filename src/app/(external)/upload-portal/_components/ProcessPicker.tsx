@@ -22,6 +22,7 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useProcesses } from "@/hooks/use-processes";
 import { cn } from "@/lib/utils";
 
 import type { DataItemsProps, ProcessPickerProps } from "@/types/local";
@@ -34,7 +35,9 @@ const formSchema = z.object({
 });
 
 const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
-	const { processPickerObj: processPickerItems, className } = props;
+	const { className, processPickerObj } = props;
+	const hookProcesses = useProcesses();
+	const processPickerItems = processPickerObj || hookProcesses;
 	const [processPickerOpen, setProcessPickerOpen] = React.useState(false);
 	const router = useRouter();
 	const localSearchParams = useSearchParams();

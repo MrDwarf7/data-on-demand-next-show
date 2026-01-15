@@ -1,0 +1,164 @@
+// UNDER CONSIDERATION - Advanced implementation with Web Workers
+// This file contains experimental optimizations and may not be used in production
+
+'use client'
+
+import { useCallback, useMemo, useRef, useState } from 'react'
+
+export interface ProcessedFile {
+  originalFile: File
+  newName: string
+  size: number
+  type: string
+}
+
+export interface UseFileProcessorReturn {
+  processFiles: (files: File[], process: string) => Promise<ProcessedFile[]>
+  isProcessing: boolean
+  error: string | null
+  processedFiles: ProcessedFile[] | null
+  clearCache: () => void
+}
+
+// Web Worker creation function (functional approach)
+const createFileProcessingWorker = () => {
+  const workerCode = `
+    self.onmessage = function(e) {
+      const { filename, process, date, uuid } = e.data
+
+      // Expensive regex operations here
+      const ext = filename.match(/\\.([^.]+)$/)?.[1] || 'bin'
+      const sanitizedProcess = process.replace(/[^a-zA-Z0-9-_]/g, '_')
+
+      const newName = \`\${date}-\${sanitizedProcess}-\${uuid}.\${ext}\`
+
+      self.postMessage({ newName, ext })
+    }
+  `
+
+  return typeof window !== 'undefined' && window.Worker
+    ? new Worker(URL.createObjectURL(new Blob([workerCode], { type: 'application/javascript' })))
+    : null
+}
+
+// Functional worker wrapper
+const processFileWithWorker = (worker: Worker | null, filename: string, process: string, date: string, uuid: string) => {
+  return new Promise<{ newName: string, ext: string }>((resolve, reject) => {
+    if (!worker) {
+      // Fallback to main thread if Web Worker unavailable
+      const ext = filename.match(/\.([^.]+)$/)?.[1] || 'bin'
+      const sanitizedProcess = process.replace(/[^a-zA-Z0-9-_]/g, '_')
+      const newName = `${date}-${sanitizedProcess}-${uuid}.${ext}`
+      resolve({ newName, ext })
+      return
+    }
+
+    worker.postMessage({ filename, process, date, uuid })
+    worker.onmessage = (e) => resolve(e.data)
+    worker.onerror = reject
+  })
+}
+
+export function useFileProcessor(): UseFileProcessorReturn {
+  const workerRef = useRef<Worker | null>(null)
+  const cacheRef = useRef<Map<string, ProcessedFile[]>>(new Map())
+
+  // Initialize worker once
+  useMemo(() => {
+    if (!workerRef.current) {
+      workerRef.current = createFileProcessingWorker()
+    }
+  }, [])
+
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [processedFiles, setProcessedFiles] = useState<ProcessedFile[] | null>(null)
+
+  // Cache key generator
+  const getCacheKey = useCallback((files: File[], process: string) => {
+    const fileHashes = files.map(f => `${f.name}-${f.size}-${f.lastModified}`).join('|')
+    return `${process}-${fileHashes}`
+  }, [])
+
+  const processFiles = useCallback(async (
+    files: File[],
+    process: string
+  ): Promise<ProcessedFile[]> => {
+    const cacheKey = getCacheKey(files, process)
+
+    // Check cache first
+    const cached = cacheRef.current.get(cacheKey)
+    if (cached) {
+      setProcessedFiles(cached)
+      return cached
+    }
+
+    setIsProcessing(true)
+    setError(null)
+
+    try {
+      const date = new Date().toISOString().split('T')[0].replace(/-/g, '_')
+
+      // Generate UUIDs in parallel (can be batched API call)
+      const uuids = await Promise.all(
+        files.map(() => generateOrFetchUUID())
+      )
+
+      // Process files in parallel using Web Worker
+      const processedFiles = await Promise.all(
+        files.map(async (file, index) => {
+          const uuid = uuids[index]
+
+          // Offload expensive regex to Web Worker
+          const { newName, ext } = await processFileWithWorker(
+            workerRef.current,
+            file.name,
+            process,
+            date,
+            uuid
+          )
+
+          return {
+            originalFile: file,
+            newName,
+            size: file.size,
+            type: file.type,
+          }
+        })
+      )
+
+      // Cache the result
+      cacheRef.current.set(cacheKey, processedFiles)
+      setProcessedFiles(processedFiles)
+
+      return processedFiles
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Processing failed'
+      setError(errorMessage)
+      throw new Error(errorMessage)
+    } finally {
+      setIsProcessing(false)
+    }
+  }, [getCacheKey])
+
+  const clearCache = useCallback(() => {
+    cacheRef.current.clear()
+    setProcessedFiles(null)
+  }, [])
+
+  // Memoize return value to prevent unnecessary re-renders
+  return useMemo(() => ({
+    processFiles,
+    isProcessing,
+    error,
+    processedFiles,
+    clearCache,
+  }), [processFiles, isProcessing, error, processedFiles, clearCache])
+}
+
+// Async UUID generation (batching optimization)
+async function generateOrFetchUUID(): Promise<string> {
+  // TODO: Batch API call: fetch('/api/uuids?count=N')
+  await new Promise(resolve => setTimeout(resolve, 10))
+  return crypto.randomUUID().slice(0, 8)
+}

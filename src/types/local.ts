@@ -35,7 +35,7 @@ type ProcessPickerProps = {
 		process: string | undefined;
 		selectedTab: string | undefined;
 	};
-	processPickerObj: DataItemsProps[];
+	processPickerObj?: DataItemsProps[];
 };
 
 // Note on the tab themselves it will be prexied with "For {Option}"
