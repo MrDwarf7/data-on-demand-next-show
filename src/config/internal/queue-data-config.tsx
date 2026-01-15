@@ -1,11 +1,4 @@
-import {
-	FiAlertCircle,
-	FiCheckCircle,
-	FiClock,
-	FiList,
-	FiLoader,
-	FiPauseCircle,
-} from "react-icons/fi";
+import { FiAlertCircle, FiCheckCircle, FiClock, FiLoader, FiPauseCircle } from "react-icons/fi";
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
 
 export const QUEUE_FILTERS = [

@@ -1,4 +1,5 @@
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import { lookupStyleOf } from "@/utils/lookups";
 
 export type NotificationType = "info" | "success" | "warning" | "error";
 
@@ -103,14 +104,11 @@ export const SAMPLE_NOTIFICATIONS: Notification[] = [
 	},
 ];
 
-// TODO: extract these out entirely to use utils.lookups.lookupStyleOf
-
 export const getNotificationIcon = (type: NotificationType) => {
-	const styles = NOTIFICATION_STYLES[type];
+	const styles = lookupStyleOf(NOTIFICATION_STYLES, type);
 	return styles.icon;
 };
 
 export const getNotificationStyles = (type: NotificationType) => {
-	const styles = NOTIFICATION_STYLES[type];
-	return styles;
+	return lookupStyleOf(NOTIFICATION_STYLES, type);
 };
