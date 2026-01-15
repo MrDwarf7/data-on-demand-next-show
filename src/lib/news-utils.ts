@@ -27,3 +27,16 @@ export const getCategoryColor = (category: string) => {
 	};
 	return colors[category as keyof typeof colors] || "text-gray-600";
 };
+
+/**
+ * Get the CSS classes for priority preview badges (without border)
+ */
+export const getPriorityPreviewClass = (priority: string) => {
+	const styles = {
+		urgent: "bg-red-500/20 text-red-600",
+		high: "bg-orange-500/20 text-orange-600",
+		normal: "bg-blue-500/20 text-blue-600",
+		low: "bg-gray-500/20 text-gray-600",
+	};
+	return styles[priority as keyof typeof styles] || styles.normal;
+};

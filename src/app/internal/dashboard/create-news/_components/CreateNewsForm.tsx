@@ -7,6 +7,7 @@ import {
 	NEWS_CATEGORIES,
 	NEWS_PRIORITIES,
 } from "@/config/internal/create-news-config";
+import { getPriorityPreviewClass } from "@/lib/news-utils";
 
 export function CreateNewsForm() {
 	const [title, setTitle] = useState("");
@@ -113,13 +114,7 @@ export function CreateNewsForm() {
 					<div className="bg-background rounded-lg p-4 border border-accent/30">
 						<div className="flex items-center gap-2 mb-2">
 							<span
-								className={`px-2 py-1 rounded text-xs font-medium ${
-									priority === "urgent"
-										? "bg-red-500/20 text-red-600"
-										: priority === "high"
-											? "bg-orange-500/20 text-orange-600"
-											: "bg-blue-500/20 text-blue-600"
-								}`}
+								className={`px-2 py-1 rounded text-xs font-medium ${getPriorityPreviewClass(priority)}`}
 							>
 								{priority.toUpperCase()}
 							</span>
