@@ -1,6 +1,6 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiLoader, FiPauseCircle } from "react-icons/fi";
 import type { ClassNameDataWithIcon, Priority } from "@/types/common";
-import { lookupStyleOf } from "@/utils/lookups";
+import { createStyleGetter } from "@/utils/lookups";
 
 export const QUEUE_FILTERS = [
 	"all",
@@ -149,11 +149,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	},
 };
 
-export const getQueueStyles = (
-	status: Lowercase<QueueStatsType> | QueueTypePriority | "default"
-) => {
-	return lookupStyleOf(QUEUE_TYPE_STYLES, status);
-};
+export const getQueueStyles = createStyleGetter(QUEUE_TYPE_STYLES);
 
 export interface QueueStats {
 	label: QueueStatsType;
