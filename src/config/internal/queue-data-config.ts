@@ -25,13 +25,13 @@ export type QueueTypePriority = Priority;
 // 	priority: QueueTypePriority;
 // }
 
-export type PriortyLevelData = {
+export type PriorityLevelData = {
 	priorityLevel?: QueueTypePriority;
 	classNamePriority?: string;
 };
 
 export interface ClassNameDataWithIconPriority extends ClassNameDataWithIcon {
-	priority?: PriortyLevelData;
+	priority?: PriorityLevelData;
 }
 
 export const QUEUE_TYPE_STYLES: Record<
@@ -185,7 +185,7 @@ export interface QueueItem extends Partial<Record<QueueStatsType, string>> {
 	id: string;
 	process: string;
 	status: Lowercase<QueueStatsType>;
-	priority: PriortyLevelData;
+	priority: PriorityLevelData;
 	// priority: {
 	// 	classNamePriority?: string;
 	// 	priorityLevel?: QueueTypePriority;

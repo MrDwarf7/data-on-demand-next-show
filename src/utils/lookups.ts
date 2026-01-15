@@ -7,3 +7,12 @@
 export function lookupStyleOf<T>(styles: Record<string, T>, key: string): T {
 	return styles[key];
 }
+
+/**
+ * Creates a type-safe getter function for a style map
+ * @param styles - The record of styles
+ * @returns A getter function that takes a key and returns the corresponding style
+ */
+export function createStyleGetter<TKey extends string, TValue>(styles: Record<TKey, TValue>) {
+	return (key: TKey) => styles[key];
+}

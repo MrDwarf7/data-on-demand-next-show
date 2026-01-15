@@ -1,3 +1,5 @@
+import { PRIORITY_OPTIONS } from "@/constants/priorities";
+
 export const NEWS_CATEGORIES = [
 	{ value: "announcement", label: "Announcement" },
 	{ value: "maintenance", label: "Maintenance" },
@@ -5,12 +7,7 @@ export const NEWS_CATEGORIES = [
 	{ value: "alert", label: "Alert" },
 ];
 
-export const NEWS_PRIORITIES = [
-	{ value: "low", label: "Low" },
-	{ value: "normal", label: "Normal" },
-	{ value: "high", label: "High" },
-	{ value: "urgent", label: "Urgent" },
-];
+export const NEWS_PRIORITIES = PRIORITY_OPTIONS;
 
 export const PUBLISHING_TIPS = [
 	"Keep titles concise and descriptive",

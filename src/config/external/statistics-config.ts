@@ -7,7 +7,7 @@ import {
 	FiTrendingUp,
 } from "react-icons/fi";
 import type { IconType } from "react-icons/lib";
-import { lookupStyleOf } from "@/utils/lookups";
+import { createStyleGetter } from "@/utils/lookups";
 
 export type ClassNameDataWithIcon = {
 	classNameColor: string;
@@ -43,9 +43,7 @@ export const TREND_TYPE_STYLES: Record<TrendType, ClassNameDataWithIcon> = {
 	},
 };
 
-export const getTrendStyles = (trend: TrendType) => {
-	return lookupStyleOf(TREND_TYPE_STYLES, trend);
-};
+export const getTrendStyles = createStyleGetter(TREND_TYPE_STYLES);
 
 export type StatisticsStatus = "Active" | "Idle" | "Paused" | "Failed";
 
@@ -72,9 +70,7 @@ export const STATISTICS_STATUS_STYLES: Record<StatisticsStatus, ClassNameDataWit
 	},
 };
 
-export const getStatisticsStatusStyles = (status: StatisticsStatus) => {
-	return lookupStyleOf(STATISTICS_STATUS_STYLES, status);
-};
+export const getStatisticsStatusStyles = createStyleGetter(STATISTICS_STATUS_STYLES);
 
 export interface StatisticMetric {
 	label: string;
