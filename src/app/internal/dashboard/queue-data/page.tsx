@@ -22,7 +22,7 @@ export default function QueueDataPage() {
 					return (
 						<div
 							key={stat.label}
-							className={`${styles.classNameBg} border border-accent/50 rounded-xl p-4 sm:p-6`}
+							className={`bg-gradient-to-br ${styles.classNameBg} border border-accent/50 rounded-xl p-4 sm:p-6`}
 						>
 							<p className="text-sm font-medium text-muted-foreground mb-2">{stat.label}</p>
 							<p className={`text-3xl font-bold ${styles.classNameColor}`}>{stat.count}</p>

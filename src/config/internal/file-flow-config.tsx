@@ -1,5 +1,5 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiUpload } from "react-icons/fi";
-import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import type { ClassNameDataWithIcon } from "@/types/common";
 import { lookupStyleOf } from "@/utils/lookups";
 import type { LabelValuePair } from "../external/contact-config";
 

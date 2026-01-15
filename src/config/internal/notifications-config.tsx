@@ -1,7 +1,8 @@
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import type { StatusType } from "@/types/common";
 import { lookupStyleOf } from "@/utils/lookups";
 
-export type NotificationType = "info" | "success" | "warning" | "error";
+export type NotificationType = StatusType;
 
 export interface Notification {
 	id: number;

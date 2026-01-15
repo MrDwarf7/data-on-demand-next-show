@@ -2,9 +2,10 @@
  * Utility functions for news-related styling
  */
 
+import type { Priority } from "@/types/common";
 import { lookupStyleOf } from "@/utils/lookups";
 
-export type NewsPriority = "urgent" | "high" | "normal" | "low";
+export type NewsPriority = Priority;
 export type NewsCategory = "announcement" | "maintenance" | "update" | "alert";
 
 const NEWS_PRIORITY_STYLES: Record<NewsPriority, string> = {

@@ -18,7 +18,7 @@ export default function FileFlowPage() {
 				{fileStats.map((stat) => (
 					<div
 						key={stat.lv.label}
-						className={`${stat.classNameBg} border border-accent/50 rounded-xl p-4 sm:p-6`}
+						className={`bg-gradient-to-br ${stat.classNameBg} border border-accent/50 rounded-xl p-4 sm:p-6`}
 					>
 						<div className={`${stat.classNameColor} mb-3`}>
 							{stat.icon && <stat.icon className="w-8 h-8" />}

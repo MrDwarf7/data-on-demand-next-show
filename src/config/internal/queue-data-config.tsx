@@ -1,5 +1,5 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiLoader, FiPauseCircle } from "react-icons/fi";
-import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import type { ClassNameDataWithIcon, Priority } from "@/types/common";
 import { lookupStyleOf } from "@/utils/lookups";
 
 export const QUEUE_FILTERS = [
@@ -19,7 +19,7 @@ export type QueueStatsType = Capitalize<QueueFilter>;
 // QueueStatsType string. It must TAKE a typeof QueueStatsType as input, and
 // return a type-safe (ie: A typeof) lowercased version
 
-export type QueueTypePriority = "high" | "normal" | "low" | "urgent";
+export type QueueTypePriority = Priority;
 
 // export interface QueueTypeStyle extends Record<typeof QUEUE_FILTERS[number], ClassNameDataWithIcon> {
 // 	priority: QueueTypePriority;
@@ -41,7 +41,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	all: {
 		icon: FiClock,
 		classNameColor: "text-neutral-foreground",
-		classNameBg: "bg-neutral-20",
+		classNameBg: "bg-neutral-10",
 		priority: {
 			priorityLevel: "low",
 			classNamePriority: "border-neutral-30",
@@ -51,7 +51,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	completed: {
 		icon: FiCheckCircle,
 		classNameColor: "text-success-foreground",
-		classNameBg: "bg-success-20",
+		classNameBg: "bg-success-10",
 		priority: {
 			priorityLevel: "high",
 			classNamePriority: "border-success-30",
@@ -61,7 +61,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	failed: {
 		icon: FiAlertCircle,
 		classNameColor: "text-error-foreground",
-		classNameBg: "bg-error-20",
+		classNameBg: "bg-error-10",
 		priority: {
 			priorityLevel: "urgent",
 			classNamePriority: "border-error-30",
@@ -71,7 +71,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	pending: {
 		icon: FiClock,
 		classNameColor: "text-info-foreground",
-		classNameBg: "bg-info-20",
+		classNameBg: "bg-info-10",
 		priority: {
 			priorityLevel: "normal",
 			classNamePriority: "border-info-30",
@@ -81,7 +81,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	processing: {
 		icon: FiLoader,
 		classNameColor: "text-info-foreground",
-		classNameBg: "bg-info-20",
+		classNameBg: "bg-info-10",
 		priority: {
 			priorityLevel: "normal",
 			classNamePriority: "border-info-30",
@@ -91,7 +91,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	paused: {
 		icon: FiPauseCircle,
 		classNameColor: "text-warning-foreground",
-		classNameBg: "bg-warning-20",
+		classNameBg: "bg-warning-10",
 		priority: {
 			priorityLevel: "high",
 			classNamePriority: "border-warning-30",

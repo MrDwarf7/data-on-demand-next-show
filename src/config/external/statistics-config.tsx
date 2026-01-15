@@ -9,15 +9,16 @@ import {
 import type { IconType } from "react-icons/lib";
 import { lookupStyleOf } from "@/utils/lookups";
 
-export type TrendType = "up" | "down" | "neutral";
-
-export interface IconTypeMap extends Record<string, IconType> {}
-
 export type ClassNameDataWithIcon = {
 	classNameColor: string;
 	classNameBg: string;
 	icon: IconType;
 };
+
+import type { TrendType } from "@/types/common";
+export type { TrendType };
+
+export interface IconTypeMap extends Record<string, IconType> {}
 
 // a type + enum style mapping
 // of a TrendType in -> color

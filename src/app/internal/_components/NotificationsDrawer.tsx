@@ -130,7 +130,7 @@ export const NotificationsDrawer = () => {
 									>
 										<div className="flex gap-3">
 											<div
-												className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${styles.icon}`}
+												className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${styles.classNameBg}`}
 											>
 												<span className="text-sm font-bold">
 													{notification.type === "success" && "✓"}

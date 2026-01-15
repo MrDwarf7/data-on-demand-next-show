@@ -1,5 +1,5 @@
 import { FiClock, FiMail } from "react-icons/fi";
-import type { ClassNameDataWithIcon } from "./statistics-config";
+import type { ClassNameDataWithIcon } from "@/types/common";
 
 export interface ContactInfo extends ClassNameDataWithIcon {
 	title: string;

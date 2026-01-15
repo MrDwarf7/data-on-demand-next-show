@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AiOutlineBarChart, AiOutlineInteraction } from "react-icons/ai";
 import { FiEdit, FiSettings } from "react-icons/fi";
 import { MdUploadFile } from "react-icons/md";
-import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import type { ClassNameDataWithIcon } from "@/types/common";
 
 interface DashboardCard extends Partial<ClassNameDataWithIcon> {
 	title: string;
