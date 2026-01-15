@@ -1,6 +1,6 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiUpload } from "react-icons/fi";
 import type { ClassNameDataWithIcon } from "@/types/common";
-import { lookupStyleOf } from "@/utils/lookups";
+import { createStyleGetter } from "@/utils/lookups";
 import type { LabelValuePair } from "../external/contact-config";
 
 // TODO: Flatten out the data in here and ensure we're not repeating things,
@@ -34,9 +34,7 @@ export const STATUS_BADGE_STYLES: Record<string, ClassNameDataWithIcon> = {
 	},
 };
 
-export const getFileFlowStyles = (status: string) => {
-	return lookupStyleOf(STATUS_BADGE_STYLES, status);
-};
+export const getFileFlowStyles = createStyleGetter(STATUS_BADGE_STYLES);
 
 export const FILE_STATS: FileStat[] = [
 	{
