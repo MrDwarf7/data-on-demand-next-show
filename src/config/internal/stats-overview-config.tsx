@@ -1,4 +1,4 @@
-import { FiActivity, FiClock, FiUsers, FiCheckCircle } from "react-icons/fi";
+import { FiActivity, FiCheckCircle, FiClock, FiUsers } from "react-icons/fi";
 
 export const STATS_CARDS = [
 	{
@@ -78,10 +78,10 @@ export const RECENT_ACTIVITY = [
 ];
 
 export const SYSTEM_METRICS = [
-	{ name: "CPU Usage", value: 67, color: "bg-blue-500" },
-	{ name: "Memory", value: 82, color: "bg-purple-500" },
-	{ name: "Storage", value: 45, color: "bg-green-500" },
-	{ name: "Network", value: 34, color: "bg-orange-500" },
+	{ name: "CPU Usage", value: 67, color: "bg-info" },
+	{ name: "Memory", value: 82, color: "bg-info" },
+	{ name: "Storage", value: 45, color: "bg-success" },
+	{ name: "Network", value: 34, color: "bg-warning" },
 ];
 
 export const TOP_PROCESSES = [

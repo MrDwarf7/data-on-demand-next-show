@@ -130,22 +130,22 @@ export default async function UploadPortalPage() {
 			{/* Stats and Calendar Row */}
 			<div className="mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 				<StatCard
-					icon={<FiClock className="h-5 w-5 text-yellow-600" />}
+					icon={<FiClock className="h-5 w-5 text-warning-foreground" />}
 					label="Pending"
 					value={pending}
-					color="bg-yellow-500/10"
+					color="bg-warning-10"
 				/>
 				<StatCard
-					icon={<FiAlertCircle className="h-5 w-5 text-red-600" />}
+					icon={<FiAlertCircle className="h-5 w-5 text-error-foreground" />}
 					label="Exception"
 					value={exception}
-					color="bg-red-500/10"
+					color="bg-error-10"
 				/>
 				<StatCard
-					icon={<FiCheckSquare className="h-5 w-5 text-green-600" />}
+					icon={<FiCheckSquare className="h-5 w-5 text-success-foreground" />}
 					label="Completed"
 					value={completed}
-					color="bg-green-500/10"
+					color="bg-success-10"
 				/>
 				<Dialog>
 					<DialogTrigger asChild>

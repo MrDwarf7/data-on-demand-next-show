@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootExternalLayout({ children }: React.PropsWithChildren) {
 	return (
-		<html lang="en" suppressHydrationWarning={true} className="h-full">
+		<html lang="en" suppressHydrationWarning className="h-full">
 			<body className={cn("relative h-full font-sans antialiased", inter.className)}>
 				<ProviderWrapper>
 					<main className="relative flex flex-col min-h-screen bg-background">

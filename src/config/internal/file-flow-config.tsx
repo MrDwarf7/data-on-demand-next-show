@@ -1,5 +1,6 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiUpload } from "react-icons/fi";
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import { lookupStyleOf } from "@/utils/lookups";
 import type { LabelValuePair } from "../external/contact-config";
 
 // TODO: Flatten out the data in here and ensure we're not repeating things,
@@ -21,14 +22,18 @@ export const STATUS_BADGE_STYLES: Record<string, ClassNameDataWithIcon> = {
 	},
 	processing: {
 		icon: FiClock,
-		classNameColor: "text-purple-600",
-		classNameBg: "bg-purple-500/10",
+		classNameColor: "text-info-foreground",
+		classNameBg: "bg-info-10",
 	},
 	failed: {
 		icon: FiAlertCircle,
-		classNameColor: "text-red-600",
-		classNameBg: "bg-red-500/10",
+		classNameColor: "text-error-foreground",
+		classNameBg: "bg-error-10",
 	},
+};
+
+export const getFileFlowStyles = (status: string) => {
+	return lookupStyleOf(STATUS_BADGE_STYLES, status);
 };
 
 export const FILE_STATS: FileStat[] = [
@@ -39,8 +44,8 @@ export const FILE_STATS: FileStat[] = [
 		},
 		// icon: <FiUpload className="w-5 h-5" />,
 		icon: FiUpload,
-		classNameColor: "text-blue-600",
-		classNameBg: "bg-blue-500/10",
+		classNameColor: "text-info-foreground",
+		classNameBg: "bg-info-10",
 	},
 	{
 		lv: {
@@ -49,8 +54,8 @@ export const FILE_STATS: FileStat[] = [
 		},
 		// icon: <FiCheckCircle className="w-5 h-5" />,
 		icon: FiCheckCircle,
-		classNameColor: "text-green-600",
-		classNameBg: "bg-green-500/10",
+		classNameColor: "text-success-foreground",
+		classNameBg: "bg-success-10",
 	},
 	{
 		lv: {
@@ -59,8 +64,8 @@ export const FILE_STATS: FileStat[] = [
 		},
 		// icon: <FiClock className="w-5 h-5" />,
 		icon: FiClock,
-		classNameColor: "text-purple-600",
-		classNameBg: "bg-purple-500/10",
+		classNameColor: "text-info-foreground",
+		classNameBg: "bg-info-10",
 	},
 	{
 		lv: {
@@ -69,8 +74,8 @@ export const FILE_STATS: FileStat[] = [
 		},
 		// icon: <FiAlertCircle className="w-5 h-5" />,
 		icon: FiAlertCircle,
-		classNameColor: "text-red-600",
-		classNameBg: "bg-red-500/10",
+		classNameColor: "text-error-foreground",
+		classNameBg: "bg-error-10",
 	},
 ];
 

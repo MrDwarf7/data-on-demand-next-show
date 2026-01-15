@@ -1,5 +1,6 @@
 import { FiAlertCircle, FiCheckCircle, FiClock, FiLoader, FiPauseCircle } from "react-icons/fi";
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import { lookupStyleOf } from "@/utils/lookups";
 
 export const QUEUE_FILTERS = [
 	"all",
@@ -134,7 +135,7 @@ export const QUEUE_TYPE_STYLES: Record<
 	default: {
 		icon: FiClock,
 		classNameColor: "text-gray-600",
-		classNameBg: "bg-gray-500/20",
+		classNameBg: "bg-gray-500/10",
 
 		priority: {
 			priorityLevel: "low",
@@ -143,37 +144,33 @@ export const QUEUE_TYPE_STYLES: Record<
 	},
 };
 
-export interface QueueStats extends Partial<ClassNameDataWithIcon> {
+export const getQueueStyles = (
+	status: Lowercase<QueueStatsType> | QueueTypePriority | "default"
+) => {
+	return lookupStyleOf(QUEUE_TYPE_STYLES, status);
+};
+
+export interface QueueStats {
 	label: QueueStatsType;
 	count: number;
 }
 
 export const QUEUE_STATS: QueueStats[] = [
 	{
-		//
 		label: "Pending",
 		count: 247,
-		classNameColor: "text-blue-600",
-		classNameBg: "bg-blue-500/10",
 	},
 	{
 		label: "Processing",
 		count: 34,
-		classNameColor: "text-purple-600",
-		classNameBg: "bg-purple-500/10",
 	},
 	{
 		label: "Completed",
 		count: 1893,
-		classNameColor: "text-green-600",
-		classNameBg: "bg-green-500/10",
 	},
 	{
-		//
 		label: "Failed",
 		count: 12,
-		classNameColor: "text-red-600",
-		classNameBg: "bg-red-500/10",
 	},
 ];
 

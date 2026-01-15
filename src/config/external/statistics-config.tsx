@@ -1,6 +1,13 @@
 import type { ReactNode } from "react";
-import { FiMinus, FiTrendingDown, FiTrendingUp } from "react-icons/fi";
+import {
+	FiAlertCircle,
+	FiMinus,
+	FiPauseCircle,
+	FiTrendingDown,
+	FiTrendingUp,
+} from "react-icons/fi";
 import type { IconType } from "react-icons/lib";
+import { lookupStyleOf } from "@/utils/lookups";
 
 export type TrendType = "up" | "down" | "neutral";
 
@@ -15,24 +22,57 @@ export type ClassNameDataWithIcon = {
 // a type + enum style mapping
 // of a TrendType in -> color
 // eg:
-// "up" -> { classNameColor: "text-green-500", classNameBg: "bg-green-500/10" }
+// "up" -> { classNameColor: "text-success-foreground", classNameBg: "bg-success-10" }
 // or   -> TREND_TYPE_STYLES["up"].classNameColor -> "text-green-500"
 export const TREND_TYPE_STYLES: Record<TrendType, ClassNameDataWithIcon> = {
 	up: {
 		icon: FiTrendingUp,
-		classNameColor: "text-green-600",
-		classNameBg: "bg-green-500/10",
+		classNameColor: "text-success-foreground",
+		classNameBg: "bg-success-10",
 	},
 	down: {
 		icon: FiTrendingDown,
-		classNameColor: "text-red-600",
-		classNameBg: "bg-red-500/10",
+		classNameColor: "text-error-foreground",
+		classNameBg: "bg-error-10",
 	},
 	neutral: {
 		icon: FiMinus,
-		classNameColor: "text-gray-600",
-		classNameBg: "bg-gray-500/10",
+		classNameColor: "text-neutral-foreground",
+		classNameBg: "bg-neutral-10",
 	},
+};
+
+export const getTrendStyles = (trend: TrendType) => {
+	return lookupStyleOf(TREND_TYPE_STYLES, trend);
+};
+
+export type StatisticsStatus = "Active" | "Idle" | "Paused" | "Failed";
+
+export const STATISTICS_STATUS_STYLES: Record<StatisticsStatus, ClassNameDataWithIcon> = {
+	Active: {
+		icon: FiTrendingUp,
+		classNameColor: "text-success-foreground",
+		classNameBg: "bg-success-20",
+	},
+	Idle: {
+		icon: FiMinus,
+		classNameColor: "text-neutral-foreground",
+		classNameBg: "bg-neutral-20",
+	},
+	Paused: {
+		icon: FiPauseCircle,
+		classNameColor: "text-warning-foreground",
+		classNameBg: "bg-warning-20",
+	},
+	Failed: {
+		icon: FiAlertCircle,
+		classNameColor: "text-error-foreground",
+		classNameBg: "bg-error-20",
+	},
+};
+
+export const getStatisticsStatusStyles = (status: StatisticsStatus) => {
+	return lookupStyleOf(STATISTICS_STATUS_STYLES, status);
 };
 
 export interface StatisticMetric {
@@ -40,8 +80,6 @@ export interface StatisticMetric {
 	value: string | number; // TODO: convert
 	change: string;
 	trend: TrendType;
-	classNameColor: string;
-	classNameBg: string;
 }
 
 export const STATISTICS_METRICS: StatisticMetric[] = [
@@ -50,32 +88,24 @@ export const STATISTICS_METRICS: StatisticMetric[] = [
 		value: "847",
 		change: "+12.3%",
 		trend: "up",
-		classNameColor: "text-blue-600",
-		classNameBg: "bg-blue-500/10",
 	},
 	{
 		label: "Success Rate",
 		value: "98.5%",
 		change: "+2.1%",
 		trend: "up",
-		classNameColor: "text-green-600",
-		classNameBg: "bg-green-500/10",
 	},
 	{
 		label: "Avg Process Time",
 		value: "2.3s",
 		change: "-0.5s",
 		trend: "up",
-		classNameColor: "text-purple-600",
-		classNameBg: "bg-purple-500/10",
 	},
 	{
 		label: "Active Queues",
 		value: "12",
 		change: "+3",
 		trend: "neutral",
-		classNameColor: "text-orange-600",
-		classNameBg: "bg-orange-500/10",
 	},
 ];
 

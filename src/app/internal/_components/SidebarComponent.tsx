@@ -62,9 +62,9 @@ const Sidebar = () => {
 						<div className="flex items-center justify-between pl-6">
 							<p className="text-sm text-muted-foreground">17/31 Online</p>
 							<div className="flex gap-1">
-								<div className="w-2 h-2 rounded-full bg-green-500" />
-								<div className="w-2 h-2 rounded-full bg-green-500" />
-								<div className="w-2 h-2 rounded-full bg-gray-400" />
+								<div className="w-2 h-2 rounded-full bg-success" />
+								<div className="w-2 h-2 rounded-full bg-success" />
+								<div className="w-2 h-2 rounded-full bg-neutral" />
 							</div>
 						</div>
 					</div>

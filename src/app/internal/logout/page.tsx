@@ -14,8 +14,8 @@ export default function LogoutPage() {
 		<div className="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
 			<div className="max-w-md w-full">
 				<div className="text-center mb-8">
-					<div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/30 mb-6">
-						<FiCheckCircle className="w-10 h-10 text-green-600" />
+					<div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-success-10 border-2 border-success-30 mb-6">
+						<FiCheckCircle className="w-10 h-10 text-success-foreground" />
 					</div>
 					<h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
 						Logged Out Successfully

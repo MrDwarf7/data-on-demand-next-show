@@ -1,23 +1,18 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
-import type { TrendType } from "@/config/external/statistics-config";
 import {
+	getStatisticsStatusStyles,
+	getTrendStyles,
 	SAMPLE_TABLE_DATA,
 	STATISTICS_METRICS,
-	TREND_TYPE_STYLES,
+	type StatisticsStatus,
+	type TrendType,
 } from "@/config/external/statistics-config";
 
 export default function StatisticsPage() {
 	const getTrendIcon = (trend: TrendType) => {
-		const styles = TREND_TYPE_STYLES[trend];
+		const styles = getTrendStyles(trend);
 		return <styles.icon className={`w-4 h-4 ${styles.classNameColor}`} />;
-	};
-
-	const getStatusBadge = (status: string) => {
-		if (status === "Active") {
-			return "bg-green-500/20 text-green-600";
-		}
-		return "bg-gray-500/20 text-gray-600";
 	};
 
 	return (
@@ -45,7 +40,11 @@ export default function StatisticsPage() {
 								/>
 								<div className="bg-accent/20 relative flex h-full flex-col justify-between gap-3 overflow-hidden rounded-xl p-6 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
 									<p className="text-sm font-medium text-muted-foreground">{metric.label}</p>
-									<p className={`text-3xl font-bold ${metric.classNameColor}`}>{metric.value}</p>
+									<p
+										className={`text-3xl font-bold ${getTrendStyles(metric.trend).classNameColor}`}
+									>
+										{metric.value}
+									</p>
 									<div className="flex items-center gap-1 text-sm font-medium text-muted-foreground">
 										{getTrendIcon(metric.trend)}
 										<span>{metric.change}</span>
@@ -92,7 +91,7 @@ export default function StatisticsPage() {
 										<td className="py-4 px-4 font-medium text-foreground">{row.process}</td>
 										<td className="py-4 px-4">
 											<span
-												className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(row.status)}`}
+												className={`px-3 py-1 rounded-full text-xs font-medium ${getStatisticsStatusStyles(row.status as StatisticsStatus).classNameBg} ${getStatisticsStatusStyles(row.status as StatisticsStatus).classNameColor}`}
 											>
 												{row.status}
 											</span>

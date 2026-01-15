@@ -20,8 +20,8 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/create-news",
 			icon: FiEdit,
 			// <FiEdit className="w-8 h-8" />,
-			classNameColor: "bg-blue-500/10 hover:bg-blue-500/20",
-			iconColor: "text-blue-600",
+			classNameColor: "bg-info-10 hover:bg-info-20",
+			iconColor: "text-info-foreground",
 		},
 		{
 			title: "External File-Flow",
@@ -29,8 +29,8 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/external-file-flow",
 			// icon: <MdUploadFile className="w-8 h-8" />,
 			icon: MdUploadFile,
-			classNameColor: "bg-green-500/10 hover:bg-green-500/20",
-			iconColor: "text-green-600",
+			classNameColor: "bg-success-10 hover:bg-success-20",
+			iconColor: "text-success-foreground",
 		},
 		{
 			title: "Queue Data",
@@ -38,8 +38,8 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/queue-data",
 			// icon: <AiOutlineInteraction className="w-8 h-8" />,
 			icon: AiOutlineInteraction,
-			classNameColor: "bg-purple-500/10 hover:bg-purple-500/20",
-			iconColor: "text-purple-600",
+			classNameColor: "bg-info-10 hover:bg-info-20",
+			iconColor: "text-info-foreground",
 		},
 		{
 			title: "Stats Overview",
@@ -47,8 +47,8 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/stats-overview",
 			// icon: <AiOutlineBarChart className="w-8 h-8" />,
 			icon: AiOutlineBarChart,
-			classNameColor: "bg-orange-500/10 hover:bg-orange-500/20",
-			iconColor: "text-orange-600",
+			classNameColor: "bg-warning-10 hover:bg-warning-20",
+			iconColor: "text-warning-foreground",
 		},
 		{
 			title: "Settings",
@@ -56,8 +56,8 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/user-settings",
 			// icon: <FiSettings className="w-8 h-8" />,
 			icon: FiSettings,
-			classNameColor: "bg-gray-500/10 hover:bg-gray-500/20",
-			iconColor: "text-gray-600",
+			classNameColor: "bg-neutral-10 hover:bg-neutral-20",
+			iconColor: "text-neutral-foreground",
 		},
 	];
 

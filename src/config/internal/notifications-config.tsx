@@ -25,29 +25,29 @@ export interface NotificationStyle extends Omit<ClassNameDataWithIcon, "icon"> {
 
 export const NOTIFICATION_STYLES: Record<NotificationType, NotificationStyle> = {
 	success: {
-		classNameBg: "bg-green-500/10",
-		classNameBorder: "border-green-500/30",
-		classNameColor: "text-green-600 dark:text-green-400",
-		iconColor: "bg-green-500/20 text-green-600",
+		classNameBg: "bg-success-10",
+		classNameBorder: "border-success-30",
+		classNameColor: "text-success-foreground",
+		iconColor: "bg-success-20 text-success-foreground",
 		icon: "✓",
 	},
 	warning: {
-		classNameBg: "bg-orange-500/10",
-		classNameBorder: "border-orange-500/30",
-		classNameColor: "text-orange-600 dark:text-orange-400",
-		iconColor: "bg-orange-500/20 text-orange-600",
+		classNameBg: "bg-warning-10",
+		classNameBorder: "border-warning-30",
+		classNameColor: "text-warning-foreground",
+		iconColor: "bg-warning-20 text-warning-foreground",
 	},
 	error: {
-		classNameBg: "bg-red-500/10",
-		classNameBorder: "border-red-500/30",
-		classNameColor: "text-red-600 dark:text-red-400",
-		iconColor: "bg-red-500/20 text-red-600",
+		classNameBg: "bg-error-10",
+		classNameBorder: "border-error-30",
+		classNameColor: "text-error-foreground",
+		iconColor: "bg-error-20 text-error-foreground",
 	},
 	info: {
-		classNameBg: "bg-blue-500/10",
-		classNameBorder: "border-blue-500/30",
-		classNameColor: "text-blue-600 dark:text-blue-400",
-		iconColor: "bg-blue-500/20 text-blue-600",
+		classNameBg: "bg-info-10",
+		classNameBorder: "border-info-30",
+		classNameColor: "text-info-foreground",
+		iconColor: "bg-info-20 text-info-foreground",
 	},
 };
 
