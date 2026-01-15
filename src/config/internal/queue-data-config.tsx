@@ -40,55 +40,61 @@ export const QUEUE_TYPE_STYLES: Record<
 > = {
 	all: {
 		icon: FiClock,
-		classNameColor: "text-gray-600",
-		classNameBg: "bg-gray-500/20",
+		classNameColor: "text-neutral-foreground",
+		classNameBg: "bg-neutral-20",
 		priority: {
 			priorityLevel: "low",
-			classNamePriority: "border-gray-500/30",
+			classNamePriority: "border-neutral-30",
 		},
 	},
 
 	completed: {
 		icon: FiCheckCircle,
-		classNameColor: "text-green-600",
-		classNameBg: "bg-green-500/20",
-	},
-
-	processing: {
-		icon: FiLoader,
-		classNameColor: "text-purple-600",
-		classNameBg: "bg-purple-500/20",
+		classNameColor: "text-success-foreground",
+		classNameBg: "bg-success-20",
+		priority: {
+			priorityLevel: "high",
+			classNamePriority: "border-success-30",
+		},
 	},
 
 	failed: {
 		icon: FiAlertCircle,
-		classNameColor: "text-red-600",
-		classNameBg: "bg-red-500/20",
-
+		classNameColor: "text-error-foreground",
+		classNameBg: "bg-error-20",
 		priority: {
 			priorityLevel: "urgent",
-			classNamePriority: "border-red-500/30",
-		},
-	},
-
-	paused: {
-		icon: FiPauseCircle,
-		classNameColor: "text-orange-600",
-		classNameBg: "bg-orange-500/20 ",
-
-		priority: {
-			priorityLevel: "high",
-			classNamePriority: "border-orange-500/30",
+			classNamePriority: "border-error-30",
 		},
 	},
 
 	pending: {
 		icon: FiClock,
-		classNameColor: "text-blue-600",
-		classNameBg: "bg-blue-500/20",
+		classNameColor: "text-info-foreground",
+		classNameBg: "bg-info-20",
 		priority: {
 			priorityLevel: "normal",
-			classNamePriority: "border-blue-500/30",
+			classNamePriority: "border-info-30",
+		},
+	},
+
+	processing: {
+		icon: FiLoader,
+		classNameColor: "text-info-foreground",
+		classNameBg: "bg-info-20",
+		priority: {
+			priorityLevel: "normal",
+			classNamePriority: "border-info-30",
+		},
+	},
+
+	paused: {
+		icon: FiPauseCircle,
+		classNameColor: "text-warning-foreground",
+		classNameBg: "bg-warning-20",
+		priority: {
+			priorityLevel: "high",
+			classNamePriority: "border-warning-30",
 		},
 	},
 
@@ -136,7 +142,6 @@ export const QUEUE_TYPE_STYLES: Record<
 		icon: FiClock,
 		classNameColor: "text-gray-600",
 		classNameBg: "bg-gray-500/10",
-
 		priority: {
 			priorityLevel: "low",
 			classNamePriority: "border-gray-500/30",

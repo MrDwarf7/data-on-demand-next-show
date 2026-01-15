@@ -27,32 +27,32 @@
 		--destructive-foreground: 210 40% 98%;
 		--positive: 142.1 69% 58%;
 		--positive-foreground: 210 40% 98%;
-		/* Semantic colors */
-		--success: 142.1 69% 58%;
-		--success-10: 142.1 69% 58% / 0.1;
-		--success-20: 142.1 69% 58% / 0.2;
-		--success-30: 142.1 69% 58% / 0.3;
-		--success-foreground: 210 40% 98%;
+		/* Semantic colors - vibrant Tailwind equivalents */
+		--success: 142 71% 45%;
+		--success-10: 142 71% 45% / 0.1;
+		--success-20: 142 71% 45% / 0.2;
+		--success-30: 142 71% 45% / 0.3;
+		--success-foreground: 142 71% 37%;
 		--warning: 25 95% 53%;
 		--warning-10: 25 95% 53% / 0.1;
 		--warning-20: 25 95% 53% / 0.2;
 		--warning-30: 25 95% 53% / 0.3;
-		--warning-foreground: 210 40% 98%;
-		--error: 0 84.2% 60.2%;
-		--error-10: 0 84.2% 60.2% / 0.1;
-		--error-20: 0 84.2% 60.2% / 0.2;
-		--error-30: 0 84.2% 60.2% / 0.3;
-		--error-foreground: 210 40% 98%;
-		--info: 217.2 91.2% 59.8%;
-		--info-10: 217.2 91.2% 59.8% / 0.1;
-		--info-20: 217.2 91.2% 59.8% / 0.2;
-		--info-30: 217.2 91.2% 59.8% / 0.3;
-		--info-foreground: 210 40% 98%;
-		--neutral: 215.4 16.3% 46.9%;
-		--neutral-10: 215.4 16.3% 46.9% / 0.1;
-		--neutral-20: 215.4 16.3% 46.9% / 0.2;
-		--neutral-30: 215.4 16.3% 46.9% / 0.3;
-		--neutral-foreground: 210 40% 98%;
+		--warning-foreground: 22 95% 45%;
+		--error: 0 84% 60%;
+		--error-10: 0 84% 60% / 0.1;
+		--error-20: 0 84% 60% / 0.2;
+		--error-30: 0 84% 60% / 0.3;
+		--error-foreground: 0 72% 51%;
+		--info: 217 91% 60%;
+		--info-10: 217 91% 60% / 0.1;
+		--info-20: 217 91% 60% / 0.2;
+		--info-30: 217 91% 60% / 0.3;
+		--info-foreground: 214 84% 56%;
+		--neutral: 215 16% 47%;
+		--neutral-10: 215 16% 47% / 0.1;
+		--neutral-20: 215 16% 47% / 0.2;
+		--neutral-30: 215 16% 47% / 0.3;
+		--neutral-foreground: 214 13% 34%;
 		--border: 214.3 31.8% 91.4%;
 		--input: 214.3 31.8% 91.4%;
 		--ring: 223.2 63.2% 73.3%;
@@ -81,32 +81,32 @@
 		--destructive-foreground: 210 40% 98%;
 		--positive: 142.1 72% 29%;
 		--positive-foreground: 210 40% 98%;
-		/* Semantic colors */
-		--success: 142.1 72% 29%;
-		--success-10: 142.1 72% 29% / 0.1;
-		--success-20: 142.1 72% 29% / 0.2;
-		--success-30: 142.1 72% 29% / 0.3;
-		--success-foreground: 222.2 47.4% 11.2%;
+		/* Semantic colors - vibrant for dark mode */
+		--success: 142 71% 45%;
+		--success-10: 142 71% 45% / 0.1;
+		--success-20: 142 71% 45% / 0.2;
+		--success-30: 142 71% 45% / 0.3;
+		--success-foreground: 142 71% 57%;
 		--warning: 25 95% 53%;
 		--warning-10: 25 95% 53% / 0.1;
 		--warning-20: 25 95% 53% / 0.2;
 		--warning-30: 25 95% 53% / 0.3;
-		--warning-foreground: 222.2 47.4% 11.2%;
-		--error: 0 62.8% 30.6%;
-		--error-10: 0 62.8% 30.6% / 0.1;
-		--error-20: 0 62.8% 30.6% / 0.2;
-		--error-30: 0 62.8% 30.6% / 0.3;
-		--error-foreground: 222.2 47.4% 11.2%;
-		--info: 217.2 91.2% 59.8%;
-		--info-10: 217.2 91.2% 59.8% / 0.1;
-		--info-20: 217.2 91.2% 59.8% / 0.2;
-		--info-30: 217.2 91.2% 59.8% / 0.3;
-		--info-foreground: 222.2 47.4% 11.2%;
-		--neutral: 215 20.2% 65.1%;
-		--neutral-10: 215 20.2% 65.1% / 0.1;
-		--neutral-20: 215 20.2% 65.1% / 0.2;
-		--neutral-30: 215 20.2% 65.1% / 0.3;
-		--neutral-foreground: 222.2 47.4% 11.2%;
+		--warning-foreground: 25 95% 63%;
+		--error: 0 84% 60%;
+		--error-10: 0 84% 60% / 0.1;
+		--error-20: 0 84% 60% / 0.2;
+		--error-30: 0 84% 60% / 0.3;
+		--error-foreground: 0 84% 70%;
+		--info: 217 91% 60%;
+		--info-10: 217 91% 60% / 0.1;
+		--info-20: 217 91% 60% / 0.2;
+		--info-30: 217 91% 60% / 0.3;
+		--info-foreground: 217 91% 70%;
+		--neutral: 215 20% 65%;
+		--neutral-10: 215 20% 65% / 0.1;
+		--neutral-20: 215 20% 65% / 0.2;
+		--neutral-30: 215 20% 65% / 0.3;
+		--neutral-foreground: 215 20% 65%;
 		--border: 217.2 32.6% 17.5%;
 		--input: 217.2 32.6% 17.5%;
 		--ring: 224.3 76.3% 48%;
@@ -247,23 +247,29 @@
 }
 
 @layer utilities {
-	/* Semantic color utilities */
+	/* Semantic color utilities - using vibrant Tailwind colors */
+	.bg-success {
+		background-color: hsl(142 71% 45%);
+	}
 	.bg-success-10 {
-		background-color: hsl(142.1 69% 58% / 0.1);
+		background-color: hsl(142 71% 45% / 0.1);
 	}
 	.bg-success-20 {
-		background-color: hsl(142.1 69% 58% / 0.2);
+		background-color: hsl(142 71% 45% / 0.2);
 	}
 	.bg-success-30 {
-		background-color: hsl(142.1 69% 58% / 0.3);
+		background-color: hsl(142 71% 45% / 0.3);
 	}
 	.text-success-foreground {
-		color: hsl(210 40% 98%);
+		color: hsl(142 71% 37%);
 	}
 	.dark .text-success-foreground {
-		color: hsl(222.2 47.4% 11.2%);
+		color: hsl(142 71% 57%);
 	}
 
+	.bg-warning {
+		background-color: hsl(25 95% 53%);
+	}
 	.bg-warning-10 {
 		background-color: hsl(25 95% 53% / 0.1);
 	}
@@ -274,58 +280,67 @@
 		background-color: hsl(25 95% 53% / 0.3);
 	}
 	.text-warning-foreground {
-		color: hsl(210 40% 98%);
+		color: hsl(22 95% 45%);
 	}
 	.dark .text-warning-foreground {
-		color: hsl(222.2 47.4% 11.2%);
+		color: hsl(25 95% 63%);
 	}
 
+	.bg-error {
+		background-color: hsl(0 84% 60%);
+	}
 	.bg-error-10 {
-		background-color: hsl(0 84.2% 60.2% / 0.1);
+		background-color: hsl(0 84% 60% / 0.1);
 	}
 	.bg-error-20 {
-		background-color: hsl(0 84.2% 60.2% / 0.2);
+		background-color: hsl(0 84% 60% / 0.2);
 	}
 	.bg-error-30 {
-		background-color: hsl(0 84.2% 60.2% / 0.3);
+		background-color: hsl(0 84% 60% / 0.3);
 	}
 	.text-error-foreground {
-		color: hsl(210 40% 98%);
+		color: hsl(0 72% 51%);
 	}
 	.dark .text-error-foreground {
-		color: hsl(222.2 47.4% 11.2%);
+		color: hsl(0 84% 70%);
 	}
 
+	.bg-info {
+		background-color: hsl(217 91% 60%);
+	}
 	.bg-info-10 {
-		background-color: hsl(217.2 91.2% 59.8% / 0.1);
+		background-color: hsl(217 91% 60% / 0.1);
 	}
 	.bg-info-20 {
-		background-color: hsl(217.2 91.2% 59.8% / 0.2);
+		background-color: hsl(217 91% 60% / 0.2);
 	}
 	.bg-info-30 {
-		background-color: hsl(217.2 91.2% 59.8% / 0.3);
+		background-color: hsl(217 91% 60% / 0.3);
 	}
 	.text-info-foreground {
-		color: hsl(210 40% 98%);
+		color: hsl(214 84% 56%);
 	}
 	.dark .text-info-foreground {
-		color: hsl(222.2 47.4% 11.2%);
+		color: hsl(217 91% 70%);
 	}
 
+	.bg-neutral {
+		background-color: hsl(215 16% 47%);
+	}
 	.bg-neutral-10 {
-		background-color: hsl(215.4 16.3% 46.9% / 0.1);
+		background-color: hsl(215 16% 47% / 0.1);
 	}
 	.bg-neutral-20 {
-		background-color: hsl(215.4 16.3% 46.9% / 0.2);
+		background-color: hsl(215 16% 47% / 0.2);
 	}
 	.bg-neutral-30 {
-		background-color: hsl(215.4 16.3% 46.9% / 0.3);
+		background-color: hsl(215 16% 47% / 0.3);
 	}
 	.text-neutral-foreground {
-		color: hsl(210 40% 98%);
+		color: hsl(214 13% 34%);
 	}
 	.dark .text-neutral-foreground {
-		color: hsl(222.2 47.4% 11.2%);
+		color: hsl(215 20% 65%);
 	}
 }
 

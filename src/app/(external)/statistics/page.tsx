@@ -8,6 +8,7 @@ import {
 	type StatisticsStatus,
 	type TrendType,
 } from "@/config/external/statistics-config";
+import { cn } from "@/lib/utils";
 
 export default function StatisticsPage() {
 	const getTrendIcon = (trend: TrendType) => {
@@ -41,7 +42,10 @@ export default function StatisticsPage() {
 								<div className="bg-accent/20 relative flex h-full flex-col justify-between gap-3 overflow-hidden rounded-xl p-6 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
 									<p className="text-sm font-medium text-muted-foreground">{metric.label}</p>
 									<p
-										className={`text-3xl font-bold ${getTrendStyles(metric.trend).classNameColor}`}
+										className={cn(
+											"text-3xl font-bold",
+											`${getTrendStyles(metric.trend).classNameColor}`
+										)}
 									>
 										{metric.value}
 									</p>

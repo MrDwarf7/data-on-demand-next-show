@@ -2,41 +2,49 @@
  * Utility functions for news-related styling
  */
 
+import { lookupStyleOf } from "@/utils/lookups";
+
+export type NewsPriority = "urgent" | "high" | "normal" | "low";
+export type NewsCategory = "announcement" | "maintenance" | "update" | "alert";
+
+const NEWS_PRIORITY_STYLES: Record<NewsPriority, string> = {
+	urgent: "bg-error-20 text-error-foreground border-error-30",
+	high: "bg-warning-20 text-warning-foreground border-warning-30",
+	normal: "bg-info-20 text-info-foreground border-info-30",
+	low: "bg-neutral-20 text-neutral-foreground border-neutral-30",
+};
+
+const NEWS_PRIORITY_PREVIEW_STYLES: Record<NewsPriority, string> = {
+	urgent: "bg-error-20 text-error-foreground",
+	high: "bg-warning-20 text-warning-foreground",
+	normal: "bg-info-20 text-info-foreground",
+	low: "bg-neutral-20 text-neutral-foreground",
+};
+
+const NEWS_CATEGORY_COLORS: Record<NewsCategory, string> = {
+	announcement: "text-info-foreground",
+	maintenance: "text-warning-foreground",
+	update: "text-success-foreground",
+	alert: "text-error-foreground",
+};
+
 /**
  * Get the CSS classes for priority badges
  */
 export const getPriorityBadge = (priority: string) => {
-	const styles = {
-		urgent: "bg-red-500/20 text-red-600 border-red-500/30",
-		high: "bg-orange-500/20 text-orange-600 border-orange-500/30",
-		normal: "bg-blue-500/20 text-blue-600 border-blue-500/30",
-		low: "bg-gray-500/20 text-gray-600 border-gray-500/30",
-	};
-	return styles[priority as keyof typeof styles] || styles.normal;
+	return lookupStyleOf(NEWS_PRIORITY_STYLES, priority as NewsPriority);
 };
 
 /**
  * Get the CSS classes for category colors
  */
 export const getCategoryColor = (category: string) => {
-	const colors = {
-		announcement: "text-blue-600",
-		maintenance: "text-orange-600",
-		update: "text-green-600",
-		alert: "text-red-600",
-	};
-	return colors[category as keyof typeof colors] || "text-gray-600";
+	return lookupStyleOf(NEWS_CATEGORY_COLORS, category as NewsCategory);
 };
 
 /**
  * Get the CSS classes for priority preview badges (without border)
  */
 export const getPriorityPreviewClass = (priority: string) => {
-	const styles = {
-		urgent: "bg-red-500/20 text-red-600",
-		high: "bg-orange-500/20 text-orange-600",
-		normal: "bg-blue-500/20 text-blue-600",
-		low: "bg-gray-500/20 text-gray-600",
-	};
-	return styles[priority as keyof typeof styles] || styles.normal;
+	return lookupStyleOf(NEWS_PRIORITY_PREVIEW_STYLES, priority as NewsPriority);
 };

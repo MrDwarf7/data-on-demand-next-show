@@ -20,7 +20,7 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/create-news",
 			icon: FiEdit,
 			// <FiEdit className="w-8 h-8" />,
-			classNameColor: "bg-info-10 hover:bg-info-20",
+			classNameColor: "bg-info-20 hover:bg-info-30",
 			iconColor: "text-info-foreground",
 		},
 		{
@@ -29,7 +29,7 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/external-file-flow",
 			// icon: <MdUploadFile className="w-8 h-8" />,
 			icon: MdUploadFile,
-			classNameColor: "bg-success-10 hover:bg-success-20",
+			classNameColor: "bg-success-20 hover:bg-success-30",
 			iconColor: "text-success-foreground",
 		},
 		{
@@ -38,7 +38,7 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/queue-data",
 			// icon: <AiOutlineInteraction className="w-8 h-8" />,
 			icon: AiOutlineInteraction,
-			classNameColor: "bg-info-10 hover:bg-info-20",
+			classNameColor: "bg-info-20 hover:bg-info-30",
 			iconColor: "text-info-foreground",
 		},
 		{
@@ -47,7 +47,7 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/stats-overview",
 			// icon: <AiOutlineBarChart className="w-8 h-8" />,
 			icon: AiOutlineBarChart,
-			classNameColor: "bg-warning-10 hover:bg-warning-20",
+			classNameColor: "bg-warning-20 hover:bg-warning-30",
 			iconColor: "text-warning-foreground",
 		},
 		{
@@ -56,7 +56,7 @@ export default function DashboardPage() {
 			path: "/internal/dashboard/user-settings",
 			// icon: <FiSettings className="w-8 h-8" />,
 			icon: FiSettings,
-			classNameColor: "bg-neutral-10 hover:bg-neutral-20",
+			classNameColor: "bg-neutral-20 hover:bg-neutral-30",
 			iconColor: "text-neutral-foreground",
 		},
 	];
@@ -81,18 +81,14 @@ export default function DashboardPage() {
 						className={`${card.classNameColor} border border-accent/50 rounded-lg p-5 sm:p-6 transition-all duration-200 hover:shadow-lg hover:scale-[1.02] group`}
 					>
 						<div className="flex flex-col h-full">
-							<div
-								className={`${card.iconColor} mb-4 group-hover:scale-110 transition-transform duration-200`}
-							>
+							<div className={`${card.iconColor} mb-4 transition-transform duration-200`}>
 								{card.icon && <card.icon className="w-8 h-8" />}
 							</div>
 							<h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
 								{card.title}
 							</h3>
-							<p className="text-sm sm:text-base text-muted-foreground flex-grow">
-								{card.description}
-							</p>
-							<div className="mt-4 flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-500">
+							<p className="text-sm sm:text-base text-muted-foreground grow">{card.description}</p>
+							<div className="mt-4 flex items-center text-sm font-medium text-blue-600">
 								<span>Go to {card.title}</span>
 								<svg
 									className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"

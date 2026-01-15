@@ -7,8 +7,8 @@ export const STATS_CARDS = [
 		change: "+12.5%",
 		trend: "up",
 		icon: <FiActivity className="w-6 h-6" />,
-		gradient: "from-blue-500 to-cyan-500",
-		bgGradient: "from-blue-500/10 to-cyan-500/10",
+		gradient: "bg-gradient-to-r from-info to-info",
+		bgGradient: "bg-info-10",
 	},
 	{
 		title: "Success Rate",
@@ -16,8 +16,8 @@ export const STATS_CARDS = [
 		change: "+2.1%",
 		trend: "up",
 		icon: <FiCheckCircle className="w-6 h-6" />,
-		gradient: "from-green-500 to-emerald-500",
-		bgGradient: "from-green-500/10 to-emerald-500/10",
+		gradient: "bg-gradient-to-r from-success to-success",
+		bgGradient: "bg-success-10",
 	},
 	{
 		title: "Avg Processing Time",
@@ -25,8 +25,8 @@ export const STATS_CARDS = [
 		change: "-8.3%",
 		trend: "up",
 		icon: <FiClock className="w-6 h-6" />,
-		gradient: "from-purple-500 to-pink-500",
-		bgGradient: "from-purple-500/10 to-pink-500/10",
+		gradient: "bg-gradient-to-r from-info to-info",
+		bgGradient: "bg-info-10",
 	},
 	{
 		title: "Active Users",
@@ -34,8 +34,8 @@ export const STATS_CARDS = [
 		change: "+18.2%",
 		trend: "up",
 		icon: <FiUsers className="w-6 h-6" />,
-		gradient: "from-orange-500 to-red-500",
-		bgGradient: "from-orange-500/10 to-red-500/10",
+		gradient: "bg-gradient-to-r from-warning to-error",
+		bgGradient: "bg-warning-10",
 	},
 ];
 
