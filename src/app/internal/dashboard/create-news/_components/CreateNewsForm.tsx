@@ -8,6 +8,7 @@ import {
 	NEWS_PRIORITIES,
 } from "@/config/internal/create-news-config";
 import { getPriorityPreviewClass } from "@/lib/news-utils";
+import { createNews } from "../actions";
 
 export function CreateNewsForm() {
 	const [title, setTitle] = useState("");
@@ -16,19 +17,15 @@ export function CreateNewsForm() {
 	const [category, setCategory] = useState("announcement");
 	const [preview, setPreview] = useState(false);
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		console.log({ title, content, priority, category });
-	};
-
 	return (
 		<>
-			<form onSubmit={handleSubmit} className="space-y-6">
+			<form action={createNews} className="space-y-6">
 				<div className="bg-accent/30 border border-accent/50 rounded-xl p-6 space-y-6">
 					<div>
 						<label className="block text-sm font-medium text-foreground mb-2">Title</label>
 						<input
 							type="text"
+							name="title"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
 							placeholder={FORM_CONFIG.titlePlaceholder}
@@ -41,6 +38,7 @@ export function CreateNewsForm() {
 						<div>
 							<label className="block text-sm font-medium text-foreground mb-2">Category</label>
 							<select
+								name="category"
 								value={category}
 								onChange={(e) => setCategory(e.target.value)}
 								className="w-full px-4 py-3 rounded-lg bg-background border border-accent/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-foreground"
@@ -56,6 +54,7 @@ export function CreateNewsForm() {
 						<div>
 							<label className="block text-sm font-medium text-foreground mb-2">Priority</label>
 							<select
+								name="priority"
 								value={priority}
 								onChange={(e) => setPriority(e.target.value)}
 								className="w-full px-4 py-3 rounded-lg bg-background border border-accent/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-foreground"
@@ -72,6 +71,7 @@ export function CreateNewsForm() {
 					<div>
 						<label className="block text-sm font-medium text-foreground mb-2">Content</label>
 						<textarea
+							name="content"
 							value={content}
 							onChange={(e) => setContent(e.target.value)}
 							placeholder={FORM_CONFIG.contentPlaceholder}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { CONTACT_SUBJECTS, FORM_CONFIG } from "@/config/external/contact-config";
+import { sendContactMessage } from "../actions";
 
 export function ContactForm() {
 	const [formData, setFormData] = useState({
@@ -11,11 +12,6 @@ export function ContactForm() {
 		subject: "general",
 		message: "",
 	});
-
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		console.log("Form submitted:", formData);
-	};
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -29,7 +25,7 @@ export function ContactForm() {
 	return (
 		<div className="bg-accent/30 border border-accent/50 rounded-xl p-6 sm:p-8">
 			<h2 className="text-2xl font-bold text-foreground mb-6">Send us a Message</h2>
-			<form onSubmit={handleSubmit} className="space-y-6">
+			<form action={sendContactMessage} className="space-y-6">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
 					<div>
 						<label className="block text-sm font-medium text-foreground mb-2">Name</label>
