@@ -11,7 +11,7 @@ export interface FileStat extends ClassNameDataWithIcon {
 
 export type FileTabType = (typeof FILE_TABS)[number];
 
-export const FILE_TABS = ["recent", "processed", "failed"] as const;
+export const FILE_TABS = ["recent", "processed", "processing", "failed"] as const;
 
 export const STATUS_BADGE_STYLES: Record<string, ClassNameDataWithIcon> = {
 	processed: {

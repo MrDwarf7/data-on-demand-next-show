@@ -1,4 +1,11 @@
-import { FiAlertCircle, FiCheckCircle, FiClock, FiLoader, FiPauseCircle } from "react-icons/fi";
+import {
+	FiAlertCircle,
+	FiCheckCircle,
+	FiClock,
+	FiList,
+	FiLoader,
+	FiPauseCircle,
+} from "react-icons/fi";
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
 
 export const QUEUE_FILTERS = [
@@ -33,7 +40,20 @@ export interface ClassNameDataWithIconPriority extends ClassNameDataWithIcon {
 	priority?: PriortyLevelData;
 }
 
-export const QUEUE_TYPE_STYLES: Record<Lowercase<QueueStatsType>, ClassNameDataWithIconPriority> = {
+export const QUEUE_TYPE_STYLES: Record<
+	Lowercase<QueueStatsType> | QueueTypePriority | "default",
+	ClassNameDataWithIconPriority
+> = {
+	all: {
+		icon: FiClock,
+		classNameColor: "text-gray-600",
+		classNameBg: "bg-gray-500/20",
+		priority: {
+			priorityLevel: "low",
+			classNamePriority: "border-gray-500/30",
+		},
+	},
+
 	completed: {
 		icon: FiCheckCircle,
 		classNameColor: "text-green-600",
@@ -75,6 +95,46 @@ export const QUEUE_TYPE_STYLES: Record<Lowercase<QueueStatsType>, ClassNameDataW
 		priority: {
 			priorityLevel: "normal",
 			classNamePriority: "border-blue-500/30",
+		},
+	},
+
+	high: {
+		icon: FiClock,
+		classNameColor: "text-yellow-600",
+		classNameBg: "bg-yellow-500/20",
+		priority: {
+			priorityLevel: "high",
+			classNamePriority: "border-yellow-500/30",
+		},
+	},
+
+	normal: {
+		icon: FiClock,
+		classNameColor: "text-blue-600",
+		classNameBg: "bg-blue-500/20",
+		priority: {
+			priorityLevel: "normal",
+			classNamePriority: "border-blue-500/30",
+		},
+	},
+
+	low: {
+		icon: FiClock,
+		classNameColor: "text-gray-600",
+		classNameBg: "bg-gray-500/20",
+		priority: {
+			priorityLevel: "low",
+			classNamePriority: "border-gray-500/30",
+		},
+	},
+
+	urgent: {
+		icon: FiClock,
+		classNameColor: "text-red-600",
+		classNameBg: "bg-red-500/20",
+		priority: {
+			priorityLevel: "urgent",
+			classNamePriority: "border-red-500/30",
 		},
 	},
 

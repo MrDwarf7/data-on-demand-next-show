@@ -1,5 +1,4 @@
-import { SETTINGS_SECTIONS } from "@/config/internal/user-settings-config";
-import { UserSettingsContent } from "./_components/UserSettingsContent";
+import { UserSettingsPageClient } from "./_components/UserSettingsPageClient";
 
 export default function UserSettingsPage() {
 	return (
@@ -11,23 +10,7 @@ export default function UserSettingsPage() {
 				</p>
 			</div>
 
-			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-				<div className="lg:col-span-1">
-					<div className="bg-accent/30 border border-accent/50 rounded-xl p-4 space-y-2">
-						{SETTINGS_SECTIONS.map((section) => (
-							<div
-								key={section.id}
-								className="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-foreground"
-							>
-								{section.icon}
-								{section.label}
-							</div>
-						))}
-					</div>
-				</div>
-
-				<UserSettingsContent />
-			</div>
+			<UserSettingsPageClient />
 		</div>
 	);
 }

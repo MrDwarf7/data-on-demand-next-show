@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { FiGlobe, FiSave, FiShield, FiUser } from "react-icons/fi";
 import { ActionButton } from "@/components/generic/ActionButton";
 import { FormInput } from "@/components/generic/FormInput";
@@ -17,9 +14,11 @@ import { NotificationsSection } from "./NotificationsSection";
 
 type Section = (typeof SETTINGS_SECTIONS)[number]["id"];
 
-export function UserSettingsContent() {
-	const [activeSection, setActiveSection] = useState<Section>("profile");
+interface UserSettingsContentProps {
+	activeSection: Section;
+}
 
+export function UserSettingsContent({ activeSection }: UserSettingsContentProps) {
 	return (
 		<div className="lg:col-span-3">
 			{activeSection === "profile" && (
