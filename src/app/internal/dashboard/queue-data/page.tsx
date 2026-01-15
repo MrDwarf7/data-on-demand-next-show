@@ -1,7 +1,10 @@
 import { QUEUE_STATS } from "@/config/internal/queue-data-config";
+import { getQueueItemsWithDisplay } from "@/lib/queue-utils";
 import { QueueDataClient } from "./_components/QueueDataClient";
 
 export default function QueueDataPage() {
+	const queueItems = getQueueItemsWithDisplay();
+
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-400 mx-auto space-y-6">
 			<div>
@@ -23,7 +26,7 @@ export default function QueueDataPage() {
 				))}
 			</div>
 
-			<QueueDataClient />
+			<QueueDataClient items={queueItems} />
 		</div>
 	);
 }

@@ -3,9 +3,14 @@
 import { useState } from "react";
 import { FiFilter, FiRefreshCw } from "react-icons/fi";
 import { PriorityBadge, StatusBadge, StatusIcon } from "@/components/generic/QueueBadges";
-import { QUEUE_FILTERS, QUEUE_ITEMS } from "@/config/internal/queue-data-config";
+import { QUEUE_FILTERS } from "@/config/internal/queue-data-config";
+import type { QueueItemDisplay } from "@/lib/queue-utils";
 
-export function QueueDataClient() {
+interface QueueDataClientProps {
+	items: QueueItemDisplay[];
+}
+
+export function QueueDataClient({ items }: QueueDataClientProps) {
 	const [filter, setFilter] = useState("all");
 	const [refreshing, setRefreshing] = useState(false);
 
@@ -14,8 +19,7 @@ export function QueueDataClient() {
 		setTimeout(() => setRefreshing(false), 1000);
 	};
 
-	const filteredItems =
-		filter === "all" ? QUEUE_ITEMS : QUEUE_ITEMS.filter((item) => item.status === filter);
+	const filteredItems = filter === "all" ? items : items.filter((item) => item.status === filter);
 
 	return (
 		<div className="bg-accent/30 border border-accent/50 rounded-xl p-4 sm:p-6">
@@ -85,21 +89,7 @@ export function QueueDataClient() {
 							</div>
 
 							<div className="text-sm text-right min-w-30">
-								{item.status === "completed" && (
-									<p className="text-green-600 font-medium">✓ Done in {item.completedIn}</p>
-								)}
-								{item.status === "processing" && (
-									<p className="text-purple-600 font-medium">~{item.estimatedTime} remaining</p>
-								)}
-								{item.status === "pending" && (
-									<p className="text-blue-600 font-medium">ETA: {item.estimatedTime}</p>
-								)}
-								{item.status === "failed" && (
-									<p className="text-red-600 font-medium text-xs">{item.error}</p>
-								)}
-								{item.status === "paused" && (
-									<p className="text-orange-600 font-medium text-xs">{item.reason}</p>
-								)}
+								<p className={item.statusDisplay.className}>{item.statusDisplay.text}</p>
 							</div>
 						</div>
 					</div>
