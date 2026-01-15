@@ -2,6 +2,7 @@ import { AiOutlineBarChart, AiOutlineInteraction } from "react-icons/ai";
 import { FiEdit, FiGlobe, FiHome, FiList, FiLogOut, FiSend, FiSettings } from "react-icons/fi";
 import { HiOutlineChartBar } from "react-icons/hi";
 import { MdUploadFile } from "react-icons/md";
+import { INTERNAL_PATHS, PATHS } from "@/constants/paths";
 
 export const INTERNAL_SIDEBAR_ITEMS = [
 	{
@@ -9,43 +10,43 @@ export const INTERNAL_SIDEBAR_ITEMS = [
 		list: [
 			{
 				title: "Dashboard Home",
-				path: "/internal/dashboard",
+				path: INTERNAL_PATHS.DASHBOARD,
 				icon: <FiHome />,
 			},
 
 			{
 				title: "Create News Post",
-				path: "/internal/dashboard/create-news",
+				path: INTERNAL_PATHS.CREATE_NEWS,
 				icon: <FiEdit />,
 			},
 
 			{
 				title: "External File-Flow",
-				path: "/internal/dashboard/external-file-flow",
+				path: INTERNAL_PATHS.EXTERNAL_FILE_FLOW,
 				icon: <MdUploadFile />,
 			},
 
 			{
 				title: "Queue Data",
-				path: "/internal/dashboard/queue-data",
+				path: INTERNAL_PATHS.QUEUE_DATA,
 				icon: <AiOutlineInteraction />,
 			},
 
 			{
 				title: "Stats Overview",
-				path: "/internal/dashboard/stats-overview",
+				path: INTERNAL_PATHS.STATS_OVERVIEW,
 				icon: <AiOutlineBarChart />,
 			},
 
 			{
 				title: "Settings",
-				path: "/internal/dashboard/user-settings",
+				path: INTERNAL_PATHS.USER_SETTINGS,
 				icon: <FiSettings />,
 			},
 
 			{
 				title: "Log out",
-				path: "/internal/logout",
+				path: INTERNAL_PATHS.LOGOUT,
 				icon: <FiLogOut />,
 			},
 		],
@@ -56,25 +57,25 @@ export const INTERNAL_SIDEBAR_ITEMS = [
 		list: [
 			{
 				title: "External Home",
-				path: "/",
+				path: PATHS.HOME,
 				icon: <FiGlobe />,
 			},
 
 			{
 				title: "News",
-				path: "/news",
+				path: PATHS.NEWS,
 				icon: <FiList />,
 			},
 
 			{
 				title: "Statistics",
-				path: "/statistics",
+				path: PATHS.STATISTICS,
 				icon: <HiOutlineChartBar />,
 			},
 
 			{
 				title: "Upload Portal",
-				path: "/upload-portal",
+				path: PATHS.UPLOAD_PORTAL,
 				icon: <FiSend />,
 			},
 		],

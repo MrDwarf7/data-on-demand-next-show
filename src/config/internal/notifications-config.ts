@@ -1,4 +1,5 @@
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
+import { INTERNAL_PATHS } from "@/constants/paths";
 import type { StatusType } from "@/types/common";
 import { lookupStyleOf } from "@/utils/lookups";
 
@@ -85,7 +86,7 @@ export const SAMPLE_NOTIFICATIONS: Notification[] = [
 		message: "Document extraction failed for batch #832. Manual review required.",
 		timestamp: "2 hours ago",
 		read: true,
-		actionLink: "/internal/dashboard/queue-data",
+		actionLink: INTERNAL_PATHS.QUEUE_DATA,
 	},
 	{
 		id: 5,

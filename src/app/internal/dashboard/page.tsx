@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AiOutlineBarChart, AiOutlineInteraction } from "react-icons/ai";
 import { FiEdit, FiSettings } from "react-icons/fi";
 import { MdUploadFile } from "react-icons/md";
+import { INTERNAL_PATHS } from "@/constants/paths";
 import type { ClassNameDataWithIcon } from "@/types/common";
 
 interface DashboardCard extends Partial<ClassNameDataWithIcon> {
@@ -17,7 +18,7 @@ export default function DashboardPage() {
 		{
 			title: "Create News Post",
 			description: "Publish news updates and announcements for users",
-			path: "/internal/dashboard/create-news",
+			path: INTERNAL_PATHS.CREATE_NEWS,
 			icon: FiEdit,
 			// <FiEdit className="w-8 h-8" />,
 			classNameColor: "bg-info-20 hover:bg-info-30",
@@ -26,7 +27,7 @@ export default function DashboardPage() {
 		{
 			title: "External File-Flow",
 			description: "Manage and monitor external file uploads and processing",
-			path: "/internal/dashboard/external-file-flow",
+			path: INTERNAL_PATHS.EXTERNAL_FILE_FLOW,
 			// icon: <MdUploadFile className="w-8 h-8" />,
 			icon: MdUploadFile,
 			classNameColor: "bg-success-20 hover:bg-success-30",
@@ -35,7 +36,7 @@ export default function DashboardPage() {
 		{
 			title: "Queue Data",
 			description: "View and manage processing queues and job status",
-			path: "/internal/dashboard/queue-data",
+			path: INTERNAL_PATHS.QUEUE_DATA,
 			// icon: <AiOutlineInteraction className="w-8 h-8" />,
 			icon: AiOutlineInteraction,
 			classNameColor: "bg-info-20 hover:bg-info-30",
@@ -44,7 +45,7 @@ export default function DashboardPage() {
 		{
 			title: "Stats Overview",
 			description: "Monitor system statistics and performance metrics",
-			path: "/internal/dashboard/stats-overview",
+			path: INTERNAL_PATHS.STATS_OVERVIEW,
 			// icon: <AiOutlineBarChart className="w-8 h-8" />,
 			icon: AiOutlineBarChart,
 			classNameColor: "bg-warning-20 hover:bg-warning-30",
@@ -53,7 +54,7 @@ export default function DashboardPage() {
 		{
 			title: "Settings",
 			description: "Configure your account and system preferences",
-			path: "/internal/dashboard/user-settings",
+			path: INTERNAL_PATHS.USER_SETTINGS,
 			// icon: <FiSettings className="w-8 h-8" />,
 			icon: FiSettings,
 			classNameColor: "bg-neutral-20 hover:bg-neutral-30",

@@ -1,6 +1,7 @@
 import type { JSX } from "react/jsx-runtime";
 import { FiGlobe, FiList, FiMail, FiSend } from "react-icons/fi";
 import { HiOutlineChartBar } from "react-icons/hi";
+import { INTERNAL_PATHS, PATHS } from "@/constants/paths";
 
 export interface ExternalMenuItem {
 	title: string;
@@ -13,32 +14,32 @@ export interface ExternalMenuItem {
 export const EXTERNAL_MENU_ITEMS = [
 	{
 		title: "Home",
-		path: "/",
+		path: PATHS.HOME,
 		icon: <FiGlobe />,
 	},
 	{
 		title: "News",
-		path: "/news",
+		path: PATHS.NEWS,
 		icon: <FiList />,
 	},
 	{
 		title: "Statistics",
-		path: "/statistics",
+		path: PATHS.STATISTICS,
 		icon: <HiOutlineChartBar />,
 	},
 	{
 		title: "Upload Portal",
-		path: "/upload-portal",
+		path: PATHS.UPLOAD_PORTAL,
 		icon: <FiSend />,
 	},
 	{
 		title: "Contact Us",
-		path: "/contact",
+		path: PATHS.CONTACT,
 		icon: <FiMail />,
 	},
 	{
 		title: "Dashboard",
-		path: "/internal/dashboard",
+		path: INTERNAL_PATHS.DASHBOARD,
 	},
 	// {
 	// 	title: "Login",

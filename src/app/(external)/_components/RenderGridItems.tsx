@@ -1,5 +1,6 @@
 import { GridItem } from "@/components/generic/GridItem";
 import { EXTERNAL_MENU_ITEMS, type ExternalMenuItem } from "@/config/external/headerbar-config";
+import { PATHS } from "@/constants/paths";
 
 interface WantedAttributes {
 	icon: keyof ExternalMenuItem;
@@ -26,7 +27,7 @@ const gridItemData: RenderGridItemsProps[] = [
 		preLinkContent: "Upload files via the ",
 		postLinkContent: " for automated processing.",
 		tieInfo: {
-			path: "/upload-portal",
+			path: PATHS.UPLOAD_PORTAL,
 		},
 		//
 		// linkHref: "/upload-portal",
@@ -39,7 +40,7 @@ const gridItemData: RenderGridItemsProps[] = [
 		preLinkContent: "Monitor queues and workloads on the ",
 		postLinkContent: ".",
 		tieInfo: {
-			path: "/statistics",
+			path: PATHS.STATISTICS,
 		},
 		//
 		// linkHref: "/upload-portal",
@@ -51,7 +52,7 @@ const gridItemData: RenderGridItemsProps[] = [
 		preLinkContent: "Check the ",
 		postLinkContent: " for updates on active issues.",
 		tieInfo: {
-			path: "/news",
+			path: PATHS.NEWS,
 		},
 
 		// linkHref: "/news",
@@ -63,7 +64,7 @@ const gridItemData: RenderGridItemsProps[] = [
 		preLinkContent: "Reach out via the ",
 		postLinkContent: " for assistance.",
 		tieInfo: {
-			path: "/contact",
+			path: PATHS.CONTACT,
 		},
 
 		//
