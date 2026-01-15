@@ -1,16 +1,15 @@
+"use client";
+
+import { useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { FiAlertCircle, FiCheckCircle, FiServer, FiTrendingUp, FiZap } from "react-icons/fi";
 import { HiOutlineChartBar } from "react-icons/hi";
-import {
-	RECENT_ACTIVITY,
-	STATS_CARDS,
-	SYSTEM_METRICS,
-	TIME_RANGES,
-	TOP_PROCESSES,
-} from "@/config/internal/stats-overview-config";
+import { TIME_RANGES } from "@/config/internal/stats-overview-config";
+import { type TimeRange, useStatsOverview } from "@/hooks/use-stats-overview";
 
 export default function StatsOverviewPage() {
-	const timeRange = "24h";
+	const [timeRange, setTimeRange] = useState<TimeRange>("24h");
+	const { statsCards, recentActivity, systemMetrics, topProcesses } = useStatsOverview(timeRange);
 
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-[1800px] mx-auto space-y-6">
@@ -26,6 +25,7 @@ export default function StatsOverviewPage() {
 						<button
 							type="button"
 							key={range}
+							onClick={() => setTimeRange(range as TimeRange)}
 							className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
 								timeRange === range
 									? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
@@ -39,7 +39,7 @@ export default function StatsOverviewPage() {
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-				{STATS_CARDS.map((stat, index) => (
+				{statsCards.map((stat, index) => (
 					<div
 						key={stat.title}
 						className={`relative overflow-hidden rounded-xl border border-accent/50 bg-gradient-to-br ${stat.bgGradient} p-6 transition-all hover:shadow-xl hover:scale-[1.02] group`}
@@ -97,7 +97,7 @@ export default function StatsOverviewPage() {
 						<h2 className="text-xl font-semibold text-foreground">System Health</h2>
 					</div>
 					<div className="space-y-4">
-						{SYSTEM_METRICS.map((metric) => (
+						{systemMetrics.map((metric) => (
 							<div key={metric.name}>
 								<div className="flex items-center justify-between mb-2">
 									<span className="text-sm font-medium text-foreground">{metric.name}</span>
@@ -124,7 +124,7 @@ export default function StatsOverviewPage() {
 						<h2 className="text-xl font-semibold text-foreground">Top Processes</h2>
 					</div>
 					<div className="space-y-4">
-						{TOP_PROCESSES.map((process, index) => (
+						{topProcesses.map((process, index) => (
 							<div key={process.name} className="group">
 								<div className="flex items-center justify-between mb-2">
 									<div className="flex items-center gap-3">
@@ -154,7 +154,7 @@ export default function StatsOverviewPage() {
 						<h2 className="text-xl font-semibold text-foreground">Recent Activity</h2>
 					</div>
 					<div className="space-y-3 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
-						{RECENT_ACTIVITY.map((activity) => (
+						{recentActivity.map((activity) => (
 							<div
 								key={activity.id}
 								className="flex items-start gap-3 p-3 rounded-lg bg-background/50 border border-accent/30 hover:border-accent/60 transition-all"
