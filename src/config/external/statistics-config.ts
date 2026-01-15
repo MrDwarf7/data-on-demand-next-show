@@ -78,7 +78,7 @@ export const getStatisticsStatusStyles = (status: StatisticsStatus) => {
 
 export interface StatisticMetric {
 	label: string;
-	value: string | number; // TODO: convert
+	value: string | number;
 	change: string;
 	trend: TrendType;
 }
