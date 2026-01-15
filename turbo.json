@@ -11,6 +11,16 @@
   ],
   "concurrency": "100%",
   "tasks": {
+    "check": {
+      "dependsOn": [
+        "lint",
+        "lint:fix",
+        "format:check",
+        "format"
+      ],
+      "cache": true,
+      "persistent": false
+    },
     "dev": {
       "dependsOn": [
         "ins",
