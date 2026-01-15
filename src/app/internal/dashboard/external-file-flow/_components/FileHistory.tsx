@@ -1,15 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import {
-	FiAlertCircle,
-	FiCheckCircle,
-	FiClock,
-	FiDownload,
-	FiEye,
-	FiFile,
-	FiTrash2,
-} from "react-icons/fi";
+import { FiAlertCircle, FiCheckCircle, FiClock, FiFile } from "react-icons/fi";
+import { ErrorMessage } from "@/components/generic/ErrorMessage";
+import { FileActions } from "@/components/generic/FileActions";
 import type { IconTypeMap } from "@/config/external/statistics-config";
 import {
 	FILE_TABS,
@@ -17,6 +11,7 @@ import {
 	STATUS_BADGE_STYLES,
 } from "@/config/internal/file-flow-config";
 import { useRecentFiles } from "@/hooks/use-file-flow";
+import { getFileFilter } from "@/lib/file-utils";
 
 export function FileHistory() {
 	const [selectedTab, setSelectedTab] = useState("recent");
@@ -69,68 +64,45 @@ export function FileHistory() {
 			</div>
 
 			<div className="space-y-3">
-				{recentFiles
-					.filter(
-						(file) =>
-							selectedTab === "recent" ||
-							file.status === selectedTab ||
-							(selectedTab === "processed" && file.status === "processed")
-					)
-					.map((file) => (
-						<div
-							key={file.id}
-							className="bg-background border border-accent/50 rounded-lg p-4 hover:border-accent transition-all"
-						>
-							<div className="flex flex-col lg:flex-row lg:items-center gap-4">
-								<div className="flex items-start gap-3 flex-1 min-w-0">
-									<div className="mt-1">{getStatusIcon(file.status)}</div>
-									<div className="flex-1 min-w-0">
-										<div className="flex items-center gap-2 mb-1">
-											<FiFile className="w-4 h-4 text-muted-foreground shrink-0" />
-											<h3 className="font-semibold text-foreground truncate">{file.name}</h3>
-										</div>
-										<div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-											<span>{file.size}</span>
-											<span>•</span>
-											<span>{file.id}</span>
-											<span>•</span>
-											<span>{file.processType}</span>
-										</div>
-										<p className="text-xs text-muted-foreground mt-1">
-											Uploaded by {file.uploadedBy} • {file.uploadedAt}
-										</p>
-										{file.error && <p className="text-xs text-red-600 mt-1">Error: {file.error}</p>}
+				{recentFiles.filter(getFileFilter(selectedTab)).map((file) => (
+					<div
+						key={file.id}
+						className="bg-background border border-accent/50 rounded-lg p-4 hover:border-accent transition-all"
+					>
+						<div className="flex flex-col lg:flex-row lg:items-center gap-4">
+							<div className="flex items-start gap-3 flex-1 min-w-0">
+								<div className="mt-1">{getStatusIcon(file.status)}</div>
+								<div className="flex-1 min-w-0">
+									<div className="flex items-center gap-2 mb-1">
+										<FiFile className="w-4 h-4 text-muted-foreground shrink-0" />
+										<h3 className="font-semibold text-foreground truncate">{file.name}</h3>
 									</div>
-								</div>
-
-								<div className="flex items-center gap-2">
-									{getStatusBadge(file.status)}
-									<div className="flex gap-1">
-										<button
-											type="button"
-											className="p-2 hover:bg-accent rounded-lg transition-colors"
-										>
-											<FiEye className="w-4 h-4 text-muted-foreground" />
-										</button>
-										{file.status === "processed" && (
-											<button
-												type="button"
-												className="p-2 hover:bg-accent rounded-lg transition-colors"
-											>
-												<FiDownload className="w-4 h-4 text-muted-foreground" />
-											</button>
-										)}
-										<button
-											type="button"
-											className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
-										>
-											<FiTrash2 className="w-4 h-4 text-red-600" />
-										</button>
+									<div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+										<span>{file.size}</span>
+										<span>•</span>
+										<span>{file.id}</span>
+										<span>•</span>
+										<span>{file.processType}</span>
 									</div>
+									<p className="text-xs text-muted-foreground mt-1">
+										Uploaded by {file.uploadedBy} • {file.uploadedAt}
+									</p>
+									<ErrorMessage error={file.error} />
 								</div>
 							</div>
+
+							<div className="flex items-center gap-2">
+								{getStatusBadge(file.status)}
+								<FileActions
+									status={file.status}
+									onView={() => console.log("View", file.id)}
+									onDownload={() => console.log("Download", file.id)}
+									onDelete={() => console.log("Delete", file.id)}
+								/>
+							</div>
 						</div>
-					))}
+					</div>
+				))}
 			</div>
 		</div>
 	);
