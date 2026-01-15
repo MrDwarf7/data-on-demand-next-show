@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FiArrowLeft, FiCalendar, FiTag, FiUser } from "react-icons/fi";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { NEWS_POSTS } from "@/config/external/news-config";
+import { getCategoryColor, getPriorityBadge } from "@/lib/news-utils";
 
 export default async function DynamicNewsPage({ params }: { params: { newsId: string } }) {
 	const { newsId } = await params;
@@ -9,28 +10,6 @@ export default async function DynamicNewsPage({ params }: { params: { newsId: st
 
 	// TODO: move to hook->backend call from db
 	const post = NEWS_POSTS.find((p) => p.id === nId);
-
-	// TODO: [refactor] : ref. all of these to a common utility function
-	const getPriorityBadge = (priority: string) => {
-		const styles = {
-			urgent: "bg-red-500/20 text-red-600 border-red-500/30",
-			high: "bg-orange-500/20 text-orange-600 border-orange-500/30",
-			normal: "bg-blue-500/20 text-blue-600 border-blue-500/30",
-			low: "bg-gray-500/20 text-gray-600 border-gray-500/30",
-		};
-		return styles[priority as keyof typeof styles] || styles.normal;
-	};
-
-	// TODO: [refactor] : ref. all of these to a common utility function
-	const getCategoryColor = (category: string) => {
-		const colors = {
-			announcement: "text-blue-600",
-			maintenance: "text-orange-600",
-			update: "text-green-600",
-			alert: "text-red-600",
-		};
-		return colors[category as keyof typeof colors] || "text-gray-600";
-	};
 
 	if (!post) {
 		return (
