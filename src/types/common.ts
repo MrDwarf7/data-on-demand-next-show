@@ -6,6 +6,13 @@ export type Priority = "high" | "normal" | "low" | "urgent";
 // Status types for notifications, statistics, etc.
 export type StatusType = "info" | "success" | "warning" | "error";
 export type ProcessingStatus = "processing" | "idle" | "active" | "paused" | "failed";
+export type OperationStatus =
+	| "pending"
+	| "processing"
+	| "completed"
+	| "failed"
+	| "success"
+	| "error";
 export type TrendType = "up" | "down" | "neutral";
 
 // Common styling interface for data with icons

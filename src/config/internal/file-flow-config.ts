@@ -12,6 +12,8 @@ export interface FileStat extends ClassNameDataWithIcon {
 
 export type FileTabType = (typeof FILE_TABS)[number];
 
+export type FileStatus = (typeof FILE_TABS)[number];
+
 export const FILE_TABS = ["recent", "processed", "processing", "failed"] as const;
 
 export const STATUS_BADGE_STYLES: Record<string, ClassNameDataWithIcon> = {
@@ -85,7 +87,7 @@ export interface RecentFile {
 	size: string;
 	uploadedBy: string;
 	uploadedAt: string;
-	status: (typeof FILE_TABS)[number];
+	status: FileStatus;
 	// "processed" | "processing" | "failed"; // TODO: use same as in other const arrays (when moving to hook -> backend)
 	processType: string;
 	error?: string;
