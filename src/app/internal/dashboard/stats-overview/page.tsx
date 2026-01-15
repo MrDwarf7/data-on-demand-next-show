@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { FiAlertCircle, FiCheckCircle, FiServer, FiTrendingUp, FiZap } from "react-icons/fi";
 import { HiOutlineChartBar } from "react-icons/hi";
@@ -13,7 +10,7 @@ import {
 } from "@/config/internal/stats-overview-config";
 
 export default function StatsOverviewPage() {
-	const [timeRange, setTimeRange] = useState("24h");
+	const timeRange = "24h";
 
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-[1800px] mx-auto space-y-6">
@@ -29,7 +26,6 @@ export default function StatsOverviewPage() {
 						<button
 							type="button"
 							key={range}
-							onClick={() => setTimeRange(range)}
 							className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
 								timeRange === range
 									? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
