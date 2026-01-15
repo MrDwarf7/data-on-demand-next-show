@@ -2,7 +2,7 @@ import { FiSend } from "react-icons/fi";
 import { TabsContentAutomation } from "@/app/(external)/upload-portal/_components/TabsContentAutomation";
 import { TabsContentHumans } from "@/app/(external)/upload-portal/_components/TabsContentHumans";
 import { TabsTriggerBar } from "@/app/(external)/upload-portal/_components/TabsTriggerBar";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import type { TabOptions } from "@/types/local";
@@ -27,9 +27,10 @@ const TabsMainComponent = ({ ...props }) => {
 			</Tabs>
 			<span className="flex justify-end">
 				<FiSend className="absolute mt-3 ml-3 text-white opacity-0" />
-				<Button className="bg-accent hover:bg-ring rounded-lg" type="submit">
-					Send Files
-				</Button>
+				{/* This isn't needed because we now spawn an upload button once we see files available */}
+				{/* <Button className="bg-accent hover:bg-ring rounded-lg" type="submit"> */}
+				{/* 	Send Files */}
+				{/* </Button> */}
 			</span>
 		</>
 	);

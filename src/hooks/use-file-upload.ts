@@ -2,7 +2,7 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { uploadFiles } from "@/app/actions/upload";
+import { uploadFiles } from "@/actions/upload";
 import { useFileProcessor } from "./use-file-processor";
 
 type UploadStatus = "pending" | "uploading" | "completed" | "error";
@@ -42,6 +42,9 @@ export function useFileUpload(): UseFileUploadReturn {
 		const processParam = searchParams.get("process");
 		if (processParam) return processParam;
 		// Fallback to path segments
+
+		// TODO: If there is no process selected, we should be generating a toast message telling the user to select one.
+		// TODO: Furthermore, we should NOT be making the upload button clickable if there is no process selected.
 		return getProcessFromPath(pathname);
 	}, [pathname, searchParams]);
 
