@@ -13,17 +13,18 @@ import {
 import { MdUploadFile } from "react-icons/md";
 import type { IconTypeMap } from "@/config/external/statistics-config";
 import {
-	FILE_STATS,
 	FILE_TABS,
 	type FileTabType,
-	RECENT_FILES,
 	STATUS_BADGE_STYLES,
 	UPLOAD_CONFIG,
 } from "@/config/internal/file-flow-config";
+import { useFileStats, useRecentFiles } from "@/hooks/use-file-flow";
 
 export default function FileFlowPage() {
 	const [selectedTab, setSelectedTab] = useState("recent");
 	const [dragActive, setDragActive] = useState(false);
+	const fileStats = useFileStats();
+	const recentFiles = useRecentFiles();
 
 	const handleDrag = (e: React.DragEvent) => {
 		e.preventDefault();
@@ -76,7 +77,7 @@ export default function FileFlowPage() {
 			</div>
 
 			<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-				{FILE_STATS.map((stat) => (
+				{fileStats.map((stat) => (
 					<div
 						key={stat.lv.label}
 						className={`${stat.classNameBg} border border-accent/50 rounded-xl p-4 sm:p-6`}
@@ -139,66 +140,70 @@ export default function FileFlowPage() {
 				</div>
 
 				<div className="space-y-3">
-					{RECENT_FILES.filter(
-						(file) =>
-							selectedTab === "recent" ||
-							file.status === selectedTab ||
-							(selectedTab === "processed" && file.status === "processed")
-					).map((file) => (
-						<div
-							key={file.id}
-							className="bg-background border border-accent/50 rounded-lg p-4 hover:border-accent transition-all"
-						>
-							<div className="flex flex-col lg:flex-row lg:items-center gap-4">
-								<div className="flex items-start gap-3 flex-1 min-w-0">
-									<div className="mt-1">{getStatusIcon(file.status)}</div>
-									<div className="flex-1 min-w-0">
-										<div className="flex items-center gap-2 mb-1">
-											<FiFile className="w-4 h-4 text-muted-foreground shrink-0" />
-											<h3 className="font-semibold text-foreground truncate">{file.name}</h3>
+					{recentFiles
+						.filter(
+							(file) =>
+								selectedTab === "recent" ||
+								file.status === selectedTab ||
+								(selectedTab === "processed" && file.status === "processed")
+						)
+						.map((file) => (
+							<div
+								key={file.id}
+								className="bg-background border border-accent/50 rounded-lg p-4 hover:border-accent transition-all"
+							>
+								<div className="flex flex-col lg:flex-row lg:items-center gap-4">
+									<div className="flex items-start gap-3 flex-1 min-w-0">
+										<div className="mt-1">{getStatusIcon(file.status)}</div>
+										<div className="flex-1 min-w-0">
+											<div className="flex items-center gap-2 mb-1">
+												<FiFile className="w-4 h-4 text-muted-foreground shrink-0" />
+												<h3 className="font-semibold text-foreground truncate">{file.name}</h3>
+											</div>
+											<div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+												<span>{file.size}</span>
+												<span>•</span>
+												<span>{file.id}</span>
+												<span>•</span>
+												<span>{file.processType}</span>
+											</div>
+											<p className="text-xs text-muted-foreground mt-1">
+												Uploaded by {file.uploadedBy} • {file.uploadedAt}
+											</p>
+											{file.error && (
+												<p className="text-xs text-red-600 mt-1">Error: {file.error}</p>
+											)}
 										</div>
-										<div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-											<span>{file.size}</span>
-											<span>•</span>
-											<span>{file.id}</span>
-											<span>•</span>
-											<span>{file.processType}</span>
-										</div>
-										<p className="text-xs text-muted-foreground mt-1">
-											Uploaded by {file.uploadedBy} • {file.uploadedAt}
-										</p>
-										{file.error && <p className="text-xs text-red-600 mt-1">Error: {file.error}</p>}
 									</div>
-								</div>
 
-								<div className="flex items-center gap-2">
-									{getStatusBadge(file.status)}
-									<div className="flex gap-1">
-										<button
-											type="button"
-											className="p-2 hover:bg-accent rounded-lg transition-colors"
-										>
-											<FiEye className="w-4 h-4 text-muted-foreground" />
-										</button>
-										{file.status === "processed" && (
+									<div className="flex items-center gap-2">
+										{getStatusBadge(file.status)}
+										<div className="flex gap-1">
 											<button
 												type="button"
 												className="p-2 hover:bg-accent rounded-lg transition-colors"
 											>
-												<FiDownload className="w-4 h-4 text-muted-foreground" />
+												<FiEye className="w-4 h-4 text-muted-foreground" />
 											</button>
-										)}
-										<button
-											type="button"
-											className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
-										>
-											<FiTrash2 className="w-4 h-4 text-red-600" />
-										</button>
+											{file.status === "processed" && (
+												<button
+													type="button"
+													className="p-2 hover:bg-accent rounded-lg transition-colors"
+												>
+													<FiDownload className="w-4 h-4 text-muted-foreground" />
+												</button>
+											)}
+											<button
+												type="button"
+												className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
+											>
+												<FiTrash2 className="w-4 h-4 text-red-600" />
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					))}
+						))}
 				</div>
 			</div>
 		</div>
