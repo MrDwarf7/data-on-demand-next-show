@@ -408,7 +408,7 @@ const MOCK_DATA: Record<TimeRange, StatsData> = {
 // Hook to fetch stats data (currently mock, easily replaceable with API call)
 export function useStatsOverview(timeRange: TimeRange): StatsData {
 	return useMemo(() => {
-		// TODO: Replace with API call: fetch(`/api/stats?range=${timeRange}`)
+		// TODO: [backend] : Replace with API call: fetch(`/api/stats?range=${timeRange}`)
 		return MOCK_DATA[timeRange];
 	}, [timeRange]);
 }

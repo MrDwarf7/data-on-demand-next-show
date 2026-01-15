@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-// TODO: Replace with API call: fetch('/api/processes')
+// TODO: [backend] : Replace with API call: fetch('/api/processes')
 const STATIC_PROCESSES = [
 	{ id: "invoice-processing", name: "Invoice Processing" },
 	{ id: "contract-review", name: "Contract Review" },
@@ -15,6 +15,6 @@ export interface ProcessItem {
 }
 
 export function useProcesses(): ProcessItem[] {
-	// TODO: Add loading state, error handling when fetching from API
+	// TODO: [backend] : Add loading state, error handling when fetching from API
 	return useMemo(() => STATIC_PROCESSES, []);
 }

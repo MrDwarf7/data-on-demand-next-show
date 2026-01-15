@@ -12,6 +12,9 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 	const { singleKey: keyValue } = props;
 	const [dragActive, setDragActive] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	// TODO: [backend] : We need to produce server-side logs when this happens, as well as during the upload process too
+	// NOTE: Possible to use server actions for the upload process here?
+	// NOTE: Possible to use service workers for the upload process here?
 	const { files, isUploading, overallProgress, handleFiles, handleRemoveFile, handleUpload } =
 		useFileUpload();
 
@@ -65,7 +68,7 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 						multiple
 						className="hidden"
 						onChange={handleFileSelect}
-						accept=".pdf,.doc,.docx,.xls,.xlsx"
+						accept=".pdf,.doc,.docx,.xls,.xlsx" // TODO: [backend] : Move these 'viable' file types to a config file (hook really, so we can fetch from a DB table later)
 					/>
 					{/* Form for humans to upload data - server action can be added here */}
 					<FiUploadCloud className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
@@ -82,9 +85,9 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 					<div className="flex items-center justify-between mb-4">
 						<h4 className="text-lg font-semibold text-foreground">Selected Files</h4>
 						<Button
-							onClick={handleUpload}
+							onClick={handleUpload} // See TODO at top of file regarding logging
 							disabled={isUploading}
-							className="bg-green-600 hover:bg-green-700"
+							className="bg-green-600 hover:bg-green-700" // TODO: We should be using the semantic color tokens we set up here
 						>
 							{isUploading ? "Uploading..." : "Upload Files"}
 						</Button>

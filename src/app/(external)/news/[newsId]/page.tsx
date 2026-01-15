@@ -8,7 +8,7 @@ export default async function DynamicNewsPage({ params }: { params: { newsId: st
 	const { newsId } = await params;
 	const nId = Number(newsId);
 
-	// TODO: move to hook->backend call from db
+	// TODO: [backend] : move to hook->backend call from db
 	const post = NEWS_POSTS.find((p) => p.id === nId);
 
 	if (!post) {

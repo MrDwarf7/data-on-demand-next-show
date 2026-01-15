@@ -14,7 +14,7 @@ function InformationCardSet() {
 		return cn("text-md mt-2", ...classNames);
 	}
 
-	// TODO: Replace with live data
+	// TODO: [backend] : Replace with live data
 
 	const pending = 588;
 	const exception = 14;

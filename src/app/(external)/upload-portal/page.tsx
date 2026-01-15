@@ -108,7 +108,7 @@ export default async function UploadPortalPage() {
 
 	const divData = renderInfoTiles(tileData);
 
-	// Queue statistics (TODO: Replace with live data)
+	// Queue statistics (TODO: [backend] : Replace with live data)
 	const pending = 588;
 	const exception = 14;
 	const completed = 200;

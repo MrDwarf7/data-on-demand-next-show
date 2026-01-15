@@ -77,7 +77,7 @@ export interface RecentFile {
 	uploadedBy: string;
 	uploadedAt: string;
 	status: FileStatus;
-	// "processed" | "processing" | "failed"; // TODO: use same as in other const arrays (when moving to hook -> backend)
+	// "processed" | "processing" | "failed"; // TODO: [backend] : use same as in other const arrays (when moving to hook -> backend)
 	processType: string;
 	error?: string;
 }
