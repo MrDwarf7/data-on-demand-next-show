@@ -1,7 +1,7 @@
 import type { ClassNameDataWithIcon } from "@/config/external/statistics-config";
 import { INTERNAL_PATHS } from "@/constants/paths";
 import type { StatusType } from "@/types/common";
-import { lookupStyleOf } from "@/utils/lookups";
+import { createStyleGetter } from "@/utils/lookups";
 
 export type NotificationType = StatusType;
 
@@ -107,10 +107,8 @@ export const SAMPLE_NOTIFICATIONS: Notification[] = [
 ];
 
 export const getNotificationIcon = (type: NotificationType) => {
-	const styles = lookupStyleOf(NOTIFICATION_STYLES, type);
+	const styles = createStyleGetter(NOTIFICATION_STYLES)(type);
 	return styles.icon;
 };
 
-export const getNotificationStyles = (type: NotificationType) => {
-	return lookupStyleOf(NOTIFICATION_STYLES, type);
-};
+export const getNotificationStyles = createStyleGetter(NOTIFICATION_STYLES);
