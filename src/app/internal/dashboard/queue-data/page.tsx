@@ -2,14 +2,8 @@
 
 import { useState } from "react";
 import { FiFilter, FiRefreshCw } from "react-icons/fi";
-import {
-	QUEUE_FILTERS,
-	QUEUE_ITEMS,
-	QUEUE_STATS,
-	QUEUE_TYPE_STYLES,
-	type QueueStatsType,
-	type QueueTypePriority,
-} from "@/config/internal/queue-data-config";
+import { PriorityBadge, StatusBadge, StatusIcon } from "@/components/generic/QueueBadges";
+import { QUEUE_FILTERS, QUEUE_ITEMS, QUEUE_STATS } from "@/config/internal/queue-data-config";
 
 export default function QueueDataPage() {
 	const [filter, setFilter] = useState("all");
@@ -18,34 +12,6 @@ export default function QueueDataPage() {
 	const handleRefresh = () => {
 		setRefreshing(true);
 		setTimeout(() => setRefreshing(false), 1000);
-	};
-
-	const getStatusIcon = (status: Lowercase<QueueStatsType>) => {
-		const styles = QUEUE_TYPE_STYLES[status] || QUEUE_TYPE_STYLES.default;
-		return <styles.icon className={`w-5 h-5 ${styles.classNameColor}`} />;
-	};
-
-	const getStatusBadge = (status: Lowercase<QueueStatsType>) => {
-		const styles = QUEUE_TYPE_STYLES[status as keyof typeof QUEUE_TYPE_STYLES];
-		return (
-			<span
-				className={`px-3 py-1 rounded-full text-xs font-medium ${styles.classNameBg} ${styles.classNameColor}`}
-			>
-				{styles.icon && <styles.icon className="w-3 h-3 inline-block mr-1" />}
-			</span>
-		);
-	};
-
-	const getPriorityBadge = (priority: QueueTypePriority) => {
-		const styles = QUEUE_TYPE_STYLES[priority] || QUEUE_TYPE_STYLES.default;
-		const prio = styles.priority ? styles.priority : QUEUE_TYPE_STYLES.default.priority;
-		return (
-			<span
-				className={`px-3 py-1 rounded-full text-xs font-medium border ${styles.classNameBg} ${styles.classNameColor} ${prio?.classNamePriority}`}
-			>
-				{prio?.priorityLevel ? prio.priorityLevel.toUpperCase() : ""}
-			</span>
-		);
 	};
 
 	const filteredItems =
@@ -117,7 +83,7 @@ export default function QueueDataPage() {
 						>
 							<div className="flex flex-col lg:flex-row lg:items-center gap-4">
 								<div className="flex items-start gap-3 flex-1">
-									{getStatusIcon(item.status)}
+									<StatusIcon status={item.status} />
 									<div className="flex-1 min-w-0">
 										<div className="flex items-center gap-2 mb-1">
 											<h3 className="font-semibold text-foreground">{item.process}</h3>
@@ -130,12 +96,12 @@ export default function QueueDataPage() {
 								</div>
 
 								<div className="flex flex-wrap items-center gap-2">
-									<span
-										className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(item.status)}`}
-									>
+									<StatusBadge status={item.status}>
 										{item.status.charAt(0).toUpperCase() + item.status.slice(1)}
-									</span>
-									{item.priority.priorityLevel && getPriorityBadge(item.priority.priorityLevel)}
+									</StatusBadge>
+									{item.priority.priorityLevel && (
+										<PriorityBadge priority={item.priority.priorityLevel} />
+									)}
 								</div>
 
 								<div className="text-sm text-right min-w-30">
