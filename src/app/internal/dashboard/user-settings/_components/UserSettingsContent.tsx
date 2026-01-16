@@ -7,21 +7,20 @@ import {
 	DATE_FORMAT_OPTIONS,
 	LANGUAGE_OPTIONS,
 	PROFILE_CONFIG,
-	type SETTINGS_SECTIONS,
+	SETTINGS_SECTION_IDS,
+	type SettingsSectionId,
 	TIMEZONE_OPTIONS,
 } from "@/config/internal/user-settings-config";
 import { NotificationsSection } from "./NotificationsSection";
 
-type Section = (typeof SETTINGS_SECTIONS)[number]["id"];
-
 interface UserSettingsContentProps {
-	activeSection: Section;
+	activeSection: SettingsSectionId;
 }
 
 export function UserSettingsContent({ activeSection }: UserSettingsContentProps) {
 	return (
 		<div className="lg:col-span-3">
-			{activeSection === "profile" && (
+			{activeSection === SETTINGS_SECTION_IDS.PROFILE && (
 				<div className="space-y-6">
 					<SectionCard icon={<FiUser className="w-5 h-5" />} title="Profile Information">
 						<div className="flex items-center gap-6">
@@ -62,9 +61,9 @@ export function UserSettingsContent({ activeSection }: UserSettingsContentProps)
 				</div>
 			)}
 
-			{activeSection === "notifications" && <NotificationsSection />}
+			{activeSection === SETTINGS_SECTION_IDS.NOTIFICATIONS && <NotificationsSection />}
 
-			{activeSection === "security" && (
+			{activeSection === SETTINGS_SECTION_IDS.SECURITY && (
 				<div className="space-y-6">
 					<SectionCard icon={<FiShield className="w-5 h-5" />} title="Security Settings">
 						<FormInput
@@ -90,7 +89,7 @@ export function UserSettingsContent({ activeSection }: UserSettingsContentProps)
 				</div>
 			)}
 
-			{activeSection === "preferences" && (
+			{activeSection === SETTINGS_SECTION_IDS.PREFERENCES && (
 				<div className="space-y-6">
 					<SectionCard icon={<FiGlobe className="w-5 h-5" />} title="General Preferences">
 						<SelectDropdown label="Language" options={LANGUAGE_OPTIONS} />

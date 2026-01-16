@@ -4,12 +4,13 @@ import { useState } from "react";
 // import { useState } from "react";
 import { FiArrowRight, FiCalendar, FiUser } from "react-icons/fi";
 import { NEWS_CATEGORIES, NEWS_POSTS } from "@/config/external/news-config";
+import { NEWS_CATEGORY_VALUES, type NewsCategory } from "@/constants/news-categories";
 import { getCategoryColor, getPriorityBadge } from "@/lib/news-utils";
 
 export const SelectedCategory = () => {
-	const [selectedCategory, setSelectedCategory] = useState("all");
+	const [selectedCategory, setSelectedCategory] = useState<NewsCategory>(NEWS_CATEGORY_VALUES.ALL);
 	const filteredPosts =
-		selectedCategory === "all"
+		selectedCategory === NEWS_CATEGORY_VALUES.ALL
 			? NEWS_POSTS
 			: NEWS_POSTS.filter((post) => post.category === selectedCategory);
 
@@ -19,9 +20,9 @@ export const SelectedCategory = () => {
 				<button
 					type="button"
 					key={category.value}
-					onClick={() => setSelectedCategory(category.value)}
+					onClick={() => setSelectedCategory(category.value as NewsCategory)}
 					className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-						selectedCategory === category.value
+						selectedCategory === (category.value as NewsCategory)
 							? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
 							: "bg-accent/50 text-foreground hover:bg-accent"
 					}`}

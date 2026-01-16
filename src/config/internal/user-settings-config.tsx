@@ -16,6 +16,15 @@ export const SETTINGS_SECTIONS = [
 	},
 ] as const;
 
+export const SETTINGS_SECTION_IDS = {
+	PROFILE: "profile",
+	NOTIFICATIONS: "notifications",
+	SECURITY: "security",
+	PREFERENCES: "preferences",
+} as const;
+
+export type SettingsSectionId = (typeof SETTINGS_SECTION_IDS)[keyof typeof SETTINGS_SECTION_IDS];
+
 export const LANGUAGE_OPTIONS: LabelValuePair[] = [
 	{ value: "en-us", label: "English (US)" },
 	{ value: "en-uk", label: "English (UK)" },
