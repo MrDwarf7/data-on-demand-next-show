@@ -35,7 +35,8 @@ type ProcessPickerProps = {
 		process: string | undefined;
 		selectedTab: string | undefined;
 	};
-	processPickerObj?: DataItemsProps[];
+	onFilesSelected?: (files: File[]) => void;
+	variant?: "hidden" | "outlined";
 };
 
 // Note on the tab themselves it will be prexied with "For {Option}"

@@ -1,23 +1,6 @@
-"use client";
+import { useCallback } from "react";
+import type { ProcessedFile } from "./types";
 
-import { useCallback, useMemo, useRef, useState } from "react";
-
-export interface ProcessedFile {
-	originalFile: File;
-	newName: string;
-	size: number;
-	type: string;
-}
-
-export interface UseFileProcessorReturn {
-	processFiles: (files: File[], process: string) => Promise<ProcessedFile[]>;
-	isProcessing: boolean;
-	error: string | null;
-	processedFiles: ProcessedFile[] | null;
-	clearCache: () => void;
-}
-
-// Functional approach to expensive regex operations
 const processFileName = async (
 	filename: string,
 	process: string,
@@ -40,12 +23,12 @@ const generateUUID = async (): Promise<string> => {
 	return crypto.randomUUID().slice(0, 8);
 };
 
-export function useFileProcessor(): UseFileProcessorReturn {
-	const cacheRef = useRef<Map<string, ProcessedFile[]>>(new Map());
-	const [isProcessing, setIsProcessing] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const [processedFiles, setProcessedFiles] = useState<ProcessedFile[] | null>(null);
-
+export function useProcessFiles(
+	cacheRef: React.RefObject<Map<string, ProcessedFile[]>>,
+	setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>,
+	setError: React.Dispatch<React.SetStateAction<string | null>>,
+	setProcessedFiles: React.Dispatch<React.SetStateAction<ProcessedFile[] | null>>
+) {
 	// Memoized cache key generator
 	const getCacheKey = useCallback((files: File[], process: string) => {
 		const fileHashes = files
@@ -101,23 +84,15 @@ export function useFileProcessor(): UseFileProcessorReturn {
 				setIsProcessing(false);
 			}
 		},
-		[getCacheKey]
+		[
+			getCacheKey,
+			setIsProcessing,
+			setError,
+			setProcessedFiles,
+			cacheRef.current.get,
+			cacheRef.current.set,
+		]
 	);
 
-	const clearCache = useCallback(() => {
-		cacheRef.current.clear();
-		setProcessedFiles(null);
-	}, []);
-
-	// Memoized return to prevent unnecessary re-renders
-	return useMemo(
-		() => ({
-			processFiles,
-			isProcessing,
-			error,
-			processedFiles,
-			clearCache,
-		}),
-		[processFiles, isProcessing, error, processedFiles, clearCache]
-	);
+	return processFiles;
 }
