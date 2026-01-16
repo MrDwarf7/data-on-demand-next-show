@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiAlertCircle, FiCheckCircle, FiUploadCloud, FiX } from "react-icons/fi";
@@ -11,30 +12,37 @@ import {
 	MAX_FILE_SIZE,
 	SUPPORTED_EXTENSIONS,
 } from "@/config/external/upload-config";
-import type { FileUploadItem } from "@/hooks/upload/types";
-import type { UploadPortalTabs } from "@/types/local";
+import { useFileUpload } from "@/hooks/upload";
 
-type TabsContentHumansProps = Partial<UploadPortalTabs> & {
-	files: FileUploadItem[];
-	isUploading: boolean;
-	overallProgress: number;
-	handleFiles: (files: FileList | File[]) => void;
-	handleRemoveFile: (id: string) => void;
-	handleUpload: () => Promise<void>;
-	hasProcessSelected: boolean;
-};
+// import type { FileUploadItem } from "@/hooks/upload/types";
+// import type { UploadPortalTabs } from "@/types/local";
 
-const TabsContentHumans = ({ ...props }: TabsContentHumansProps) => {
+// type TabsContentHumansProps = Partial<UploadPortalTabs> & {
+// 	files: FileUploadItem[];
+// 	// isUploading: boolean;
+// 	// overallProgress: number;
+// 	// handleFiles: (files: FileList | File[]) => void;
+// 	// handleRemoveFile: (id: string) => void;
+// 	// handleUpload: () => Promise<void>;
+// 	// hasProcessSelected: boolean;
+// };
+
+const TabsContentHumans = () => {
+	// const availableTabs: TabOptions[] = ["humans", "automations"];
+	// const defaultTab: TabOptions = availableTabs[0];
+
+	const searchParams = useSearchParams();
+	const hasProcessSelected = !!searchParams.get("process");
 	const {
-		singleKey: keyValue,
 		files,
 		isUploading,
 		overallProgress,
 		handleFiles,
 		handleRemoveFile,
 		handleUpload,
-		hasProcessSelected,
-	} = props;
+		reset,
+	} = useFileUpload();
+
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	// Server-side logging has been implemented in the uploadFiles server action
 	// NOTE: Possible to use server actions for the upload process here?
@@ -43,7 +51,7 @@ const TabsContentHumans = ({ ...props }: TabsContentHumansProps) => {
 	const uploadCompleted =
 		files.length > 0 && files.every((f) => f.status === "completed" || f.status === "error");
 
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({
+	const { /* getRootProps,*/ getInputProps, isDragActive } = useDropzone({
 		onDrop: handleFiles, // This is our POST. hook -> hook handles calling /api/uploads
 		accept: ACCEPTED_TYPES_MAP,
 		maxSize: MAX_FILE_SIZE,
@@ -55,7 +63,7 @@ const TabsContentHumans = ({ ...props }: TabsContentHumansProps) => {
 	};
 
 	return (
-		<TabsContent value={keyValue as string} className="mt-6">
+		<TabsContent value="humans" className="mt-6">
 			{!hasProcessSelected && files.length > 0 && (
 				<div className="mb-2 p-2 rounded-md flex items-center gap-2">
 					<FiAlertCircle className="h-4 w-4 text-destructive" />

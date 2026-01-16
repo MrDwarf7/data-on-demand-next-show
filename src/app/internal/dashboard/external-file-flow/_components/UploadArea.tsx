@@ -6,7 +6,7 @@ import { MdUploadFile } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { UPLOAD_CONFIG } from "@/config/internal/file-flow-config";
-import { useFileUpload } from "@/hooks/use-file-upload";
+import { useFileUpload } from "@/hooks/upload";
 
 export function UploadArea() {
 	const [dragActive, setDragActive] = useState(false);
@@ -62,7 +62,7 @@ export function UploadArea() {
 					accept={UPLOAD_CONFIG.supportedFormats}
 				/>
 				<div className="text-center">
-					<div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
+					<div className="mx-auto mb-4 w-16 h-16 rounded-full bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
 						<MdUploadFile className="w-8 h-8" />
 					</div>
 					<h3 className="text-lg font-semibold text-foreground mb-2">{UPLOAD_CONFIG.uploadText}</h3>

@@ -25,13 +25,14 @@ type DataItemsProps = {
 };
 
 type ProcessPickerProps = {
-	className?: string;
+	// className?: string;
 	searchParams?: {
 		process: string | undefined;
 		selectedTab: string | undefined;
 	};
 	onFilesSelected?: (files: File[]) => void;
-	variant?: "hidden" | "outlined";
+	// variant?: "hidden" | "outlined";
+	// fileLength?: number;
 };
 
 // Note on the tab themselves it will be prexied with "For {Option}"
@@ -39,7 +40,7 @@ type TabOptions = "humans" | "automations" | "SmartAutomation Robotics";
 
 interface UploadPortalTabs {
 	defaultTab: TabOptions;
-	singleKey?: TabOptions | TabOptions[];
+	// singleKey?: TabOptions | TabOptions[];
 	availableTabs: TabOptions[];
 	className?: string;
 }

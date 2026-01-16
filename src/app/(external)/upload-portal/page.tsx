@@ -1,6 +1,3 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import type { JSX } from "react/jsx-runtime";
 import { FiCheckCircle, FiClock, FiSend, FiUploadCloud } from "react-icons/fi";
@@ -12,7 +9,6 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs } from "@/components/ui/tabs";
-import { useFileUpload } from "@/hooks/upload";
 import type { TabOptions } from "@/types/local";
 import { UploadPortalStatsCards } from "./_components/StatsCards";
 
@@ -74,18 +70,6 @@ const renderInfoTiles = (data: TileDataProps[]): JSX.Element[] | null => {
 };
 
 export default function UploadPortalPage() {
-	const searchParams = useSearchParams();
-	const hasProcessSelected = !!searchParams.get("process");
-	const {
-		files,
-		isUploading,
-		overallProgress,
-		handleFiles,
-		handleRemoveFile,
-		handleUpload,
-		reset,
-	} = useFileUpload();
-
 	async function processPickerLoading() {
 		return <Skeleton className="w-full sm:w-80 h-10" />;
 	}
@@ -121,10 +105,7 @@ export default function UploadPortalPage() {
 			{/* Process Selection */}
 			<div className="mb-6 flex flex-row justify-end">
 				<Suspense fallback={processPickerLoading()}>
-					<ProcessPicker
-						variant={files.length > 0 && !hasProcessSelected ? "outlined" : "hidden"}
-						className="justify-between w-full sm:w-80"
-					/>
+					<ProcessPicker />
 				</Suspense>
 			</div>
 
@@ -140,20 +121,11 @@ export default function UploadPortalPage() {
 						</div>
 					}
 				>
-					<Tabs defaultValue={defaultTab} className={"mt-4"}>
+					<Tabs defaultValue={defaultTab} className="mt-4">
 						<TabsTriggerBar availableTabs={availableTabs} />
 						<div className="p-2">
-							<TabsContentHumans
-								singleKey={availableTabs[0]}
-								files={files}
-								isUploading={isUploading}
-								overallProgress={overallProgress}
-								handleFiles={handleFiles}
-								handleRemoveFile={handleRemoveFile}
-								handleUpload={handleUpload}
-								hasProcessSelected={hasProcessSelected}
-							/>
-							<TabsContentAutomation singleKey={availableTabs[1]} />
+							<TabsContentHumans />
+							<TabsContentAutomation />
 						</div>
 					</Tabs>
 					<span className="flex justify-end">

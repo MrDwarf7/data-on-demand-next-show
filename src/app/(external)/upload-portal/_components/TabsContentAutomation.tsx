@@ -1,12 +1,9 @@
-import { TabsContent } from "@/components/ui/tabs";
-import type { UploadPortalTabs } from "@/types/local";
 import { Snippet } from "@heroui/snippet";
+import { TabsContent } from "@/components/ui/tabs";
 
-const TabsContentAutomation = ({ ...props }: Partial<UploadPortalTabs>) => {
-	const { singleKey: keyValue } = props;
-
+const TabsContentAutomation = () => {
 	return (
-		<TabsContent value={keyValue as string} className="mt-6">
+		<TabsContent value="Automation" className="mt-6">
 			<div className="text-center p-8 border border-accent rounded-xl bg-accent/10">
 				<h3 className="text-lg font-semibold text-foreground mb-4">Automation Integration</h3>
 				<p className="text-muted-foreground mb-6">

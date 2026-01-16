@@ -21,9 +21,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useFileUpload } from "@/hooks/upload";
 import { useProcesses } from "@/hooks/use-processes";
 import { cn } from "@/lib/utils";
-import type { DataItemsProps, ProcessPickerProps } from "@/types/local";
+import type { DataItemsProps } from "@/types/local";
 
 const formSchema = z.object({
 	process: z.object({
@@ -32,12 +33,19 @@ const formSchema = z.object({
 	}),
 });
 
-const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
-	const { className, variant } = props;
-	const processPickerItems = useProcesses();
+// PERF: consider using useReducer here and moving to an action -> response style pattern
+const ProcessPicker = () => {
+	// TODO: we can use useReducer here if the form gets anymore complex
 	const [processPickerOpen, setProcessPickerOpen] = React.useState(false);
-	const router = useRouter();
-	const localSearchParams = useSearchParams();
+
+	const searchParams = useSearchParams(); // url params
+	const hasProcessSelected = !!searchParams.get("process"); // url param check
+
+	const processPickerItems = useProcesses(); // reruns list of available processes
+	const router = useRouter(); // access to router for navigation
+	const { files } = useFileUpload(); // files array to access & see if files are present
+
+	const variant = (files.length ?? 0) > 0 && !hasProcessSelected ? "border-destructive" : "";
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -58,10 +66,8 @@ const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
 		[form, router]
 	);
 
-	const borderClass = variant === "outlined" ? "border-destructive" : "";
-
 	return (
-		<div className={cn(className, "border rounded-md", borderClass)}>
+		<div className={cn("justify-between w-full sm:w-80", "border rounded-md", variant)}>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(() => {
@@ -85,10 +91,10 @@ const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
 												variant="outline"
 											>
 												<FormLabel className="text-xs justify-center">
-													{localSearchParams.get("process")
+													{searchParams.get("process")
 														? processPickerItems.find(
 																(indivListedItem) =>
-																	indivListedItem.id === localSearchParams.get("process")
+																	indivListedItem.id === searchParams.get("process")
 															)?.name
 														: "Select a process..."}
 												</FormLabel>

@@ -1,10 +1,17 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
+import { useFileUpload } from "@/hooks/upload";
 import { useFileStats } from "@/hooks/use-file-flow";
 import { FileHistory } from "./_components/FileHistory";
 import { UploadArea } from "./_components/UploadArea";
 
 export default function FileFlowPage() {
 	const fileStats = useFileStats();
+	const { files } = useFileUpload();
+	const searchParams = useSearchParams();
+	const hasProcessSelected = !!searchParams.get("process");
 
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-400 mx-auto space-y-6">
@@ -31,7 +38,10 @@ export default function FileFlowPage() {
 			</div>
 
 			<div className="flex justify-end">
-				<ProcessPicker className="w-full sm:w-80" />
+				<ProcessPicker
+					variant={files.length > 0 && !hasProcessSelected ? "outlined" : "hidden"}
+					className="justify-between w-full sm:w-80"
+				/>
 			</div>
 
 			<UploadArea />
