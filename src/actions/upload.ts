@@ -44,13 +44,16 @@ export async function uploadFiles(formData: FormData): Promise<UploadResult> {
 		});
 
 		if (!validationResult.success) {
-			console.error(
-				`[UPLOAD] Validation failed for process: ${process}`,
-				validationResult.error.flatten().fieldErrors
-			);
+			const errors: Record<string, string[]> = {};
+			for (const issue of validationResult.error.issues) {
+				const path = issue.path.join(".");
+				if (!errors[path]) errors[path] = [];
+				errors[path].push(issue.message);
+			}
+			console.error(`[UPLOAD] Validation failed for process: ${process}`, errors);
 			return {
 				success: false,
-				errors: validationResult.error.flatten().fieldErrors,
+				errors,
 			};
 		}
 

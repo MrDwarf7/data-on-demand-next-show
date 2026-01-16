@@ -131,13 +131,13 @@ export function useFileUpload(): UseFileUploadReturn {
 			if (!result.success) {
 				// Handle errors
 				setFiles((prev) =>
-					prev.map((f, index) => {
-						const fileErrors = result.errors?.files?.[index] || result.errors?.general;
+					prev.map((f) => {
+						const fileErrors = result.errors?.files || result.errors?.general || [];
 						return fileIds.includes(f.id)
 							? {
 									...f,
 									status: "error" as UploadStatus,
-									error: fileErrors?.join(", ") || "Upload failed",
+									error: fileErrors.join(", ") || "Upload failed",
 								}
 							: f;
 					})

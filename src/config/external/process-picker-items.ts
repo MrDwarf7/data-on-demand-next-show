@@ -1,3 +1,6 @@
+// TODO: [backend] : Create function to 'fetch' these,
+// for nowe we return this array of pre-defined items.
+// Later we will change the functio to instead return the data from a backend API call.
 export const processPickerItems = [
 	{
 		name: "My Value 1",
