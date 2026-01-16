@@ -27,8 +27,13 @@ const nextConfig: NextConfig = {
 	allowedDevOrigins: [
 		"localhost:3000",
 		"10.0.0.*",
-	]
-
+	],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2048mb', // 2gb
+    },
+    proxyClientMaxBodySize: '2048mb', // 2gb
+  }
 	// logging: {
 	// 	fetches: {
 	// 		fullUrl: true,
