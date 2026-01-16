@@ -1,45 +1,54 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { FiCheckCircle, FiUploadCloud, FiX } from "react-icons/fi";
+import { useRef } from "react";
+import { useDropzone } from "react-dropzone";
+import { FiAlertCircle, FiCheckCircle, FiUploadCloud, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { TabsContent } from "@/components/ui/tabs";
-import { useFileUpload } from "@/hooks/use-file-upload";
+import {
+	ACCEPTED_TYPES_MAP,
+	MAX_FILE_SIZE,
+	SUPPORTED_EXTENSIONS,
+} from "@/config/external/upload-config";
+import type { FileUploadItem } from "@/hooks/upload/types";
 import type { UploadPortalTabs } from "@/types/local";
 
-const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
-	const { singleKey: keyValue } = props;
-	const [dragActive, setDragActive] = useState(false);
+type TabsContentHumansProps = Partial<UploadPortalTabs> & {
+	files: FileUploadItem[];
+	isUploading: boolean;
+	overallProgress: number;
+	handleFiles: (files: FileList | File[]) => void;
+	handleRemoveFile: (id: string) => void;
+	handleUpload: () => Promise<void>;
+	hasProcessSelected: boolean;
+};
+
+const TabsContentHumans = ({ ...props }: TabsContentHumansProps) => {
+	const {
+		singleKey: keyValue,
+		files,
+		isUploading,
+		overallProgress,
+		handleFiles,
+		handleRemoveFile,
+		handleUpload,
+		hasProcessSelected,
+	} = props;
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	// Server-side logging has been implemented in the uploadFiles server action
 	// NOTE: Possible to use server actions for the upload process here?
 	// NOTE: Possible to use service workers for the upload process here?
-	const { files, isUploading, overallProgress, handleFiles, handleRemoveFile, handleUpload } =
-		useFileUpload();
 
-	const handleDrag = (e: React.DragEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-		if (e.type === "dragenter" || e.type === "dragover") {
-			setDragActive(true);
-		} else if (e.type === "dragleave") {
-			setDragActive(false);
-		}
-	};
+	const uploadCompleted =
+		files.length > 0 && files.every((f) => f.status === "completed" || f.status === "error");
 
-	const handleDrop = (e: React.DragEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-		setDragActive(false);
-		handleFiles(e.dataTransfer.files);
-	};
-
-	const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files) {
-			handleFiles(e.target.files);
-		}
-	};
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({
+		onDrop: handleFiles, // This is our POST. hook -> hook handles calling /api/uploads
+		accept: ACCEPTED_TYPES_MAP,
+		maxSize: MAX_FILE_SIZE,
+		multiple: true,
+	});
 
 	const openFileDialog = () => {
 		fileInputRef.current?.click();
@@ -47,6 +56,15 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 
 	return (
 		<TabsContent value={keyValue as string} className="mt-6">
+			{!hasProcessSelected && files.length > 0 && (
+				<div className="mb-2 p-2 rounded-md flex items-center gap-2">
+					<FiAlertCircle className="h-4 w-4 text-destructive" />
+					<p className="text-xs text-destructive">
+						Please select a process before uploading files.
+					</p>
+				</div>
+			)}
+
 			<div className="mb-8">
 				<div
 					className={`
@@ -54,28 +72,19 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 						transition-all duration-300 ease-in-out
 						border-gray-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600
 						hover:bg-accent/10
-						${dragActive ? "border-blue-500 bg-blue-500/10" : ""}
+						${isDragActive ? "border-blue-500 bg-blue-500/10" : ""}
 					`}
-					onDragEnter={handleDrag}
-					onDragLeave={handleDrag}
-					onDragOver={handleDrag}
-					onDrop={handleDrop}
 					onClick={openFileDialog}
 				>
-					<input
-						ref={fileInputRef}
-						type="file"
-						multiple
-						className="hidden"
-						onChange={handleFileSelect}
-						accept=".pdf,.doc,.docx,.xls,.xlsx" // TODO: [backend] : Move these 'viable' file types to a config file (hook really, so we can fetch from a DB table later)
-					/>
+					<input {...getInputProps()} ref={fileInputRef} />
 					{/* Form for humans to upload data - server action can be added here */}
 					<FiUploadCloud className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
-					<h3 className="text-xl font-semibold text-foreground mb-2">Drag & drop files here</h3>
+					<h3 className="text-xl font-semibold text-foreground mb-2">
+						{isDragActive ? "Drop files here..." : "Drag & drop files here"}
+					</h3>
 					<p className="text-muted-foreground mb-4">or click to browse from your computer</p>
 					<p className="text-sm text-muted-foreground">
-						Supported formats: PDF, DOC, DOCX, XLS, XLSX
+						Supported formats: {SUPPORTED_EXTENSIONS.join(", ")}
 					</p>
 				</div>
 			</div>
@@ -83,14 +92,18 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 			{files.length > 0 && (
 				<div className="mb-8 bg-accent/20 border border-accent/50 rounded-xl p-6">
 					<div className="flex items-center justify-between mb-4">
-						<h4 className="text-lg font-semibold text-foreground">Selected Files</h4>
-						<Button
-							onClick={handleUpload} // Server-side logging implemented
-							disabled={isUploading}
-							className="bg-green-600 hover:bg-green-700" // TODO: We should be using the semantic color tokens we set up here
-						>
-							{isUploading ? "Uploading..." : "Upload Files"}
-						</Button>
+						<h4 className="text-lg font-semibold text-foreground">
+							{uploadCompleted ? "Uploaded Files" : "Selected Files"}
+						</h4>
+						{!uploadCompleted && (
+							<Button
+								onClick={handleUpload} // Server-side logging implemented
+								disabled={isUploading || !hasProcessSelected}
+								className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400" // TODO: We should be using the semantic color tokens we set up here
+							>
+								{isUploading ? "Uploading..." : "Upload Files"}
+							</Button>
+						)}
 					</div>
 
 					{isUploading && (
@@ -110,16 +123,21 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 								className="flex items-center gap-3 p-3 bg-background/50 rounded-lg border border-accent/30"
 							>
 								<div className="flex-1 min-w-0">
-									<p className="text-sm font-medium text-foreground truncate">
-										{fileItem.file.name}
-									</p>
+									<div className="space-y-1">
+										<p className="text-sm font-medium text-foreground truncate">
+											{fileItem.newName}
+										</p>
+										<p className="text-xs text-muted-foreground truncate opacity-75">
+											{fileItem.file.name}
+										</p>
+									</div>
 									<p className="text-xs text-muted-foreground">
 										{(fileItem.file.size / 1024 / 1024).toFixed(2)} MB
 									</p>
 								</div>
 
 								{fileItem.status === "error" && (
-									<p className="text-xs text-red-600">{fileItem.error}</p>
+									<p className="text-xs text-destructive">{fileItem.error}</p>
 								)}
 
 								{fileItem.status === "uploading" && (
@@ -134,15 +152,17 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 									</div>
 								)}
 
-								<Button
-									variant="ghost"
-									size="sm"
-									onClick={() => handleRemoveFile(fileItem.id)}
-									disabled={isUploading}
-									className="p-1 h-8 w-8"
-								>
-									<FiX className="w-4 h-4" />
-								</Button>
+								{!uploadCompleted && (
+									<Button
+										variant="ghost"
+										size="sm"
+										onClick={() => handleRemoveFile(fileItem.id)}
+										disabled={isUploading}
+										className="p-1 h-8 w-8"
+									>
+										<FiX className="w-4 h-4" />
+									</Button>
+								)}
 							</div>
 						))}
 					</div>

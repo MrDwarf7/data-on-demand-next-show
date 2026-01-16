@@ -13,11 +13,6 @@ interface TileProps extends React.HTMLAttributes<HTMLDivElement> {
 	key?: React.Key;
 }
 
-// interface RenderTileProps extends TileProps {
-// 	classNameAlways: string;
-// 	classNameConditional: string;
-// }
-
 type ClickToCopySnippetProps = {
 	className?: string;
 	[key: string]: undefined | string | number | boolean | object | symbol | null;
@@ -57,5 +52,4 @@ export type {
 	ProcessPickerProps,
 	TabOptions,
 	UploadPortalTabs,
-	// RenderTileProps,
 };

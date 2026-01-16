@@ -7,7 +7,7 @@ export default function FileFlowPage() {
 	const fileStats = useFileStats();
 
 	return (
-		<div className="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto space-y-6">
+		<div className="p-4 sm:p-6 lg:p-8 max-w-400 mx-auto space-y-6">
 			<div>
 				<h1 className="text-2xl sm:text-3xl font-bold text-foreground">External File Flow</h1>
 				<p className="text-sm text-muted-foreground mt-1">
@@ -19,7 +19,7 @@ export default function FileFlowPage() {
 				{fileStats.map((stat) => (
 					<div
 						key={stat.lv.label}
-						className={`bg-gradient-to-br ${stat.classNameBg} border border-accent/50 rounded-xl p-4 sm:p-6`}
+						className={`bg-linear-to-br ${stat.classNameBg} border border-accent/50 rounded-xl p-4 sm:p-6`}
 					>
 						<div className={`${stat.classNameColor} mb-3`}>
 							{stat.icon && <stat.icon className="w-8 h-8" />}

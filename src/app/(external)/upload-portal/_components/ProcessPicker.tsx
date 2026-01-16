@@ -20,11 +20,9 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useProcesses } from "@/hooks/use-processes";
 import { cn } from "@/lib/utils";
-
 import type { DataItemsProps, ProcessPickerProps } from "@/types/local";
 
 const formSchema = z.object({
@@ -35,9 +33,8 @@ const formSchema = z.object({
 });
 
 const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
-	const { className, processPickerObj } = props;
-	const hookProcesses = useProcesses();
-	const processPickerItems = processPickerObj || hookProcesses;
+	const { className, variant } = props;
+	const processPickerItems = useProcesses();
 	const [processPickerOpen, setProcessPickerOpen] = React.useState(false);
 	const router = useRouter();
 	const localSearchParams = useSearchParams();
@@ -52,20 +49,23 @@ const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
 		},
 	});
 
-	function onSelect(item: DataItemsProps): void {
-		form.handleSubmit;
-		form.setValue("process", item);
-		router.replace(`/upload-portal?process=${item.id}`, { scroll: false });
-		// router.refresh;
-		setProcessPickerOpen(false);
-	}
+	const selectHandler = React.useCallback(
+		async (item: DataItemsProps) => {
+			form.setValue("process", item);
+			router.replace(`?process=${item.id}`, { scroll: false });
+			setProcessPickerOpen(false);
+		},
+		[form, router]
+	);
+
+	const borderClass = variant === "outlined" ? "border-destructive" : "";
 
 	return (
-		<div className={className}>
+		<div className={cn(className, "border rounded-md", borderClass)}>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(() => {
-						onSelect(form.getValues("process"));
+						selectHandler(form.getValues("process"));
 					})}
 				>
 					<FormField
@@ -78,7 +78,7 @@ const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
 										<DropdownMenuTrigger asChild={true}>
 											<Button
 												className={cn(
-													"w-62.5 justify-between",
+													"w-full justify-between",
 													!field.name && "text-muted-foreground"
 												)}
 												role="combobox"
@@ -103,18 +103,17 @@ const ProcessPicker = ({ ...props }: ProcessPickerProps) => {
 											<ScrollArea className="h-80 rounded-md border">
 												<CommandEmpty>No process found.</CommandEmpty>
 
-												<CommandGroup>
+												<CommandGroup heading="Processes">
 													{processPickerItems.map((indivListedItem) => (
 														<CommandItem
 															className="hover:cursor-pointer gap-y-1"
 															itemType="submit"
 															key={indivListedItem.id}
-															onSelect={() => onSelect(indivListedItem)}
-															onSubmit={form.handleSubmit(() => {
-																onSelect(indivListedItem);
-															})}
+															onSelect={() => selectHandler(indivListedItem)}
+															onClick={() => selectHandler(indivListedItem)}
 															typeof="button"
 															value={indivListedItem.name}
+															suppressHydrationWarning
 														>
 															{indivListedItem.name}
 														</CommandItem>

@@ -1,28 +1,20 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import type { JSX } from "react/jsx-runtime";
-import {
-	FiAlertCircle,
-	FiCalendar,
-	FiCheckCircle,
-	FiCheckSquare,
-	FiClock,
-	FiUploadCloud,
-} from "react-icons/fi";
+import { FiCheckCircle, FiClock, FiSend, FiUploadCloud } from "react-icons/fi";
 import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
-import { TabsMainComponent } from "@/app/(external)/upload-portal/_components/TabsHousingComponent";
-import { ReportCalendar } from "@/components/generic/ReportCalendar";
+import { TabsContentAutomation } from "@/app/(external)/upload-portal/_components/TabsContentAutomation";
+import { TabsContentHumans } from "@/app/(external)/upload-portal/_components/TabsContentHumans";
+import { TabsTriggerBar } from "@/app/(external)/upload-portal/_components/TabsTriggerBar";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { Skeleton } from "@/components/ui/skeleton";
-import { processPickerItems } from "@/config/external/process-picker-items";
+import { Tabs } from "@/components/ui/tabs";
+import { useFileUpload } from "@/hooks/upload";
+import type { TabOptions } from "@/types/local";
+import { UploadPortalStatsCards } from "./_components/StatsCards";
 
 type TileDataProps = {
 	id: number;
@@ -81,38 +73,34 @@ const renderInfoTiles = (data: TileDataProps[]): JSX.Element[] | null => {
 	));
 };
 
-const StatCard = ({
-	icon,
-	label,
-	value,
-	color,
-}: {
-	icon: React.ReactNode;
-	label: string;
-	value: number;
-	color: string;
-}) => (
-	<div className="flex items-center gap-3 p-4 rounded-lg border border-accent bg-accent/20">
-		<div className={`p-2 rounded-lg ${color}`}>{icon}</div>
-		<div>
-			<p className="text-sm text-muted-foreground">{label}</p>
-			<p className="text-2xl font-bold text-foreground">{value}</p>
-		</div>
-	</div>
-);
+export default function UploadPortalPage() {
+	const searchParams = useSearchParams();
+	const hasProcessSelected = !!searchParams.get("process");
+	const {
+		files,
+		isUploading,
+		overallProgress,
+		handleFiles,
+		handleRemoveFile,
+		handleUpload,
+		reset,
+	} = useFileUpload();
 
-export default async function UploadPortalPage() {
 	async function processPickerLoading() {
 		return <Skeleton className="w-full sm:w-80 h-10" />;
 	}
 
-	const divData = renderInfoTiles(tileData);
+	const availableTabs: TabOptions[] = ["humans", "automations"];
+	const defaultTab: TabOptions = availableTabs[0];
 
 	// Queue statistics (TODO: [backend] : Replace with live data)
-	const pending = 588;
-	const exception = 14;
-	const completed = 200;
-	const lastReportDate = new Date().toLocaleDateString();
+	const statCardsProps = {
+		pending: 588,
+		exception: 14,
+		completed: 200,
+		lastReportDate: new Date().getDay().toString(),
+		// .toLocaleDateString(),
+	};
 
 	return (
 		<MaxWidthWrapper className="py-8 sm:py-12">
@@ -128,54 +116,13 @@ export default async function UploadPortalPage() {
 			</div>
 
 			{/* Stats and Calendar Row */}
-			<div className="mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-				<StatCard
-					icon={<FiClock className="h-5 w-5 text-warning-foreground" />}
-					label="Pending"
-					value={pending}
-					color="bg-warning-10"
-				/>
-				<StatCard
-					icon={<FiAlertCircle className="h-5 w-5 text-error-foreground" />}
-					label="Exception"
-					value={exception}
-					color="bg-error-10"
-				/>
-				<StatCard
-					icon={<FiCheckSquare className="h-5 w-5 text-success-foreground" />}
-					label="Completed"
-					value={completed}
-					color="bg-success-10"
-				/>
-				<Dialog>
-					<DialogTrigger asChild>
-						<Button variant="outline" className="h-full">
-							<FiCalendar className="mr-2 h-5 w-5" />
-							<div className="text-left">
-								<p className="text-sm text-muted-foreground">Report Calendar</p>
-								<p className="text-xs text-muted-foreground">Last: {lastReportDate}</p>
-							</div>
-						</Button>
-					</DialogTrigger>
-					<DialogContent>
-						<DialogHeader>
-							<DialogTitle>Report Calendar</DialogTitle>
-						</DialogHeader>
-						<div className="flex justify-center">
-							<ReportCalendar date={new Date()} />
-						</div>
-						<p className="text-sm text-muted-foreground text-center">
-							Last report date: <span className="text-ring font-semibold">{lastReportDate}</span>
-						</p>
-					</DialogContent>
-				</Dialog>
-			</div>
+			<UploadPortalStatsCards {...statCardsProps} />
 
 			{/* Process Selection */}
 			<div className="mb-6 flex flex-row justify-end">
 				<Suspense fallback={processPickerLoading()}>
 					<ProcessPicker
-						processPickerObj={processPickerItems}
+						variant={files.length > 0 && !hasProcessSelected ? "outlined" : "hidden"}
 						className="justify-between w-full sm:w-80"
 					/>
 				</Suspense>
@@ -193,14 +140,33 @@ export default async function UploadPortalPage() {
 						</div>
 					}
 				>
-					<TabsMainComponent defaultTab={"humans"} />
+					<Tabs defaultValue={defaultTab} className={"mt-4"}>
+						<TabsTriggerBar availableTabs={availableTabs} />
+						<div className="p-2">
+							<TabsContentHumans
+								singleKey={availableTabs[0]}
+								files={files}
+								isUploading={isUploading}
+								overallProgress={overallProgress}
+								handleFiles={handleFiles}
+								handleRemoveFile={handleRemoveFile}
+								handleUpload={handleUpload}
+								hasProcessSelected={hasProcessSelected}
+							/>
+							<TabsContentAutomation singleKey={availableTabs[1]} />
+						</div>
+					</Tabs>
+					<span className="flex justify-end">
+						<FiSend className="absolute mt-3 ml-3 text-white opacity-0" />
+					</span>
 				</Suspense>
 			</div>
-			{/* </div> */}
 
 			{/* Info Cards */}
-			{divData && (
-				<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{divData}</ul>
+			{renderInfoTiles(tileData) && (
+				<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+					{renderInfoTiles(tileData)}
+				</ul>
 			)}
 		</MaxWidthWrapper>
 	);
