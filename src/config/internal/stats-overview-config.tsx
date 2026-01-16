@@ -1,5 +1,6 @@
 import { FiActivity, FiCheckCircle, FiClock, FiUsers } from "react-icons/fi";
 import { PROCESSES } from "@/constants/processes";
+import type { TimeRange } from "@/hooks/use-stats-overview";
 
 export const STATS_CARDS = [
 	{
@@ -93,4 +94,4 @@ export const TOP_PROCESSES = [
 	{ name: "Report Generation", count: 1530, percentage: 15 },
 ];
 
-export const TIME_RANGES = ["24h", "7d", "30d", "90d"];
+export const TIME_RANGES: TimeRange[] = ["24h", "7d", "30d", "90d"];
