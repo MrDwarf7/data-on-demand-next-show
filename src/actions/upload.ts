@@ -29,6 +29,10 @@ export async function uploadFiles(formData: FormData): Promise<UploadResult> {
 		const process = formData.get("process") as string;
 		const files = formData.getAll("files") as File[];
 
+		console.log(
+			`[UPLOAD] Starting upload process: ${process}, files: ${files.length}, total size: ${files.reduce((sum, f) => sum + f.size, 0)} bytes`
+		);
+
 		// Validate with Zod
 		const validationResult = UploadSchema.safeParse({
 			process,
@@ -40,11 +44,17 @@ export async function uploadFiles(formData: FormData): Promise<UploadResult> {
 		});
 
 		if (!validationResult.success) {
+			console.error(
+				`[UPLOAD] Validation failed for process: ${process}`,
+				validationResult.error.flatten().fieldErrors
+			);
 			return {
 				success: false,
 				errors: validationResult.error.flatten().fieldErrors,
 			};
 		}
+
+		console.log(`[UPLOAD] Validation passed for process: ${process}`);
 
 		// Process files with new naming (server-side simulation)
 		const processedFiles = files.map((file) => {
@@ -54,6 +64,8 @@ export async function uploadFiles(formData: FormData): Promise<UploadResult> {
 			const sanitizedProcess = process.replace(/[^a-zA-Z0-9-_]/g, "_");
 			const newName = `${date}-${sanitizedProcess}-${uuid}.${ext}`;
 
+			console.log(`[UPLOAD] Processing file: ${file.name} -> ${newName}, size: ${file.size} bytes`);
+
 			return {
 				originalName: file.name,
 				newName,
@@ -61,15 +73,22 @@ export async function uploadFiles(formData: FormData): Promise<UploadResult> {
 			};
 		});
 
+		console.log(`[UPLOAD] Processed ${processedFiles.length} files for process: ${process}`);
+
 		// TODO: [backend] : Replace with real upload logic
+		console.log(`[UPLOAD] Simulating upload for ${processedFiles.length} files`);
 		await new Promise((resolve) => setTimeout(resolve, 1000));
+
+		const jobId = `upload-${Date.now()}`;
+		console.log(`[UPLOAD] Upload completed successfully, jobId: ${jobId}`);
 
 		return {
 			success: true,
-			jobId: `upload-${Date.now()}`,
+			jobId,
 			processedFiles,
 		};
 	} catch (error) {
+		console.error(`[UPLOAD] Upload failed with error:`, error);
 		return {
 			success: false,
 			errors: { general: ["Upload failed"] },

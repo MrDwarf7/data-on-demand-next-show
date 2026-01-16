@@ -12,7 +12,7 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 	const { singleKey: keyValue } = props;
 	const [dragActive, setDragActive] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	// TODO: [backend] : We need to produce server-side logs when this happens, as well as during the upload process too
+	// Server-side logging has been implemented in the uploadFiles server action
 	// NOTE: Possible to use server actions for the upload process here?
 	// NOTE: Possible to use service workers for the upload process here?
 	const { files, isUploading, overallProgress, handleFiles, handleRemoveFile, handleUpload } =
@@ -85,7 +85,7 @@ const TabsContentHumans = ({ ...props }: Partial<UploadPortalTabs>) => {
 					<div className="flex items-center justify-between mb-4">
 						<h4 className="text-lg font-semibold text-foreground">Selected Files</h4>
 						<Button
-							onClick={handleUpload} // See TODO at top of file regarding logging
+							onClick={handleUpload} // Server-side logging implemented
 							disabled={isUploading}
 							className="bg-green-600 hover:bg-green-700" // TODO: We should be using the semantic color tokens we set up here
 						>
