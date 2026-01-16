@@ -1,18 +1,20 @@
-"use client";
-
-import { useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { FiAlertCircle, FiCheckCircle, FiServer, FiTrendingUp, FiZap } from "react-icons/fi";
 import { HiOutlineChartBar } from "react-icons/hi";
-import { TIME_RANGES } from "@/config/internal/stats-overview-config";
-import { type TimeRange, useStatsOverview } from "@/hooks/use-stats-overview";
+import { getStatsOverview, type TimeRange } from "@/hooks/use-stats-overview";
+import { TimeRangePicker } from "./_components/TimeRangePicker";
 
-export default function StatsOverviewPage() {
-	const [timeRange, setTimeRange] = useState<TimeRange>("24h");
-	const { statsCards, recentActivity, systemMetrics, topProcesses } = useStatsOverview(timeRange);
+interface PageProps {
+	searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default async function StatsOverviewPage({ searchParams }: PageProps) {
+	const params = await searchParams;
+	const timeRange = (params.range as TimeRange) || "24h";
+	const { statsCards, recentActivity, systemMetrics, topProcesses } = getStatsOverview(timeRange);
 
 	return (
-		<div className="p-4 sm:p-6 lg:p-8 max-w-[1800px] mx-auto space-y-6">
+		<div className="p-4 sm:p-6 lg:p-8 max-w-450 mx-auto space-y-6">
 			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 				<div>
 					<h1 className="text-2xl sm:text-3xl font-bold text-foreground">Statistics Overview</h1>
@@ -20,34 +22,19 @@ export default function StatsOverviewPage() {
 						Real-time insights into your automation performance
 					</p>
 				</div>
-				<div className="flex gap-2">
-					{TIME_RANGES.map((range) => (
-						<button
-							type="button"
-							key={range}
-							onClick={() => setTimeRange(range as TimeRange)}
-							className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-								timeRange === range
-									? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
-									: "bg-accent/50 text-foreground hover:bg-accent"
-							}`}
-						>
-							{range}
-						</button>
-					))}
-				</div>
+				<TimeRangePicker />
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
 				{statsCards.map((stat, index) => (
 					<div
 						key={stat.title}
-						className={`relative overflow-hidden rounded-xl border border-accent/50 bg-gradient-to-br ${stat.bgGradient} p-6 transition-all hover:shadow-xl hover:scale-[1.02] group`}
+						className={`relative overflow-hidden rounded-xl border border-accent/50 bg-linear-to-br ${stat.bgGradient} p-6 transition-all hover:shadow-xl hover:scale-[1.02] group`}
 						style={{ animationDelay: `${index * 100}ms` }}
 					>
 						<div className="flex items-start justify-between mb-4">
 							<div
-								className={`p-3 rounded-lg bg-gradient-to-br ${stat.gradient} text-white shadow-lg group-hover:scale-110 transition-transform`}
+								className={`p-3 rounded-lg bg-linear-to-br ${stat.gradient} text-white shadow-lg group-hover:scale-110 transition-transform`}
 							>
 								{stat.icon}
 							</div>
@@ -76,9 +63,9 @@ export default function StatsOverviewPage() {
 							<h2 className="text-xl font-semibold text-foreground">Performance Metrics</h2>
 						</div>
 					</div>
-					<div className="h-[300px] flex items-center justify-center bg-accent/20 rounded-lg border-2 border-dashed border-accent/50">
+					<div className="h-75 flex items-center justify-center bg-accent/20 rounded-lg border-2 border-dashed border-accent/50">
 						<div className="text-center">
-							<div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
+							<div className="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
 								<HiOutlineChartBar className="w-8 h-8" />
 							</div>
 							<p className="text-muted-foreground font-medium">Chart visualization placeholder</p>
@@ -153,7 +140,7 @@ export default function StatsOverviewPage() {
 						</div>
 						<h2 className="text-xl font-semibold text-foreground">Recent Activity</h2>
 					</div>
-					<div className="space-y-3 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
+					<div className="space-y-3 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
 						{recentActivity.map((activity) => (
 							<div
 								key={activity.id}

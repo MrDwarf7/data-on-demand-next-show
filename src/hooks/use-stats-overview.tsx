@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { FiActivity, FiCheckCircle, FiClock, FiUsers } from "react-icons/fi";
 import { PROCESSES } from "@/constants/processes";
 
@@ -405,10 +404,15 @@ const MOCK_DATA: Record<TimeRange, StatsData> = {
 	},
 };
 
-// Hook to fetch stats data (currently mock, easily replaceable with API call)
-export function useStatsOverview(timeRange: TimeRange): StatsData {
-	return useMemo(() => {
-		// TODO: [backend] : Replace with API call: fetch(`/api/stats?range=${timeRange}`)
-		return MOCK_DATA[timeRange];
-	}, [timeRange]);
+// Function to get stats data (server-side compatible)
+export function getStatsOverview(timeRange: TimeRange): StatsData {
+	// TODO: [backend] : Replace with API call: fetch(`/api/stats?range=${timeRange}`)
+	return MOCK_DATA[timeRange];
 }
+
+// Hook to fetch stats data (currently mock, easily replaceable with API call)
+// export function useStatsOverview(timeRange: TimeRange): StatsData {
+// 	return useMemo(() => {
+// 		return getStatsOverview(timeRange);
+// 	}, [timeRange]);
+// }
