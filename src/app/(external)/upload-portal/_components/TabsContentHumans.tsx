@@ -13,6 +13,7 @@ import {
 	SUPPORTED_EXTENSIONS,
 } from "@/config/external/upload-config";
 import { useFileUpload } from "@/hooks/upload";
+import type { FileUploadItem } from "@/hooks/upload/types";
 
 // import type { FileUploadItem } from "@/hooks/upload/types";
 // import type { UploadPortalTabs } from "@/types/local";
@@ -27,10 +28,65 @@ import { useFileUpload } from "@/hooks/upload";
 // 	// hasProcessSelected: boolean;
 // };
 
-const TabsContentHumans = () => {
-	// const availableTabs: TabOptions[] = ["humans", "automations"];
-	// const defaultTab: TabOptions = availableTabs[0];
+interface FileItemStatusProps {
+	fileItem: FileUploadItem;
+	handleRemoveFile: (id: string) => void;
+	isUploading: boolean;
+}
 
+const FileItemStatus = ({
+	fileItem,
+	handleRemoveFile,
+	isUploading,
+}: FileItemStatusProps): React.JSX.Element => {
+	switch (fileItem.status) {
+		case "error": {
+			return (
+				<>
+					<p className="text-xs text-destructive">
+						{fileItem.error}
+						<span className="ml-1">
+							<FiAlertCircle className="inline w-3 h-3 mr-1" />
+						</span>
+					</p>
+
+					<Button
+						variant="ghost"
+						size="sm"
+						onClick={() => handleRemoveFile(fileItem.id)}
+						disabled={isUploading}
+						className="p-1 h-8 w-8"
+					>
+						<FiX className="w-4 h-4" />
+					</Button>
+				</>
+			);
+		}
+		case "uploading": {
+			return (
+				<div className="w-20">
+					<Progress value={fileItem.progress} className="h-2" />
+				</div>
+			);
+		}
+		case "completed": {
+			return (
+				<div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+					<FiCheckCircle className="w-3 h-3 text-white" />
+				</div>
+			);
+		}
+		case "pending": {
+			return <p className="text-xs text-muted-foreground">Pending upload</p>;
+		}
+	}
+};
+
+// TODO: See other [...] todo items regarding further refactoring
+// TODO: [tabs_content] :
+// TODO: [process_picker] :
+
+const TabsContentHumans = () => {
 	const searchParams = useSearchParams();
 	const hasProcessSelected = !!searchParams.get("process");
 	const {
@@ -144,33 +200,23 @@ const TabsContentHumans = () => {
 									</p>
 								</div>
 
-								{fileItem.status === "error" && (
-									<p className="text-xs text-destructive">{fileItem.error}</p>
-								)}
+								<FileItemStatus
+									fileItem={fileItem}
+									handleRemoveFile={handleRemoveFile}
+									isUploading={isUploading}
+								/>
 
-								{fileItem.status === "uploading" && (
-									<div className="w-20">
-										<Progress value={fileItem.progress} className="h-2" />
-									</div>
-								)}
-
-								{fileItem.status === "completed" && (
-									<div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
-										<FiCheckCircle className="w-3 h-3 text-white" />
-									</div>
-								)}
-
-								{!uploadCompleted && (
-									<Button
-										variant="ghost"
-										size="sm"
-										onClick={() => handleRemoveFile(fileItem.id)}
-										disabled={isUploading}
-										className="p-1 h-8 w-8"
-									>
-										<FiX className="w-4 h-4" />
-									</Button>
-								)}
+								{/* {!uploadCompleted && ( */}
+								{/* 	<Button */}
+								{/* 		variant="ghost" */}
+								{/* 		size="sm" */}
+								{/* 		onClick={() => handleRemoveFile(fileItem.id)} */}
+								{/* 		disabled={isUploading} */}
+								{/* 		className="p-1 h-8 w-8" */}
+								{/* 	> */}
+								{/* 		<FiX className="w-4 h-4" /> */}
+								{/* 	</Button> */}
+								{/* )} */}
 							</div>
 						))}
 					</div>

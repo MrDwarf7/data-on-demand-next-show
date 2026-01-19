@@ -56,7 +56,8 @@
       "dependsOn": [
         "ins",
         "lint:fix",
-        "format"
+        "format",
+        "build"
       ],
       "cache": true,
       "persistent": true

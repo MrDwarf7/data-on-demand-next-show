@@ -1,5 +1,12 @@
 export type UploadStatus = "pending" | "uploading" | "completed" | "error";
 
+export const UPLOAD_STATUS: Record<string, UploadStatus> = {
+	pending: "pending",
+	uploading: "uploading",
+	completed: "completed",
+	error: "error",
+};
+
 export interface FileUploadItem {
 	id: string;
 	file: File;
