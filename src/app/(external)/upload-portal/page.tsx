@@ -69,6 +69,10 @@ const renderInfoTiles = (data: TileDataProps[]): JSX.Element[] | null => {
 	));
 };
 
+// TODO: See other [...] todo items regarding further refactoring
+// TODO: [tabs_content] :
+// TODO: [process_picker] :
+
 export default function UploadPortalPage() {
 	async function processPickerLoading() {
 		return <Skeleton className="w-full sm:w-80 h-10" />;

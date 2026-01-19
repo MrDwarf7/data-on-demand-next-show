@@ -18,6 +18,7 @@ export interface ProcessItem extends DataItemsProps {
 
 export function useProcesses(): Readonly<ProcessItem[]> {
 	// TODO: [backend] : Add loading state, error handling when fetching from API
+	//
 	// if (process.env.NODE_ENV === "development") {
 	// 	return useMemo(() => processPickerItems, []);
 	// } else {

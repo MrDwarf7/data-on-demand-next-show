@@ -3,6 +3,8 @@ import { FiAlertCircle, FiCheckCircle, FiServer, FiTrendingUp, FiZap } from "rea
 import { HiOutlineChartBar } from "react-icons/hi";
 import { getStatsOverview, type TimeRange } from "@/hooks/use-stats-overview";
 import { TimeRangePicker } from "./_components/TimeRangePicker";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PageProps {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -22,7 +24,9 @@ export default async function StatsOverviewPage({ searchParams }: PageProps) {
 						Real-time insights into your automation performance
 					</p>
 				</div>
-				<TimeRangePicker />
+				<Suspense fallback={<Skeleton className="w-full h-4" />}>
+					<TimeRangePicker />
+				</Suspense>
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">

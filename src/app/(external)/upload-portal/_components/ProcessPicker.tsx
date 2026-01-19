@@ -41,7 +41,7 @@ const ProcessPicker = () => {
 	const searchParams = useSearchParams(); // url params
 	const hasProcessSelected = !!searchParams.get("process"); // url param check
 
-	const processPickerItems = useProcesses(); // reruns list of available processes
+	const processPickerItems = useProcesses(); // returns list of available processes
 	const router = useRouter(); // access to router for navigation
 	const { files } = useFileUpload(); // files array to access & see if files are present
 
@@ -115,7 +115,7 @@ const ProcessPicker = () => {
 														<CommandItem
 															className="hover:cursor-pointer gap-y-1"
 															itemType="submit"
-															key={indivListedItem.id}
+															key={indivListedItem.name}
 															onSelect={() => selectHandler(indivListedItem)}
 															onClick={() => selectHandler(indivListedItem)}
 															typeof="button"

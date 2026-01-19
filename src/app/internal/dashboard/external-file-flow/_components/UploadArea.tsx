@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { UPLOAD_CONFIG } from "@/config/internal/file-flow-config";
 import { useFileUpload } from "@/hooks/upload";
 
-export function UploadArea() {
+export const UploadArea = () => {
 	const [dragActive, setDragActive] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const { files, isUploading, overallProgress, handleFiles, handleRemoveFile, handleUpload } =
@@ -149,4 +149,4 @@ export function UploadArea() {
 			)}
 		</div>
 	);
-}
+};
