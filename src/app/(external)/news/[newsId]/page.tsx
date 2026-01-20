@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FiArrowLeft, FiCalendar, FiTag, FiUser } from "react-icons/fi";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { NEWS_POSTS } from "@/config/external/news-config";
 import { getCategoryColor, getPriorityBadge } from "@/lib/news-utils";
 

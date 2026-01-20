@@ -1,4 +1,4 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { EXTERNAL_CORE_VALUES } from "@/config/external/core-values";
 import { CoreValueCardClient } from "./CoreValueComponentClient";
 

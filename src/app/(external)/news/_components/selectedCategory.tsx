@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-// import { useState } from "react";
 import { FiArrowRight, FiCalendar, FiUser } from "react-icons/fi";
 import { NEWS_CATEGORIES, NEWS_POSTS } from "@/config/external/news-config";
 import { NEWS_CATEGORY_VALUES, type NewsCategory } from "@/constants/news-categories";
