@@ -33,6 +33,12 @@ day-to-day tasks we also had to complete by creating self-service tools for othe
 This project uses `bun` as it's package manager, and is primarily set up to be run via [turbo](https://turborepo.dev/)
 (A tool also provided by Vercel for large scale repositories, and doubles as a build script tool in this case)
 
+#### If for some reason you're alergic to `buns`
+
+You do, of course have the option of going to the `package.json` file and converting the scripts to `npm` or `yarn` commands as needed.
+
+Turbo itself is agnostic of the package manager used, so long as the commands are available in the `package.json` file.
+
 ### Note about `turbo`
 
 This project _will_ run without turbo, though it's preferrable to use it when possible.
@@ -53,23 +59,23 @@ If you opted to use `turbo` you can simply run:
 turbo dev
 ```
 
-This will install the dependencies (via `pnpm install`), run linting and lint fixes and formatter, before then running the server in development mode.
+This will install the dependencies (via `bun install`), run linting and lint fixes and formatter, before then running the server in development mode.
 
-### If you wish to only use `pnpm`
+### If you wish to only use `bun`
 
 The classic way to get started with this project is to run:
 
 - Note the `devn`
 
 ```sh
-pnpm install && pnpm devn # or `pnpm run devn`, both work.
+bun install && bun devn # or `bun run devn`, both work.
 ```
 
 ## General Structure
 
 ### Root files
 
-`Data-On-Demand` is setup to use `turbo` via `pnpm` (though can be run without it following the instructions above),
+`Data-On-Demand` is setup to use `turbo` via `bun` (though can be run without it following the instructions above),
 it uses [biomejs](https://biomejs.dev) for both formatting and linting configurations, with reasonably strict rules in place.
 
 ### `Src` directory structure
