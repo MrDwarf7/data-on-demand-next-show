@@ -8,7 +8,7 @@ day-to-day tasks we also had to complete by creating self-service tools for othe
 ### Tools overview
 
 - Project Runner: [turbo](https://turborepo.dev/)
-- Package Manager: We use [pnpm](https://pnpm.io) for our package manager. (This can widely be ignored if you opt to use `turbo`. More on that below in the [###Note about `turbo`] section)
+- Package Manager: We use [bun](https://bun.com/) for our package manager. (This can widely be ignored if you opt to use `turbo`. More on that below in the [###Note about `turbo`] section)
 - Linting: [biomejs](https://biomejs.dev) - As a default, we turn _**all**_ linting on and to the highest severity. Rules and lints are only turned _off_ when a reasonable reason can be given or found.
 - Formatting: [biomejs](https://biomejs.dev) - We also use `biomejs` for our formatting. Consolidating external developer tooling is always a nice plus.
 
@@ -30,7 +30,7 @@ day-to-day tasks we also had to complete by creating self-service tools for othe
 
 ## Getting up and running
 
-This project uses `pnpm` as it's package manager, and is primarily set up to be run via [turbo](https://turborepo.dev/)
+This project uses `bun` as it's package manager, and is primarily set up to be run via [turbo](https://turborepo.dev/)
 (A tool also provided by Vercel for large scale repositories, and doubles as a build script tool in this case)
 
 ### Note about `turbo`
@@ -42,7 +42,7 @@ If you don't have turbo installed, and wish to use it they recommend installing 
 To install turbo you can run:
 
 ```sh
-pnpm add turbo --global
+bun add turbo --global
 ```
 
 ### If using turbo to run the project
