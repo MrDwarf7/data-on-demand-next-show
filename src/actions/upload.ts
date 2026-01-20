@@ -85,18 +85,10 @@ export async function uploadFiles(formData: FormData): Promise<UploadResult> {
 
 		console.log(`[UPLOAD] Validation passed for process: ${process}`);
 
-		// Process files with new naming
+		// Process files keeping client-side naming
 		const processedFiles = await Promise.all(
 			files.map(async (file) => {
-				const now = new Date();
-				const timeUtc = now
-					.toISOString()
-					.replace(/[-:T.]/g, "")
-					.slice(0, 14); // YYYYMMDDHHMMSS
-				const dateSquashed = now.toISOString().split("T")[0].replace(/-/g, ""); // YYYYMMDD
-				const sanitizedProcess = process.replace(/[^a-zA-Z0-9-_]/g, "_");
-				const ext = path.extname(file.name);
-				const newName = `${timeUtc}${dateSquashed}${sanitizedProcess}${ext}`;
+				const newName = file.name; // Keep the client-side renamed name
 
 				console.log(
 					`[UPLOAD] Processing file: ${file.name} -> ${newName}, size: ${file.size} bytes`

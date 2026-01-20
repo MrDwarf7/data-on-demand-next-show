@@ -1,45 +1,46 @@
-import type { JSX } from "react/jsx-runtime";
-import { FiGlobe, FiList, FiMail, FiSend } from "react-icons/fi";
-import { HiOutlineChartBar } from "react-icons/hi";
+import { EXTERNAL_ICONS } from "@/constants/icons";
 import { INTERNAL_PATHS, PATHS } from "@/constants/paths";
+import type { TileProps } from "@/types/local";
 
-export interface ExternalMenuItem {
-	title: string;
-	path: string;
-	icon?: JSX.Element; // | IconType;
-}
+// We ideally something like Pick<T, "title" | "path" | "icon"> --
+// but making "icon" the _only_ Partial field - hmm
+export interface ExternalMenuItem extends Pick<TileProps, "title" | "path" | "icon"> {}
 
 // TODO: [consolidate - paths] : Use same const array across application for paths
 
-export const EXTERNAL_MENU_ITEMS = [
+// Naming things is hard okay...
+export const EXTERNAL_MENU_ITEMS_HIDDEN_PATHS = ["/", "/internal"];
+
+export const EXTERNAL_MENU_ITEMS: ExternalMenuItem[] = [
 	{
 		title: "Home",
 		path: PATHS.HOME,
-		icon: <FiGlobe />,
+		icon: EXTERNAL_ICONS.home,
 	},
 	{
 		title: "News",
 		path: PATHS.NEWS,
-		icon: <FiList />,
+		icon: EXTERNAL_ICONS.news,
 	},
 	{
 		title: "Statistics",
 		path: PATHS.STATISTICS,
-		icon: <HiOutlineChartBar />,
+		icon: EXTERNAL_ICONS.statistics,
 	},
 	{
 		title: "Upload Portal",
 		path: PATHS.UPLOAD_PORTAL,
-		icon: <FiSend />,
+		icon: EXTERNAL_ICONS.upload,
 	},
 	{
 		title: "Contact Us",
 		path: PATHS.CONTACT,
-		icon: <FiMail />,
+		icon: EXTERNAL_ICONS.contact,
 	},
 	{
 		title: "Dashboard",
 		path: INTERNAL_PATHS.DASHBOARD,
+		icon: EXTERNAL_ICONS.dashboard,
 	},
 	// {
 	// 	title: "Login",

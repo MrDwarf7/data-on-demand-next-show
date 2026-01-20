@@ -1,56 +1,44 @@
-import type React from "react";
-import type { JSX } from "react/jsx-runtime";
+// import { JSX } from "react/jsx-runtime";
 
-type Prettify<T> = {
+import type React from "react";
+import type { IconType } from "react-icons";
+
+// Very useful for printing types (especially larger or more complex ones)
+export type Prettify<T> = {
 	[K in keyof T]: T[K];
 } & {};
 
-interface TileProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TileProps extends React.HTMLAttributes<HTMLDivElement> {
 	title: string;
-	path: string;
-	// icon: React.ReactNode;
-	icon?: JSX.Element;
+	path: string | null;
+	icon: IconType;
 	key?: React.Key;
 }
 
-type ClickToCopySnippetProps = {
+export type ClickToCopySnippetProps = {
 	className?: string;
 	[key: string]: undefined | string | number | boolean | object | symbol | null;
 	text: string;
 };
 
-type DataItemsProps = {
+export type DataItemsProps = {
 	id: string;
 	name: string;
 };
 
-type ProcessPickerProps = {
-	// className?: string;
+export type ProcessPickerProps = {
 	searchParams?: {
 		process: string | undefined;
 		selectedTab: string | undefined;
 	};
 	onFilesSelected?: (files: File[]) => void;
-	// variant?: "hidden" | "outlined";
-	// fileLength?: number;
 };
 
 // Note on the tab themselves it will be prexied with "For {Option}"
-type TabOptions = "humans" | "automations" | "SmartAutomation Robotics";
+export type TabOptions = "humans" | "automations";
 
-interface UploadPortalTabs {
+export interface UploadPortalTabs {
 	defaultTab: TabOptions;
-	// singleKey?: TabOptions | TabOptions[];
 	availableTabs: TabOptions[];
 	className?: string;
 }
-
-export type {
-	Prettify,
-	ClickToCopySnippetProps,
-	TileProps,
-	DataItemsProps,
-	ProcessPickerProps,
-	TabOptions,
-	UploadPortalTabs,
-};

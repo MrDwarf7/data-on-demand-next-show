@@ -5,7 +5,7 @@ import "@/app/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import FooterBlock from "@/app/(external)/_components/FooterComponent";
-import HeaderBar from "@/app/(external)/_components/HeaderbarComponent";
+import HeaderBar from "@/app/(external)/_components/HeaderBar";
 import ProviderWrapper from "@/components/ProviderWrapper";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +30,8 @@ export default function RootExternalLayout({ children }: React.PropsWithChildren
 							<HeaderBar />
 							{/* </div> */}
 							{children}
+							{/* Portal container for progress bars */}
+							{/* <div id="progress-portal" className="fixed inset-0 pointer-events-none z-50" /> */}
 							{/*  */}
 							<div className="flex flex-row justify-center">
 								<FooterBlock className="my-2 pb-2" />

@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useDropzone } from "react-dropzone";
-import { FiAlertCircle, FiCheckCircle, FiUploadCloud, FiX } from "react-icons/fi";
+import { FiAlertCircle, FiUploadCloud } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { TabsContent } from "@/components/ui/tabs";
@@ -12,88 +12,42 @@ import {
 	SUPPORTED_EXTENSIONS,
 } from "@/config/external/upload-config";
 import { useFileUpload } from "@/hooks/upload";
-import type { FileUploadItem } from "@/hooks/upload/types";
 import { useUploadStore } from "@/store/store";
+import { FileItemStatus } from "./FileItemStatus";
 
-interface FileItemStatusProps {
-	fileItem: FileUploadItem;
-	handleRemoveFile: (id: string) => void;
-	isUploading: boolean;
-}
+const OverallProgressIndicator = React.memo(
+	({ overallProgress, isUploading }: { overallProgress: number; isUploading: boolean }) => {
+		if (!isUploading) return null;
 
-const FileItemStatus = ({
-	fileItem,
-	handleRemoveFile,
-	isUploading,
-}: FileItemStatusProps): React.JSX.Element => {
-	// Prefer progress bar when progress is active (0 < progress < 100)
-	if (fileItem.progress > 0 && fileItem.progress < 100) {
 		return (
-			<div className="w-20">
-				<Progress value={fileItem.progress} className="h-2" />
+			<div className="mb-4">
+				<div className="flex items-center justify-between mb-2">
+					<span className="text-sm font-medium">Overall Progress</span>
+					<span className="text-sm text-muted-foreground">{overallProgress}%</span>
+				</div>
+				<Progress value={overallProgress} className="w-full" />
 			</div>
 		);
 	}
-
-	switch (fileItem.status) {
-		case "error": {
-			return (
-				<>
-					<p className="text-xs text-destructive">
-						{fileItem.error}
-						<span className="ml-1">
-							<FiAlertCircle className="inline w-3 h-3 mr-1" />
-						</span>
-					</p>
-
-					<Button
-						variant="ghost"
-						size="sm"
-						onClick={() => handleRemoveFile(fileItem.id)}
-						disabled={isUploading}
-						className="p-1 h-8 w-8"
-					>
-						<FiX className="w-4 h-4" />
-					</Button>
-				</>
-			);
-		}
-		case "uploading": {
-			return (
-				<div className="w-20">
-					<Progress value={fileItem.progress} className="h-2" />
-				</div>
-			);
-		}
-		case "completed": {
-			return (
-				<div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
-					<FiCheckCircle className="w-3 h-3 text-white" />
-				</div>
-			);
-		}
-		case "pending": {
-			return <p className="text-xs text-muted-foreground">Pending upload</p>;
-		}
-	}
-};
+);
 
 // TODO: See other [...] todo items regarding further refactoring
 // TODO: [tabs_content] :
 // TODO: [process_picker] :
 
 const TabsContentHumans = () => {
-	console.log("Rendering TabsContentHumans");
+	console.log("Rendering TabsContentHumans"); // PERF: Still re-rendering on each progress tick... Hmmmm
 	const { selectedProcess } = useUploadStore();
 	const hasProcessSelected = !!selectedProcess;
 	const {
 		files,
 		isUploading,
 		overallProgress,
+		progressMap,
 		handleFiles,
 		handleRemoveFile,
 		handleUpload,
-		reset,
+		// reset, // use later if actually need it
 	} = useFileUpload();
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -103,6 +57,36 @@ const TabsContentHumans = () => {
 
 	const uploadCompleted =
 		files.length > 0 && files.every((f) => f.status === "completed" || f.status === "error");
+
+	const fileItems = useMemo(
+		() =>
+			files.map((fileItem) => (
+				<div
+					key={fileItem.id}
+					className="flex items-center gap-3 p-3 bg-background/50 rounded-lg border border-accent/30"
+				>
+					<div className="flex-1 min-w-0">
+						<div className="space-y-1">
+							<p className="text-sm font-medium text-foreground truncate">{fileItem.newName}</p>
+							<p className="text-xs text-muted-foreground truncate opacity-75">
+								{fileItem.file.name}
+							</p>
+						</div>
+						<p className="text-xs text-muted-foreground">
+							{(fileItem.file.size / 1024 / 1024).toFixed(2)} MB
+						</p>
+					</div>
+
+					<FileItemStatus
+						fileItem={fileItem}
+						handleRemoveFile={handleRemoveFile}
+						isUploading={isUploading}
+						progressMap={progressMap}
+					/>
+				</div>
+			)),
+		[files, handleRemoveFile, isUploading, progressMap]
+	);
 
 	const dropZoneProps = {
 		onDrop: handleFiles, // This is our POST. hook -> hook handles calling /api/uploads
@@ -116,6 +100,18 @@ const TabsContentHumans = () => {
 	const openFileDialog = () => {
 		fileInputRef.current?.click();
 	};
+
+	useEffect(() => {
+		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+			if (isUploading) {
+				event.preventDefault();
+				event.returnValue = "Upload is in progress. Are you sure you want to leave?";
+			}
+		};
+
+		window.addEventListener("beforeunload", handleBeforeUnload);
+		return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+	}, [isUploading]);
 
 	return (
 		<TabsContent value="humans" className="mt-6">
@@ -152,6 +148,7 @@ const TabsContentHumans = () => {
 				</div>
 			</div>
 
+			{/* Don't allow the upload button unless there's atleast 1 file */}
 			{files.length > 0 && (
 				<div className="mb-8 bg-accent/20 border border-accent/50 rounded-xl p-6">
 					<div className="flex items-center justify-between mb-4">
@@ -169,56 +166,9 @@ const TabsContentHumans = () => {
 						)}
 					</div>
 
-					{isUploading && (
-						<div className="mb-4">
-							<div className="flex items-center justify-between mb-2">
-								<span className="text-sm font-medium">Overall Progress</span>
-								<span className="text-sm text-muted-foreground">{overallProgress}%</span>
-							</div>
-							<Progress value={overallProgress} className="w-full" />
-						</div>
-					)}
+					<OverallProgressIndicator overallProgress={overallProgress} isUploading={isUploading} />
 
-					<div className="space-y-3 max-h-96 overflow-y-auto">
-						{files.map((fileItem) => (
-							<div
-								key={fileItem.id}
-								className="flex items-center gap-3 p-3 bg-background/50 rounded-lg border border-accent/30"
-							>
-								<div className="flex-1 min-w-0">
-									<div className="space-y-1">
-										<p className="text-sm font-medium text-foreground truncate">
-											{fileItem.newName}
-										</p>
-										<p className="text-xs text-muted-foreground truncate opacity-75">
-											{fileItem.file.name}
-										</p>
-									</div>
-									<p className="text-xs text-muted-foreground">
-										{(fileItem.file.size / 1024 / 1024).toFixed(2)} MB
-									</p>
-								</div>
-
-								<FileItemStatus
-									fileItem={fileItem}
-									handleRemoveFile={handleRemoveFile}
-									isUploading={isUploading}
-								/>
-
-								{/* {!uploadCompleted && ( */}
-								{/* 	<Button */}
-								{/* 		variant="ghost" */}
-								{/* 		size="sm" */}
-								{/* 		onClick={() => handleRemoveFile(fileItem.id)} */}
-								{/* 		disabled={isUploading} */}
-								{/* 		className="p-1 h-8 w-8" */}
-								{/* 	> */}
-								{/* 		<FiX className="w-4 h-4" /> */}
-								{/* 	</Button> */}
-								{/* )} */}
-							</div>
-						))}
-					</div>
+					<div className="space-y-3 max-h-96 overflow-y-auto">{fileItems}</div>
 				</div>
 			)}
 		</TabsContent>

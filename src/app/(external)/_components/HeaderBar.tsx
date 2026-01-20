@@ -5,7 +5,6 @@ import { Suspense, useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { RenderTile } from "@/components/generic/RenderTile";
 import ThemeToggler from "@/components/ThemeToggler";
-// import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { APP_NAME } from "@/config/external/constants";
 import { EXTERNAL_MENU_ITEMS } from "@/config/external/headerbar-config";
@@ -78,8 +77,12 @@ const HeaderBar = () => {
 					<div className="md:hidden pb-4 pt-2 border-t border-accent/50 mt-2">
 						<nav className="flex flex-col gap-2">
 							{EXTERNAL_MENU_ITEMS.map((item) => (
-								<Suspense fallback={<Skeleton className="w-full h-10" />} key={item.title}>
-									<div onClick={() => setMobileMenuOpen(false)}>
+								<div
+									className="min-w-full justify-center items-center"
+									key={item.title}
+									onClick={() => setMobileMenuOpen(false)}
+								>
+									<Suspense fallback={<Skeleton className="w-full h-10" />} key={item.title}>
 										<RenderTile
 											icon={item.icon}
 											path={item.path}
@@ -88,8 +91,8 @@ const HeaderBar = () => {
 											classNameActive="bg-ring shadow-sm text-foreground"
 											classNameNotActive="bg-accent/30 hover:bg-ring/80 text-foreground"
 										/>
-									</div>
-								</Suspense>
+									</Suspense>
+								</div>
 							))}
 							<div className="mt-2 px-4 flex items-center gap-2">
 								<span className="text-sm text-muted-foreground">Theme:</span>

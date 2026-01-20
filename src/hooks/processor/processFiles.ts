@@ -54,7 +54,8 @@ export function useProcessFiles(
 			setError(null);
 
 			try {
-				const date = new Date().toISOString().split("T")[0].replace(/-/g, "_");
+				const now = new Date();
+				const date = `${now.getFullYear()}_${now.getMonth() + 1}_${now.getDate()}`;
 
 				// Parallel async processing
 				const processedFiles = await Promise.all(

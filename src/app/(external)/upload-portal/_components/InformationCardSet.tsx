@@ -51,7 +51,7 @@ function InformationCardSet() {
 						Report Calendar
 					</h1>
 					<div className="flex justify-center items-center">
-						<ReportCalendar date={localDate} />
+						<ReportCalendar defaultOpenDate={localDate} />
 					</div>
 					<CardFooter className="flex justify-center items-center">
 						<p className="text-muted-foreground text-sm justify-center text-center">

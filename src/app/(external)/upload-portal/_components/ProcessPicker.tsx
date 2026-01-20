@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaChevronDown } from "react-icons/fa";
 import * as z from "zod";
@@ -36,7 +36,7 @@ const formSchema = z.object({
 // PERF: consider using useReducer here and moving to an action -> response style pattern
 const ProcessPicker = () => {
 	// TODO: we can use useReducer here if the form gets anymore complex
-	const [processPickerOpen, setProcessPickerOpen] = React.useState(false);
+	const [processPickerOpen, setProcessPickerOpen] = useState(false);
 
 	const { selectedProcess, setSelectedProcess } = useUploadStore();
 	const hasProcessSelected = !!selectedProcess;
@@ -56,7 +56,7 @@ const ProcessPicker = () => {
 		},
 	});
 
-	const selectHandler = React.useCallback(
+	const selectHandler = useCallback(
 		async (item: DataItemsProps) => {
 			form.setValue("process", item);
 			setSelectedProcess(item.id);

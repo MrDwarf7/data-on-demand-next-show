@@ -5,25 +5,27 @@ import { useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
 import { NotificationsDrawer } from "./NotificationsDrawer";
 
+// TODO: [performance] : Move client components down the tree to improve performance where possible.
+
 const DashboardHeader = () => {
 	const [search, setSearch] = useState("");
 	const [searchFocused, setSearchFocused] = useState(false);
 	const pathName = usePathname();
 
-	const getPageTitle = () => {
+	const getPageTitle = ((pathName) => {
 		const segments = pathName.split("/").filter(Boolean);
 		const lastSegment = segments[segments.length - 1] || "Dashboard";
 		return lastSegment
 			.split("-")
 			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 			.join(" ");
-	};
+	})(pathName);
 
 	return (
 		<header className="sticky top-0 z-30 w-full bg-background/95 backdrop-blur border-b border-accent/50 supports-[backdrop-filter]:bg-background/80">
 			<div className="flex items-center justify-between px-4 sm:px-6 py-4">
 				<div>
-					<h1 className="text-lg sm:text-xl font-bold text-foreground">{getPageTitle()}</h1>
+					<h1 className="text-lg sm:text-xl font-bold text-foreground">{getPageTitle}</h1>
 					<p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
 						{new Date().toLocaleDateString("en-US", {
 							weekday: "long",

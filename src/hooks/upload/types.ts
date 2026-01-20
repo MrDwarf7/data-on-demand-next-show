@@ -20,6 +20,7 @@ export interface UseFileUploadReturn {
 	files: FileUploadItem[];
 	isUploading: boolean;
 	overallProgress: number;
+	progressMap: Map<string, number>;
 	handleFiles: (files: FileList | File[]) => void;
 	handleRemoveFile: (id: string) => void;
 	handleUpload: () => Promise<void>;

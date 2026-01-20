@@ -19,18 +19,21 @@ export function useFileUpload(): UseFileUploadReturn {
 	const { processFiles, isProcessing } = useFileProcessor();
 	const [files, setFiles] = useState<FileUploadItem[]>([]);
 	const [isUploading, setIsUploading] = useState(false);
+	const [progressMap, setProgressMap] = useState<Map<string, number>>(new Map());
 
 	const overallProgress = useMemo(
 		() =>
 			files.length > 0
-				? Math.round(files.reduce((sum, f) => sum + f.progress, 0) / files.length)
+				? Math.round(
+						files.reduce((sum, f) => sum + (progressMap.get(f.id) || f.progress), 0) / files.length
+					)
 				: 0,
-		[files]
+		[files, progressMap]
 	);
 
 	const handleFiles = useHandleFiles(setFiles);
 	const handleRemoveFile = useHandleRemoveFile(setFiles);
-	const simulateProgress = useSimulateProgress(setFiles);
+	const simulateProgress = useSimulateProgress(setFiles, setProgressMap);
 	const handleUpload = useHandleUpload({
 		files,
 		isUploading,
@@ -45,6 +48,7 @@ export function useFileUpload(): UseFileUploadReturn {
 		files,
 		isUploading,
 		overallProgress,
+		progressMap,
 		handleFiles,
 		handleRemoveFile,
 		handleUpload,
@@ -53,6 +57,7 @@ export function useFileUpload(): UseFileUploadReturn {
 		reset: () => {
 			setFiles([]);
 			setIsUploading(false);
+			setProgressMap(new Map());
 		},
 	};
 }

@@ -19,7 +19,7 @@ export default function RootInternalLayout({ children }: React.PropsWithChildren
 		<html lang="en" suppressHydrationWarning={true} className="h-full">
 			<body className={cn("relative h-full font-sans antialiased", inter.className)}>
 				<ProviderWrapper>
-					<main className="relative flex min-h-screen">
+					<main className="relative flex min-h-screen bg-background">
 						<Sidebar />
 						<div className="flex-1 flex flex-col min-w-0">
 							<DashboardHeader />

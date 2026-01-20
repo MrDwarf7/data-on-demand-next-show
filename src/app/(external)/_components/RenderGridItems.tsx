@@ -1,27 +1,17 @@
+import { Fragment } from "react";
 import { GridItem } from "@/components/generic/GridItem";
 import { EXTERNAL_MENU_ITEMS, type ExternalMenuItem } from "@/config/external/headerbar-config";
 import { PATHS } from "@/constants/paths";
+import { GLOW_EFFECT_DEFAULTS } from "@/config/glow-effects";
 
-interface WantedAttributes {
-	icon: keyof ExternalMenuItem;
-	path: keyof ExternalMenuItem;
-}
-
-export interface RenderGridItemsProps extends Omit<WantedAttributes, "icon" | "path"> {
+export interface RenderGridItemsProps {
 	title: string;
 	preLinkContent: string;
 	postLinkContent: string;
-
-	// icon?: typeof EXTERNAL_MENU_ITEMS | null;
-	// path?: typeof EXTERNAL_MENU_ITEMS | null;
-	tieInfo?: Pick<ExternalMenuItem, "path" | "icon">;
-	// linkHref: string;
-	// icon: JSX.Element;
+	tieInfo?: Pick<ExternalMenuItem, "path">;
 }
 
 const gridItemData: RenderGridItemsProps[] = [
-	// TODO: Have this (file) intake EXTERNAL_MENU_ITEMS and map over it
-	// in order to fill in the items we should really be getting from there for consistency.
 	{
 		title: "Submit Documents",
 		preLinkContent: "Upload files via the ",
@@ -29,10 +19,6 @@ const gridItemData: RenderGridItemsProps[] = [
 		tieInfo: {
 			path: PATHS.UPLOAD_PORTAL,
 		},
-		//
-		// linkHref: "/upload-portal",
-		// path: null,
-		// icon: <FiUpload className="h-4 w-4 text-black dark:text-neutral-400" />,
 	},
 
 	{
@@ -42,9 +28,6 @@ const gridItemData: RenderGridItemsProps[] = [
 		tieInfo: {
 			path: PATHS.STATISTICS,
 		},
-		//
-		// linkHref: "/upload-portal",
-		// icon: <FiBarChart2 className="h-4 w-4 text-black dark:text-neutral-400" />,
 	},
 
 	{
@@ -54,9 +37,6 @@ const gridItemData: RenderGridItemsProps[] = [
 		tieInfo: {
 			path: PATHS.NEWS,
 		},
-
-		// linkHref: "/news",
-		// icon: <BiNews className="h-4 w-4 text-black dark:text-neutral-400" />,
 	},
 
 	{
@@ -66,36 +46,17 @@ const gridItemData: RenderGridItemsProps[] = [
 		tieInfo: {
 			path: PATHS.CONTACT,
 		},
-
-		//
-		// icon: <FiMessageCircle className="h-4 w-4 text-black dark:text-neutral-400" />,
-		//
-		// linkHref: "/contact",
 	},
 ];
 
 export const RenderGridItems = () => {
-	const glowingEffectProps = {
-		spread: 40,
-		glow: true,
-		disabled: false,
-		proximity: 64,
-		inactiveZone: 0.01,
-	};
-
 	const mergedItemData = gridItemData.map((item) => {
 		const p =
 			EXTERNAL_MENU_ITEMS.find((menuItem) => menuItem.path === item.tieInfo?.path)?.path || "#";
-		const ico = EXTERNAL_MENU_ITEMS.find((menuItem) => menuItem.path === item.tieInfo?.path)?.icon;
-
+		const ico =
+			EXTERNAL_MENU_ITEMS.find((menuItem) => menuItem.path === item.tieInfo?.path)?.icon ||
+			Fragment.bind(null);
 		return {
-			// path: EXTERNAL_MENU_ITEMS.find((menuItem) => menuItem.title === item.title)?.path || "#",
-			// icon: item.icon,
-			// tieInfo: {
-			// 	path: p,
-			// 	icon: ico,
-			// },
-
 			path: p,
 			icon: ico,
 			...item,
@@ -103,13 +64,13 @@ export const RenderGridItems = () => {
 	});
 
 	return (
-		<div className="mt-8 sm:mt-12 w-dvw max-w-6xl px-4 pointer-events-auto">
+		<div className="mt-8 sm:mt-12 w-dvw max-w-full px-4 pointer-events-auto">
 			<ul className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 				{gridItemData.map((item, index) => (
 					<GridItem
 						key={`${index}__grid_item_${item.tieInfo?.path || item.title}`}
 						data={mergedItemData[index]}
-						glowingEffectProps={glowingEffectProps}
+						glowingEffectProps={GLOW_EFFECT_DEFAULTS}
 					/>
 				))}
 			</ul>

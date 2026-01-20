@@ -1,10 +1,10 @@
+import { Suspense } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { FiAlertCircle, FiCheckCircle, FiServer, FiTrendingUp, FiZap } from "react-icons/fi";
 import { HiOutlineChartBar } from "react-icons/hi";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getStatsOverview, type TimeRange } from "@/hooks/use-stats-overview";
 import { TimeRangePicker } from "./_components/TimeRangePicker";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface PageProps {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -18,12 +18,10 @@ export default async function StatsOverviewPage({ searchParams }: PageProps) {
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-450 mx-auto space-y-6">
 			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-				<div>
-					<h1 className="text-2xl sm:text-3xl font-bold text-foreground">Statistics Overview</h1>
-					<p className="text-sm text-muted-foreground mt-1">
-						Real-time insights into your automation performance
-					</p>
-				</div>
+				<h1 className="text-2xl sm:text-3xl font-bold text-foreground">Statistics Overview</h1>
+				<p className="text-sm text-muted-foreground mt-1">
+					Real-time insights into your automation performance
+				</p>
 				<Suspense fallback={<Skeleton className="w-full h-4" />}>
 					<TimeRangePicker />
 				</Suspense>

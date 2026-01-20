@@ -17,12 +17,10 @@ export default async function FileFlowPage() {
 
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-400 mx-auto space-y-6">
-			<div>
-				<h1 className="text-2xl sm:text-3xl font-bold text-foreground">External File Flow</h1>
-				<p className="text-sm text-muted-foreground mt-1">
-					Manage and monitor external file uploads and processing
-				</p>
-			</div>
+			<h1 className="text-2xl sm:text-3xl font-bold text-foreground">External File Flow</h1>
+			<p className="text-sm text-muted-foreground mt-1">
+				Manage and monitor external file uploads and processing
+			</p>
 
 			<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
 				{fileStats.map((stat) => (
