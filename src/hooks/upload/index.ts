@@ -1,7 +1,7 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import { useUploadStore } from "@/store/store";
 import { useFileProcessor } from "../processor";
 import { useHandleFiles } from "./handleFiles";
 import { useHandleRemoveFile } from "./handleRemoveFile";
@@ -10,11 +10,11 @@ import { useSimulateProgress } from "./simulateProgress";
 import type { FileUploadItem, UseFileUploadReturn } from "./types";
 
 export function useFileUpload(): UseFileUploadReturn {
-	const searchParams = useSearchParams();
+	const { selectedProcess } = useUploadStore();
 	const currentProcess = useMemo(() => {
-		// Process is always available via URL params
-		return searchParams.get("process") || "";
-	}, [searchParams]);
+		// Process is always available via store
+		return selectedProcess || "";
+	}, [selectedProcess]);
 
 	const { processFiles, isProcessing } = useFileProcessor();
 	const [files, setFiles] = useState<FileUploadItem[]>([]);

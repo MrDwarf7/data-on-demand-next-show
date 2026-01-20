@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiAlertCircle, FiCheckCircle, FiUploadCloud, FiX } from "react-icons/fi";
@@ -14,19 +13,7 @@ import {
 } from "@/config/external/upload-config";
 import { useFileUpload } from "@/hooks/upload";
 import type { FileUploadItem } from "@/hooks/upload/types";
-
-// import type { FileUploadItem } from "@/hooks/upload/types";
-// import type { UploadPortalTabs } from "@/types/local";
-
-// type TabsContentHumansProps = Partial<UploadPortalTabs> & {
-// 	files: FileUploadItem[];
-// 	// isUploading: boolean;
-// 	// overallProgress: number;
-// 	// handleFiles: (files: FileList | File[]) => void;
-// 	// handleRemoveFile: (id: string) => void;
-// 	// handleUpload: () => Promise<void>;
-// 	// hasProcessSelected: boolean;
-// };
+import { useUploadStore } from "@/store/store";
 
 interface FileItemStatusProps {
 	fileItem: FileUploadItem;
@@ -39,6 +26,15 @@ const FileItemStatus = ({
 	handleRemoveFile,
 	isUploading,
 }: FileItemStatusProps): React.JSX.Element => {
+	// Prefer progress bar when progress is active (0 < progress < 100)
+	if (fileItem.progress > 0 && fileItem.progress < 100) {
+		return (
+			<div className="w-20">
+				<Progress value={fileItem.progress} className="h-2" />
+			</div>
+		);
+	}
+
 	switch (fileItem.status) {
 		case "error": {
 			return (
@@ -87,8 +83,9 @@ const FileItemStatus = ({
 // TODO: [process_picker] :
 
 const TabsContentHumans = () => {
-	const searchParams = useSearchParams();
-	const hasProcessSelected = !!searchParams.get("process");
+	console.log("Rendering TabsContentHumans");
+	const { selectedProcess } = useUploadStore();
+	const hasProcessSelected = !!selectedProcess;
 	const {
 		files,
 		isUploading,
@@ -107,12 +104,14 @@ const TabsContentHumans = () => {
 	const uploadCompleted =
 		files.length > 0 && files.every((f) => f.status === "completed" || f.status === "error");
 
-	const { /* getRootProps,*/ getInputProps, isDragActive } = useDropzone({
+	const dropZoneProps = {
 		onDrop: handleFiles, // This is our POST. hook -> hook handles calling /api/uploads
 		accept: ACCEPTED_TYPES_MAP,
 		maxSize: MAX_FILE_SIZE,
 		multiple: true,
-	});
+	};
+
+	const { /* getRootProps,*/ getInputProps, isDragActive } = useDropzone(dropZoneProps);
 
 	const openFileDialog = () => {
 		fileInputRef.current?.click();

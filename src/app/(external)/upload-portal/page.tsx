@@ -1,15 +1,11 @@
 import { Suspense } from "react";
 import type { JSX } from "react/jsx-runtime";
 import { FiCheckCircle, FiClock, FiSend, FiUploadCloud } from "react-icons/fi";
-import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
-import { TabsContentAutomation } from "@/app/(external)/upload-portal/_components/TabsContentAutomation";
-import { TabsContentHumans } from "@/app/(external)/upload-portal/_components/TabsContentHumans";
-import { TabsTriggerBar } from "@/app/(external)/upload-portal/_components/TabsTriggerBar";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { UploadSection } from "@/components/UploadSection";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs } from "@/components/ui/tabs";
-import type { TabOptions } from "@/types/local";
+
 import { UploadPortalStatsCards } from "./_components/StatsCards";
 
 type TileDataProps = {
@@ -73,13 +69,23 @@ const renderInfoTiles = (data: TileDataProps[]): JSX.Element[] | null => {
 // TODO: [tabs_content] :
 // TODO: [process_picker] :
 
-export default function UploadPortalPage() {
+export default async function UploadPortalPage() {
 	async function processPickerLoading() {
 		return <Skeleton className="w-full sm:w-80 h-10" />;
 	}
 
-	const availableTabs: TabOptions[] = ["humans", "automations"];
-	const defaultTab: TabOptions = availableTabs[0];
+	async function tabsContentLoading() {
+		return (
+			<Skeleton>
+				<div className="flex items-center justify-center py-12">
+					<div className="text-center">
+						<div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+						<p className="text-muted-foreground">Loading upload interface...</p>
+					</div>
+				</div>
+			</Skeleton>
+		);
+	}
 
 	// Queue statistics (TODO: [backend] : Replace with live data)
 	const statCardsProps = {
@@ -106,32 +112,10 @@ export default function UploadPortalPage() {
 			{/* Stats and Calendar Row */}
 			<UploadPortalStatsCards {...statCardsProps} />
 
-			{/* Process Selection */}
-			<div className="mb-6 flex flex-row justify-end">
-				<Suspense fallback={processPickerLoading()}>
-					<ProcessPicker />
-				</Suspense>
-			</div>
-
-			{/* Tabs Section */}
+			{/* Upload Section */}
 			<div className="mb-8">
-				<Suspense
-					fallback={
-						<div className="flex items-center justify-center py-12">
-							<div className="text-center">
-								<div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-								<p className="text-muted-foreground">Loading upload interface...</p>
-							</div>
-						</div>
-					}
-				>
-					<Tabs defaultValue={defaultTab} className="mt-4">
-						<TabsTriggerBar availableTabs={availableTabs} />
-						<div className="p-2">
-							<TabsContentHumans />
-							<TabsContentAutomation />
-						</div>
-					</Tabs>
+				<Suspense fallback={tabsContentLoading()}>
+					<UploadSection />
 					<span className="flex justify-end">
 						<FiSend className="absolute mt-3 ml-3 text-white opacity-0" />
 					</span>

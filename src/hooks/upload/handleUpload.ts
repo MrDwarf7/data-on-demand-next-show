@@ -79,7 +79,7 @@ export function useHandleUpload({
 					})
 				);
 			} else {
-				// Update files with processed names
+				// Update files with processed names (status remains "uploading")
 				setFiles((prev) =>
 					prev.map((f) => {
 						const processed = processedFiles.find((p) => p.originalFile === f.file);
@@ -87,7 +87,6 @@ export function useHandleUpload({
 							? {
 									...f,
 									newName: processed?.newName,
-									status: "completed" as const,
 								}
 							: f;
 					})

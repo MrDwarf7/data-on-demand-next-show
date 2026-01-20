@@ -2,8 +2,9 @@ import { Snippet } from "@heroui/snippet";
 import { TabsContent } from "@/components/ui/tabs";
 
 const TabsContentAutomation = () => {
+	console.log("Rendering TabsContentAutomation");
 	return (
-		<TabsContent value="Automation" className="mt-6">
+		<TabsContent value="automation" className="mt-6">
 			<div className="text-center p-8 border border-accent rounded-xl bg-accent/10">
 				<h3 className="text-lg font-semibold text-foreground mb-4">Automation Integration</h3>
 				<p className="text-muted-foreground mb-6">

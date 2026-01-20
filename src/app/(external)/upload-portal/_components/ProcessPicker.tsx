@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FaChevronDown } from "react-icons/fa";
@@ -24,6 +23,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useFileUpload } from "@/hooks/upload";
 import { useProcesses } from "@/hooks/use-processes";
 import { cn } from "@/lib/utils";
+import { useUploadStore } from "@/store/store";
 import type { DataItemsProps } from "@/types/local";
 
 const formSchema = z.object({
@@ -38,11 +38,10 @@ const ProcessPicker = () => {
 	// TODO: we can use useReducer here if the form gets anymore complex
 	const [processPickerOpen, setProcessPickerOpen] = React.useState(false);
 
-	const searchParams = useSearchParams(); // url params
-	const hasProcessSelected = !!searchParams.get("process"); // url param check
+	const { selectedProcess, setSelectedProcess } = useUploadStore();
+	const hasProcessSelected = !!selectedProcess;
 
 	const processPickerItems = useProcesses(); // returns list of available processes
-	const router = useRouter(); // access to router for navigation
 	const { files } = useFileUpload(); // files array to access & see if files are present
 
 	const variant = (files.length ?? 0) > 0 && !hasProcessSelected ? "border-destructive" : "";
@@ -57,14 +56,13 @@ const ProcessPicker = () => {
 		},
 	});
 
-	// TODO: could we adjust the `usePushFrom` util to handle this use case?
 	const selectHandler = React.useCallback(
 		async (item: DataItemsProps) => {
 			form.setValue("process", item);
-			router.replace(`?process=${item.id}`, { scroll: false });
+			setSelectedProcess(item.id);
 			setProcessPickerOpen(false);
 		},
-		[form, router]
+		[form, setSelectedProcess]
 	);
 
 	return (
@@ -92,10 +90,9 @@ const ProcessPicker = () => {
 												variant="outline"
 											>
 												<FormLabel className="text-xs justify-center">
-													{searchParams.get("process")
+													{selectedProcess
 														? processPickerItems.find(
-																(indivListedItem) =>
-																	indivListedItem.id === searchParams.get("process")
+																(indivListedItem) => indivListedItem.id === selectedProcess
 															)?.name
 														: "Select a process..."}
 												</FormLabel>

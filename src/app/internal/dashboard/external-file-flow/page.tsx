@@ -1,12 +1,9 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
-import { TabsContentHumans } from "@/app/(external)/upload-portal/_components/TabsContentHumans";
+import { UploadSection } from "@/components/UploadSection";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs } from "@/components/ui/tabs";
 import { useFileStats } from "@/hooks/use-file-flow";
 import { FileHistory } from "./_components/FileHistory";
-import { UploadArea } from "./_components/UploadArea";
 
 export default async function FileFlowPage() {
 	// TODO: [refactor] : This causes dynamic rendering, we'd prefer to get the searchParams here, then pass them down,
@@ -15,11 +12,6 @@ export default async function FileFlowPage() {
 	// [see](https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout)
 	//
 	await connection();
-
-	// const params = await searchParams;
-	// console.log("searchParams in FileFlowPage:", params);
-
-	// const params = await searchParams;
 
 	const fileStats = useFileStats();
 
@@ -47,20 +39,9 @@ export default async function FileFlowPage() {
 				))}
 			</div>
 
-			{/* TODO: [tabs_content] : We need to group the TabsContentHumans and TabsContentAutomation into a single component */}
-			{/* TODO: [process_picker] : We need to group the ProcessPicker and the TabsContent into a single item  (so we can use on both the external and internal side easily with _SAME_ logic for everything )*/}
-			<div className="flex justify-end">
-				{/* <Suspense fallback={<Skeleton className="w-full h-4" />}> */}
-				<ProcessPicker />
-				{/* </Suspense> */}
-				<Tabs>
-					{/* <Suspense fallback={<Skeleton className="w-full h-40" />}> */}
-					<TabsContentHumans />
-					{/* </Suspense> */}
-				</Tabs>
-			</div>
-
-			<UploadArea />
+			<Suspense fallback={<Skeleton className="w-full h-4" />}>
+				<UploadSection showAutomationTab={false} />
+			</Suspense>
 
 			<FileHistory />
 		</div>
