@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { processPickerItems } from "@/config/external/process-picker-items";
+import { PROCESS_PICKER_CONFIG } from "@/config/external/process-picker-items";
 import type { DataItemsProps } from "@/types/local";
 
 // TODO: [backend] : Replace with API call: fetch('/api/processes')
@@ -11,10 +11,7 @@ import type { DataItemsProps } from "@/types/local";
 // 	{ id: "report-generation", name: "Report Generation" },
 // ] as const;
 
-export interface ProcessItem extends DataItemsProps {
-	id: string;
-	name: string;
-}
+export type ProcessItem = DataItemsProps;
 
 export function useProcesses(): Readonly<ProcessItem[]> {
 	// TODO: [backend] : Add loading state, error handling when fetching from API
@@ -26,5 +23,5 @@ export function useProcesses(): Readonly<ProcessItem[]> {
 	// }
 
 	// return processPickerItems;
-	return useMemo(() => processPickerItems, []);
+	return useMemo(() => PROCESS_PICKER_CONFIG, []);
 }

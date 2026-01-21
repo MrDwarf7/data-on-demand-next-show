@@ -1,7 +1,8 @@
 // UNDER CONSIDERATION - Advanced implementation with Web Workers
 // This file contains experimental optimizations and may not be used in production
 
-'use client'
+
+"use client"
 
 import { useCallback, useMemo, useRef, useState } from 'react'
 

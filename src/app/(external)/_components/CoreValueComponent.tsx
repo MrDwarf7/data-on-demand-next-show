@@ -15,7 +15,7 @@ export const CoreValueCard = (data: CoreValueCardProps) => {
 		<div className="flex flex-col items-center">
 			<div className="shrink-0">
 				<div className="flex items-center justify-center w-12 h-12 text-3xl bg-ring/90 rounded-md">
-					{data.value.icon}
+					{data.value.icon({})}
 				</div>
 			</div>
 			<div className="mt-4 text-center">

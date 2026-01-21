@@ -6,7 +6,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { RenderTile } from "@/components/generic/RenderTile";
 import ThemeToggler from "@/components/ThemeToggler";
 import { Skeleton } from "@/components/ui/skeleton";
-import { APP_NAME } from "@/config/external/constants";
+import { APP_NAME } from "@/config/constants";
 import { EXTERNAL_MENU_ITEMS } from "@/config/external/headerbar-config";
 
 export const tileClassValues = {

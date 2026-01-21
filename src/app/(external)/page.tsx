@@ -2,10 +2,13 @@ import { RenderCoreValues } from "@/app/(external)/_components/CoreValueComponen
 import { RenderGridItems } from "@/app/(external)/_components/RenderGridItems";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
+import { APP_NAME, AREA_TITLE, EXTERNAL_BLURB } from "@/config/constants";
 
 // import { Suspense } from "react";
 // import { RenderTiles } from "./_components/RenderTiles";
 
+// TODO: move the formattedKeywords fn to a lib tool,
+//       move the keywords to config/constants
 type Keyword = {
 	word: string;
 	eol: string;
@@ -37,14 +40,17 @@ export default function Home() {
 					<div className="absolute inset-0 z-10 pointer-events-none">
 						{/* <div className="py-6 sm:py-10 mx-auto text-center flex flex-col items-center max-w-4xl"> */}
 						<h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl px-4">
-							Robotics Processing and Automation.
+							{APP_NAME} -
+							<br />
+							{AREA_TITLE}
 						</h1>
 						<h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl md:text-3xl mt-3 sm:mt-4 px-4">
-							The central hub for <span className="text-blue-600">all things automated</span>.
+							The central hub for {formattedKeyWords([{ word: "all things automated", eol: "." }])}
 						</h2>
 						<p className="mt-6 sm:mt-8 text-base sm:text-lg text-muted-foreground max-w-prose px-4">
-							Welcome to Data On Demand - The Smart Automation team&apos;s new platform for
-							providing better service through three core principles: {formattedKeyWords(keywords)}
+							{EXTERNAL_BLURB}
+							<br />
+							{formattedKeyWords(keywords)}
 						</p>
 						<RenderGridItems />
 						{/* Render the individual buttons under the cards */}

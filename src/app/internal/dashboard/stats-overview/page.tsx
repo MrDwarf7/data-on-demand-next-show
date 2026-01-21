@@ -1,19 +1,52 @@
 import { Suspense } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
-import { FiAlertCircle, FiCheckCircle, FiServer, FiTrendingUp, FiZap } from "react-icons/fi";
+import {
+	FiAlertCircle,
+	FiCheckCircle,
+	FiServer,
+	FiTrendingDown,
+	FiTrendingUp,
+	FiZap,
+} from "react-icons/fi";
 import { HiOutlineChartBar } from "react-icons/hi";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getStatsOverview, type TimeRange } from "@/hooks/use-stats-overview";
+import type { TimeRange } from "@/config/internal/stats-overview-config";
+import { getStatsOverview } from "@/hooks/use-stats-overview";
 import { TimeRangePicker } from "./_components/TimeRangePicker";
 
-interface PageProps {
+interface StatsOverViewPageProps {
 	searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function StatsOverviewPage({ searchParams }: PageProps) {
+const topProcessesSkeleton = (count: number) => (
+	<Skeleton className="space-y-4">
+		{Array.from({ length: count }).map((_, index) => (
+			<Skeleton key={index.toString()} className="group">
+				<Skeleton className="flex items-center justify-between mb-2">
+					<Skeleton className="flex items-center gap-3">
+						<Skeleton className="text-lg font-bold text-muted-foreground" />
+						<Skeleton className="text-sm font-medium text-foreground" />
+					</Skeleton>
+					<Skeleton className="text-sm font-semibold text-foreground">
+						<Skeleton />
+					</Skeleton>
+				</Skeleton>
+				<Skeleton className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
+					<Skeleton className="h-full bg-linear-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500 group-hover:from-green-400 group-hover:to-emerald-400" />
+				</Skeleton>
+			</Skeleton>
+		))}
+	</Skeleton>
+);
+
+export default async function StatsOverviewPage({ searchParams }: StatsOverViewPageProps) {
 	const params = await searchParams;
-	const timeRange = (params.range as TimeRange) || "24h";
-	const { statsCards, recentActivity, systemMetrics, topProcesses } = getStatsOverview(timeRange);
+	const range = (params.range as TimeRange) || "24h";
+	const { statsCards, recentActivity, systemMetrics, topProcesses } = getStatsOverview(range);
+
+	if (!statsCards || !recentActivity || !systemMetrics || !topProcesses) {
+		throw new Error("Failed to load statistics data.");
+	}
 
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-450 mx-auto space-y-6">
@@ -28,31 +61,37 @@ export default async function StatsOverviewPage({ searchParams }: PageProps) {
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-				{statsCards.map((stat, index) => (
-					<div
-						key={stat.title}
-						className={`relative overflow-hidden rounded-xl border border-accent/50 bg-linear-to-br ${stat.bgGradient} p-6 transition-all hover:shadow-xl hover:scale-[1.02] group`}
-						style={{ animationDelay: `${index * 100}ms` }}
-					>
-						<div className="flex items-start justify-between mb-4">
-							<div
-								className={`p-3 rounded-lg bg-linear-to-br ${stat.gradient} text-white shadow-lg group-hover:scale-110 transition-transform`}
-							>
-								{stat.icon}
+				<Suspense>
+					{statsCards.map((stat, index) => (
+						<div
+							key={`${stat.title}__${stat.trend}__${stat.value}__${index}`}
+							className={`relative overflow-hidden rounded-xl border border-accent/50 bg-linear-to-br ${stat.bgGradient} p-6 transition-all hover:shadow-xl hover:scale-[1.02] group`}
+							style={{ animationDelay: `${index * 100}ms` }}
+						>
+							<div className="flex items-start justify-between mb-4">
+								<div
+									className={`p-3 rounded-lg bg-linear-to-br ${stat.gradient} text-white shadow-lg group-hover:scale-110 transition-transform`}
+								>
+									{stat.icon({})}
+								</div>
+								<div
+									className={`flex items-center gap-1 text-sm font-medium ${
+										stat.trend === "up" ? "text-green-600" : "text-red-600"
+									}`}
+								>
+									{stat.trend === "up" ? (
+										<FiTrendingUp className="w-4 h-4" />
+									) : (
+										<FiTrendingDown className="w-4 h-4" />
+									)}
+									{stat.change}
+								</div>
 							</div>
-							<div
-								className={`flex items-center gap-1 text-sm font-medium ${
-									stat.trend === "up" ? "text-green-600" : "text-red-600"
-								}`}
-							>
-								<FiTrendingUp className="w-4 h-4" />
-								{stat.change}
-							</div>
+							<h3 className="text-sm font-medium text-muted-foreground mb-1">{stat.title}</h3>
+							<p className="text-3xl font-bold text-foreground">{stat.value}</p>
 						</div>
-						<h3 className="text-sm font-medium text-muted-foreground mb-1">{stat.title}</h3>
-						<p className="text-3xl font-bold text-foreground">{stat.value}</p>
-					</div>
-				))}
+					))}
+				</Suspense>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -86,54 +125,65 @@ export default async function StatsOverviewPage({ searchParams }: PageProps) {
 						<h2 className="text-xl font-semibold text-foreground">System Health</h2>
 					</div>
 					<div className="space-y-4">
-						{systemMetrics.map((metric) => (
-							<div key={metric.name}>
-								<div className="flex items-center justify-between mb-2">
-									<span className="text-sm font-medium text-foreground">{metric.name}</span>
-									<span className="text-sm font-semibold text-foreground">{metric.value}%</span>
+						<Suspense>
+							{systemMetrics.map((metric) => (
+								<div key={metric.value}>
+									<div className="flex items-center justify-between mb-2">
+										<span className="text-sm font-medium text-foreground">{metric.label}</span>
+										<span className="text-sm font-semibold text-foreground">{metric.value}%</span>
+									</div>
+									<div className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
+										<div
+											className={`h-full ${metric.color} rounded-full transition-all duration-500`}
+											style={{ width: `${metric.value}%` }}
+										/>
+									</div>
 								</div>
-								<div className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
-									<div
-										className={`h-full ${metric.color} rounded-full transition-all duration-500`}
-										style={{ width: `${metric.value}%` }}
-									/>
-								</div>
-							</div>
-						))}
+							))}
+						</Suspense>
 					</div>
 				</div>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-				<div className="bg-accent/30 border border-accent/50 rounded-xl p-6">
-					<div className="flex items-center gap-3 mb-6">
-						<div className="p-2 rounded-lg bg-green-600 text-white">
-							<FiZap className="w-5 h-5" />
-						</div>
-						<h2 className="text-xl font-semibold text-foreground">Top Processes</h2>
-					</div>
-					<div className="space-y-4">
-						{topProcesses.map((process, index) => (
-							<div key={process.name} className="group">
-								<div className="flex items-center justify-between mb-2">
-									<div className="flex items-center gap-3">
-										<span className="text-lg font-bold text-muted-foreground">#{index + 1}</span>
-										<span className="text-sm font-medium text-foreground">{process.name}</span>
-									</div>
-									<span className="text-sm font-semibold text-foreground">
-										{process.count.toLocaleString()}
-									</span>
-								</div>
-								<div className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
-									<div
-										className="h-full bg-linear-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500 group-hover:from-green-400 group-hover:to-emerald-400"
-										style={{ width: `${process.percentage}%` }}
-									/>
-								</div>
+				<Suspense>
+					<div className="bg-accent/30 border border-accent/50 rounded-xl p-6">
+						<div className="flex items-center gap-3 mb-6">
+							<div className="p-2 rounded-lg bg-green-600 text-white">
+								<FiZap className="w-5 h-5" />
 							</div>
-						))}
+							<h2 className="text-xl font-semibold text-foreground">Top Processes</h2>
+						</div>
+						<div className="space-y-4">
+							<Suspense fallback={topProcessesSkeleton(topProcesses.length)}>
+								{topProcesses.map((process, index) => (
+									<div
+										key={`${process.name}__${process.count}__${process.percentage}__${index}`}
+										className="group"
+									>
+										<div className="flex items-center justify-between mb-2">
+											<div className="flex items-center gap-3">
+												<span className="text-lg font-bold text-muted-foreground">
+													#{index + 1}
+												</span>
+												<span className="text-sm font-medium text-foreground">{process.name}</span>
+											</div>
+											<span className="text-sm font-semibold text-foreground">
+												{process.count.toLocaleString()}
+											</span>
+										</div>
+										<div className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
+											<div
+												className="h-full bg-linear-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500 group-hover:from-green-400 group-hover:to-emerald-400"
+												style={{ width: `${process.percentage}%` }}
+											/>
+										</div>
+									</div>
+								))}
+							</Suspense>
+						</div>
 					</div>
-				</div>
+				</Suspense>
 
 				<div className="bg-accent/30 border border-accent/50 rounded-xl p-6">
 					<div className="flex items-center gap-3 mb-6">
@@ -143,35 +193,39 @@ export default async function StatsOverviewPage({ searchParams }: PageProps) {
 						<h2 className="text-xl font-semibold text-foreground">Recent Activity</h2>
 					</div>
 					<div className="space-y-3 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
-						{recentActivity.map((activity) => (
-							<div
-								key={activity.id}
-								className="flex items-start gap-3 p-3 rounded-lg bg-background/50 border border-accent/30 hover:border-accent/60 transition-all"
-							>
+						<Suspense>
+							{recentActivity.map((activity) => (
 								<div
-									className={`mt-1 w-2 h-2 rounded-full shrink-0 ${
-										activity.status === "success"
-											? "bg-green-500"
-											: activity.status === "error"
-												? "bg-red-500"
-												: activity.status === "processing"
-													? "bg-blue-500 animate-pulse"
-													: "bg-gray-500"
-									}`}
-								/>
-								<div className="flex-1 min-w-0">
-									<p className="text-sm font-medium text-foreground truncate">{activity.action}</p>
-									<p className="text-xs text-muted-foreground truncate">{activity.process}</p>
-									<p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
+									key={activity.id}
+									className="flex items-start gap-3 p-3 rounded-lg bg-background/50 border border-accent/30 hover:border-accent/60 transition-all"
+								>
+									<div
+										className={`mt-1 w-2 h-2 rounded-full shrink-0 ${
+											activity.status === "success"
+												? "bg-green-500"
+												: activity.status === "error"
+													? "bg-red-500"
+													: activity.status === "processing"
+														? "bg-blue-500 animate-pulse"
+														: "bg-gray-500"
+										}`}
+									/>
+									<div className="flex-1 min-w-0">
+										<p className="text-sm font-medium text-foreground truncate">
+											{activity.action}
+										</p>
+										<p className="text-xs text-muted-foreground truncate">{activity.process}</p>
+										<p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
+									</div>
+									{activity.status === "error" && (
+										<FiAlertCircle className="w-4 h-4 text-red-500 shrink-0" />
+									)}
+									{activity.status === "success" && (
+										<FiCheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+									)}
 								</div>
-								{activity.status === "error" && (
-									<FiAlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-								)}
-								{activity.status === "success" && (
-									<FiCheckCircle className="w-4 h-4 text-green-500 shrink-0" />
-								)}
-							</div>
-						))}
+							))}
+						</Suspense>
 					</div>
 				</div>
 			</div>

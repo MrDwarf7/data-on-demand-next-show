@@ -23,7 +23,7 @@ export default function DashboardPage() {
 					>
 						<div className="flex flex-col h-full">
 							<div className={`${card.iconColor} mb-4 transition-transform duration-200`}>
-								{card.icon && <card.icon className="w-8 h-8" />}
+								{card.icon?.({ className: "w-8 h-8" })}
 							</div>
 							<h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
 								{card.title}

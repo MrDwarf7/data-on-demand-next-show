@@ -20,6 +20,13 @@ interface UploadState {
 	setSelectedProcess: (process: string | null) => void;
 }
 
+// TODO: We should be able to entirely remove this whole setup
+// We have a function to handle router.psuh stuff already,
+// It works perfectly for the stats-overview/page.tsx file and it's fast
+// --- use case for something like useTransition though?
+//
+// import { usePushFrom } from "@/lib/push-from-t";
+
 export const useUploadStore = create<UploadState>((set, _get) => ({
 	selectedProcess: getInitialProcess(),
 	setSelectedProcess: (process) => {

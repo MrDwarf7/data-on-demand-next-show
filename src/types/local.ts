@@ -2,6 +2,7 @@
 
 import type React from "react";
 import type { IconType } from "react-icons";
+import type { ValueAndLabel } from "./common";
 
 // Very useful for printing types (especially larger or more complex ones)
 export type Prettify<T> = {
@@ -21,10 +22,10 @@ export type ClickToCopySnippetProps = {
 	text: string;
 };
 
-export type DataItemsProps = {
-	id: string;
-	name: string;
-};
+// export interface DataItemsProps extends ValueAndLabel {
+// }
+
+export type DataItemsProps = ValueAndLabel;
 
 export type ProcessPickerProps = {
 	searchParams?: {

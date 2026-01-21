@@ -28,8 +28,8 @@ import type { DataItemsProps } from "@/types/local";
 
 const formSchema = z.object({
 	process: z.object({
-		id: z.string().min(1, "Please select a process with an id."),
-		name: z.string().min(1, "Please select a process with a name."),
+		value: z.string().min(1, "Please select a process with an id."),
+		label: z.string().min(1, "Please select a process with a name."),
 	}),
 });
 
@@ -50,8 +50,8 @@ const ProcessPicker = () => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			process: {
-				id: "",
-				name: "",
+				value: "",
+				label: "",
 			},
 		},
 	});
@@ -59,7 +59,7 @@ const ProcessPicker = () => {
 	const selectHandler = useCallback(
 		async (item: DataItemsProps) => {
 			form.setValue("process", item);
-			setSelectedProcess(item.id);
+			setSelectedProcess(item.value);
 			setProcessPickerOpen(false);
 		},
 		[form, setSelectedProcess]
@@ -92,8 +92,8 @@ const ProcessPicker = () => {
 												<FormLabel className="text-xs justify-center">
 													{selectedProcess
 														? processPickerItems.find(
-																(indivListedItem) => indivListedItem.id === selectedProcess
-															)?.name
+																(indivListedItem) => indivListedItem.value === selectedProcess
+															)?.label
 														: "Select a process..."}
 												</FormLabel>
 												<FaChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -112,14 +112,14 @@ const ProcessPicker = () => {
 														<CommandItem
 															className="hover:cursor-pointer gap-y-1"
 															itemType="submit"
-															key={indivListedItem.name}
+															key={indivListedItem.label}
 															onSelect={() => selectHandler(indivListedItem)}
 															onClick={() => selectHandler(indivListedItem)}
 															typeof="button"
-															value={indivListedItem.name}
+															value={indivListedItem.label}
 															suppressHydrationWarning
 														>
-															{indivListedItem.name}
+															{indivListedItem.label}
 														</CommandItem>
 													))}
 												</CommandGroup>

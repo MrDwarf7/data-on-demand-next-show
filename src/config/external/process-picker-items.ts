@@ -1,77 +1,80 @@
 // TODO: [backend] : Create function to 'fetch' these,
 // for nowe we return this array of pre-defined items.
+
+import type { ValueAndLabel } from "@/types/common";
+
 // Later we will change the functio to instead return the data from a backend API call.
-export const processPickerItems = [
+export const PROCESS_PICKER_CONFIG: ValueAndLabel[] = [
 	{
-		name: "My Value 1",
-		id: "number_one" as const,
+		value: "number_one",
+		label: "My Value 1",
 	},
 	{
-		name: "Super Cool 2",
-		id: "very_cool" as const,
+		value: "very_cool",
+		label: "Super Cool 2",
 	},
 	{
-		name: "Memes 3",
-		id: "process_three_memes" as const,
+		value: "process_three_memes",
+		label: "Memes 3",
 	},
 	{
-		name: "Process 4",
-		id: "process_four_etc" as const,
+		value: "process_four_etc",
+		label: "Process 4",
 	},
 	{
-		name: "Process 5" as const,
-		id: "5",
+		value: "5",
+		label: "Process 5",
 	},
 	{
-		name: "Process 6" as const,
-		id: "6",
+		value: "6",
+		label: "Process 6",
 	},
 	{
-		name: "Process 7" as const,
-		id: "7",
+		value: "7",
+		label: "Process 7",
 	},
 	{
-		name: "Process 8" as const,
-		id: "8",
+		value: "8",
+		label: "Process 8",
 	},
 	{
-		name: "Process 9",
-		id: "9",
+		value: "9",
+		label: "Process 9",
 	},
 	{
-		name: "Process 10",
-		id: "10",
+		value: "10",
+		label: "Process 10",
 	},
 	{
-		name: "Process 11",
-		id: "11",
+		value: "11",
+		label: "Process 11",
 	},
 	{
-		name: "Process 12",
-		id: "12",
+		value: "12",
+		label: "Process 12",
 	},
 	{
-		name: "Process 13",
-		id: "13",
+		value: "13",
+		label: "Process 13",
 	},
 	{
-		name: "Process 14",
-		id: "14",
+		value: "14",
+		label: "Process 14",
 	},
 	{
-		name: "Process 15",
-		id: "15",
+		value: "15",
+		label: "Process 15",
 	},
 	{
-		name: "Process 16",
-		id: "16",
+		value: "16",
+		label: "Process 16",
 	},
 	{
-		name: "Process 17",
-		id: "17",
+		value: "17",
+		label: "Process 17",
 	},
 	{
-		name: "Process 18",
-		id: "18",
+		value: "18",
+		label: "Process 18",
 	},
 ];

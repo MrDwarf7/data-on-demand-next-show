@@ -3,17 +3,14 @@ import { FiMinus, FiTrendingDown, FiTrendingUp } from "react-icons/fi";
 import type { IconType } from "react-icons/lib";
 import { PROCESSES } from "@/constants/processes";
 import { STATUS_STYLES } from "@/constants/statuses";
-import type { ClassNameDataWithIcon, TrendType } from "@/types/common";
+import type { ClassNameDataWithIcon, TrendType, ValueAndLabel } from "@/types/common";
 import { createStyleGetter } from "@/utils/lookups";
 export type { TrendType };
 
+import type { CommonStatus } from "@/constants/statuses";
+
 export interface IconTypeMap extends Record<string, IconType> {}
 
-// a type + enum style mapping
-// of a TrendType in -> color
-// eg:
-// "up" -> { classNameColor: "text-success-foreground", classNameBg: "bg-success-10" }
-// or   -> TREND_TYPE_STYLES["up"].classNameColor -> "text-green-500"
 export const TREND_TYPE_STYLES: Record<TrendType, ClassNameDataWithIcon> = {
 	up: {
 		icon: FiTrendingUp,
@@ -34,8 +31,6 @@ export const TREND_TYPE_STYLES: Record<TrendType, ClassNameDataWithIcon> = {
 
 export const getTrendStyles = createStyleGetter(TREND_TYPE_STYLES);
 
-import type { CommonStatus } from "@/constants/statuses";
-
 export type StatisticsStatus = Extract<CommonStatus, "active" | "idle" | "paused" | "failed">;
 
 export const STATISTICS_STATUS_STYLES: Record<StatisticsStatus, ClassNameDataWithIcon> = {
@@ -47,45 +42,39 @@ export const STATISTICS_STATUS_STYLES: Record<StatisticsStatus, ClassNameDataWit
 
 export const getStatisticsStatusStyles = createStyleGetter(STATISTICS_STATUS_STYLES);
 
-export interface StatisticMetric {
-	label: string;
-	value: string | number;
+export interface StatisticMetric extends ValueAndLabel {
 	change: string;
 	trend: TrendType;
 }
 
 export const STATISTICS_METRICS: StatisticMetric[] = [
 	{
-		label: "Total Processes Today",
 		value: "847",
+		label: "Total Processes Today",
 		change: "+12.3%",
 		trend: "up",
 	},
 	{
-		label: "Success Rate",
 		value: "98.5%",
+		label: "Success Rate",
 		change: "+2.1%",
 		trend: "up",
 	},
 	{
-		label: "Avg Process Time",
 		value: "2.3s",
+		label: "Avg Process Time",
 		change: "-0.5s",
 		trend: "up",
 	},
 	{
-		label: "Active Queues",
 		value: "12",
+		label: "Active Queues",
 		change: "+3",
 		trend: "neutral",
 	},
 ];
 
-// TODO: use similar to processPickerItems ??
-export interface StatisticsColumn {
-	key: string;
-	label: string;
-}
+export interface StatisticsColumn extends ValueAndLabel {}
 
 export interface StatisticsRow {
 	id: number;
@@ -103,11 +92,11 @@ export interface StatisticsTableData {
 
 export const SAMPLE_TABLE_DATA: StatisticsTableData = {
 	columns: [
-		{ key: "process", label: "Process Name" },
-		{ key: "status", label: "Status" },
-		{ key: "count", label: "Count" },
-		{ key: "avgTime", label: "Avg Time" },
-		{ key: "successRate", label: "Success Rate" },
+		{ value: "process", label: "Process Name" },
+		{ value: "status", label: "Status" },
+		{ value: "count", label: "Count" },
+		{ value: "avgTime", label: "Avg Time" },
+		{ value: "successRate", label: "Success Rate" },
 	],
 	rows: [
 		{

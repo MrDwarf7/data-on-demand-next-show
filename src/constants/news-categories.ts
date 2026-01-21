@@ -1,10 +1,22 @@
+import type { NewsCategory } from "@/lib/news-utils";
+import type { ValueAndLabel } from "@/types/common";
+
+export const CATEGORY_LABELS: Record<NewsCategory, string> = {
+	announcement: "Announcements",
+	maintenance: "Maintenance",
+	update: "Updates",
+	alert: "Alerts",
+};
+
+export type NewsCategoryExt = NewsCategory | "all";
+
 export const NEWS_CATEGORIES = [
 	{ value: "all", label: "All News" },
-	{ value: "announcement", label: "Announcements" },
-	{ value: "maintenance", label: "Maintenance" },
-	{ value: "update", label: "Updates" },
-	{ value: "alert", label: "Alerts" },
-] as const;
+	...Object.entries(CATEGORY_LABELS).map(([value, label]) => ({
+		value: value as NewsCategory,
+		label,
+	})),
+] as const satisfies readonly ValueAndLabel<NewsCategoryExt, string>[];
 
 export const NEWS_CATEGORY_VALUES = {
 	ALL: "all",
@@ -13,5 +25,3 @@ export const NEWS_CATEGORY_VALUES = {
 	UPDATE: "update",
 	ALERT: "alert",
 } as const;
-
-export type NewsCategory = (typeof NEWS_CATEGORY_VALUES)[keyof typeof NEWS_CATEGORY_VALUES];

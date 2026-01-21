@@ -2,7 +2,7 @@ import { MOCK_USERS } from "@/constants/mock-users";
 import type { PRIORITIES } from "@/constants/priorities";
 import { PROCESSES } from "@/constants/processes";
 import { STATUS_STYLES } from "@/constants/statuses";
-import type { ClassNameDataWithIcon, Priority } from "@/types/common";
+import type { ClassNameDataWithIcon, Priority, PriorityLevelData } from "@/types/common";
 import { createStyleGetter } from "@/utils/lookups";
 import { FiClock } from "react-icons/fi";
 
@@ -23,23 +23,23 @@ export type QueueStatsType = Capitalize<QueueFilter>;
 // QueueStatsType string. It must TAKE a typeof QueueStatsType as input, and
 // return a type-safe (ie: A typeof) lowercased version
 
-export type QueueTypePriority = Priority;
+// export type QueueTypePriority = Priority;
 
 // export interface QueueTypeStyle extends Record<typeof QUEUE_FILTERS[number], ClassNameDataWithIcon> {
 // 	priority: QueueTypePriority;
 // }
 
-export type PriorityLevelData = {
-	priorityLevel?: QueueTypePriority;
-	classNamePriority?: string;
-};
+// export type PriorityLevelData = {
+// 	priorityLevel?: QueueTypePriority;
+// 	classNamePriority?: string;
+// };
 
 export interface ClassNameDataWithIconPriority extends ClassNameDataWithIcon {
 	priority?: PriorityLevelData;
 }
 
 export const QUEUE_TYPE_STYLES: Record<
-	Lowercase<QueueStatsType> | QueueTypePriority | "default",
+	Lowercase<QueueStatsType> | Priority | "default",
 	ClassNameDataWithIconPriority
 > = {
 	all: {

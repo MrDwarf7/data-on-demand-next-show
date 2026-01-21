@@ -14,6 +14,17 @@ export type OperationStatus =
 	| "success"
 	| "error";
 export type TrendType = "up" | "down" | "neutral";
+export type StatTrend = Extract<TrendType, "up" | "down">; // without "neutral"
+
+export interface ValueAndLabel<V = string, L = string> {
+	value: V;
+	label: L;
+}
+
+// Generic interface for items with optional styling
+export interface StylableItem {
+	className?: string;
+}
 
 // Common styling interface for data with icons
 export type ClassNameDataWithIcon = {
@@ -22,7 +33,11 @@ export type ClassNameDataWithIcon = {
 	icon: IconType;
 };
 
-// Generic interface for items with optional styling
-export interface StylableItem {
-	className?: string;
+export type PriorityLevelData = {
+	priorityLevel?: Priority;
+	classNamePriority?: string;
+};
+
+export interface ClassNameDataWithIconPriority extends ClassNameDataWithIcon {
+	priority?: PriorityLevelData;
 }

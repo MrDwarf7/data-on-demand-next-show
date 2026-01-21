@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { TIME_RANGES } from "@/config/internal/stats-overview-config";
-import type { TimeRange } from "@/hooks/use-stats-overview";
+import { TIME_RANGES, type TimeRange } from "@/config/internal/stats-overview-config";
+
 import { usePushFrom } from "@/lib/push-from-t";
 
 export const TimeRangePicker = () => {

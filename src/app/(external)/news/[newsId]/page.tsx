@@ -11,6 +11,11 @@ export default async function DynamicNewsPage({ params }: { params: { newsId: st
 	// TODO: [backend] : move to hook->backend call from db
 	const post = NEWS_POSTS.find((p) => p.id === nId);
 
+	// TODO: [consolidation] : We have a set of Link components
+	// here that we're using string href's and icons on directly.
+	// We prefer to use the various config's and constants.
+	// Creating a mapping function to generate the would be best.
+
 	if (!post) {
 		return (
 			<MaxWidthWrapper className="py-12">

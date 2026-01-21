@@ -4,7 +4,7 @@ export const EXTERNAL_CORE_VALUES = [
 	{
 		id: 1,
 		name: "Consistency",
-		icon: <PiTarget />,
+		icon: PiTarget,
 		summary:
 			"Standardized document intake with automated validation for reliable, consistent results.",
 		details: {
@@ -22,7 +22,7 @@ export const EXTERNAL_CORE_VALUES = [
 	{
 		id: 2,
 		name: "Visibility",
-		icon: <PiListMagnifyingGlass />,
+		icon: PiListMagnifyingGlass,
 		summary: "Real-time insights into queue status, workloads, and resource availability.",
 		details: {
 			id: 2,
@@ -38,7 +38,7 @@ export const EXTERNAL_CORE_VALUES = [
 	{
 		id: 3,
 		name: "Transparency",
-		icon: <PiEye />,
+		icon: PiEye,
 		summary: "Clear insights into what's happening, when, and why decisions are made.",
 		details: {
 			id: 3,

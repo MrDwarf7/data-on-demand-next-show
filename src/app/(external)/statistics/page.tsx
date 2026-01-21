@@ -68,7 +68,8 @@ export default function StatisticsPage() {
 					<h2 className="text-2xl font-bold text-foreground">Process Overview</h2>
 					<button
 						type="button"
-						className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-all text-sm"
+						// className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-all text-sm"
+						className="px-4 py-2 bg-blue-600 shadow-lg shadow-blue-600/50 hover:bg-blue-700 hover:shadow-blue-700/50 text-white text-sm rounded-xl font-medium transition-all whitespace-nowrap"
 					>
 						Refresh Data
 					</button>
@@ -80,7 +81,7 @@ export default function StatisticsPage() {
 							<tr className="border-b border-accent">
 								{SAMPLE_TABLE_DATA.columns.map((column) => (
 									<th
-										key={column.key}
+										key={column.value}
 										className="text-left py-4 px-4 text-sm font-semibold text-foreground"
 									>
 										{column.label}

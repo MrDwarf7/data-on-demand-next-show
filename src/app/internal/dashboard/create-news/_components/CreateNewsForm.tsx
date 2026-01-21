@@ -11,6 +11,8 @@ import { getPriorityPreviewClass } from "@/lib/news-utils";
 import { createNews } from "../actions";
 
 export function CreateNewsForm() {
+	// TODO: [performance] : We should be using actionstate or reducer or formdata->server action
+	// this is a lot of state for a fairly simple form
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [priority, setPriority] = useState("normal");
