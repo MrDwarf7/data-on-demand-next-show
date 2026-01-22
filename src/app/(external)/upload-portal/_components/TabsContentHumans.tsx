@@ -2,8 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { useActionState, useRef } from "react";
-import { useDropzone } from "react-dropzone";
-import { FiAlertCircle, FiUploadCloud } from "react-icons/fi";
+import { type FileRejection, useDropzone } from "react-dropzone";
+import { FiAlertCircle, FiUploadCloud, FiX } from "react-icons/fi";
 import { Progress } from "@/components/ui/progress";
 import { TabsContent } from "@/components/ui/tabs";
 import {
@@ -27,7 +27,7 @@ import { uploadFiles } from "../actions";
 
 interface TabsContentHumansProps {
 	selectedFiles: File[];
-	onFilesChange: (files: File[]) => void;
+	onFilesChange: (updater: File[] | ((prev: File[]) => File[])) => void;
 }
 
 const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansProps) => {
@@ -41,35 +41,35 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 		error: null,
 	});
 
-	const fileInputRef = useRef<HTMLInputElement>(null);
+	const acceptedFilesRef = useRef<File[]>(selectedFiles);
+	acceptedFilesRef.current = selectedFiles;
 
 	const dropZoneProps = {
-		onDrop: (acceptedFiles: File[]) => {
-			onFilesChange(acceptedFiles);
-			// Set files on the input for form submission
-			if (fileInputRef.current) {
-				const dt = new DataTransfer();
-				for (const file of acceptedFiles) {
-					dt.items.add(file);
-				}
-				fileInputRef.current.files = dt.files;
-			}
-		},
 		accept: ACCEPTED_TYPES_MAP,
 		maxSize: MAX_FILE_SIZE,
 		multiple: true,
-		noClick: true, // We'll handle click manually
+		onDrop: (acceptedFiles: File[]) => {
+			// Sync with parent component state
+			acceptedFilesRef.current.push(...acceptedFiles);
+			console.log(
+				"Accepted files:",
+				acceptedFiles.map((f) => f.name)
+			);
+			onFilesChange([...acceptedFilesRef.current]);
+		},
+		onDropRejected: (fileRejections: FileRejection[]) => {
+			// Log rejected files
+			console.warn(
+				"Rejected files:",
+				fileRejections.map((rejection) => rejection.file.name)
+			);
+		},
 	};
 
-	const { isDragActive } = useDropzone(dropZoneProps);
+	const { isDragActive, acceptedFiles, getInputProps, getRootProps } = useDropzone(dropZoneProps);
 
-	const openFileDialog = () => {
-		fileInputRef.current?.click();
-	};
-
-	const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const files = Array.from(event.target.files || []);
-		onFilesChange(files);
+	const removeFile = (indexToRemove: number) => {
+		onFilesChange((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
 	};
 
 	return (
@@ -86,16 +86,8 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 			<div className="mb-8">
 				<form action={formAction}>
 					<input type="hidden" name="process" value={selectedProcess || ""} />
-					<input
-						type="file"
-						name="files"
-						multiple
-						accept={Object.keys(ACCEPTED_TYPES_MAP).join(",")}
-						ref={fileInputRef}
-						onChange={handleFileInputChange}
-						className="hidden"
-					/>
 					<div
+						{...getRootProps()}
 						className={`
 							relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center cursor-pointer
 							transition-all duration-300 ease-in-out
@@ -103,8 +95,8 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 							hover:bg-accent/10
 							${isDragActive ? "border-blue-500 bg-blue-500/10" : ""}
 						`}
-						onClick={openFileDialog}
 					>
+						<input {...getInputProps({ name: "files" })} />
 						<FiUploadCloud className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
 						<h3 className="text-xl font-semibold text-foreground mb-2">
 							{isDragActive ? "Drop files here..." : "Drag & drop files here"}
@@ -173,9 +165,9 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 												</div>
 											</div>
 										))
-									: selectedFiles.map((file) => (
+									: selectedFiles.map((file, index) => (
 											<div
-												key={`${file.name}-${file.size}`}
+												key={`${file.name}-${file.size}-${index}`}
 												className="flex items-center gap-3 p-3 bg-background/50 rounded-lg border border-accent/30"
 											>
 												<div className="flex-1 min-w-0">
@@ -186,6 +178,14 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 														{(file.size / 1024 / 1024).toFixed(2)} MB
 													</p>
 												</div>
+												<button
+													type="button"
+													onClick={() => removeFile(index)}
+													className="flex-shrink-0 p-1 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+													title="Remove file"
+												>
+													<FiX className="w-4 h-4" />
+												</button>
 											</div>
 										))}
 							</div>

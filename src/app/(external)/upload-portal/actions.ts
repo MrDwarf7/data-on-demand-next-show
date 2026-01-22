@@ -35,6 +35,38 @@ export const selectProcess = async (
 	return { selectedProcess: process, error: null };
 };
 
+const renameFile = (originalName: string): string => {
+	const now = new Date();
+	const dateStr = now.toISOString().slice(0, 10).replace(/-/g, ""); // YYYYMMDD
+	const timeStr = now.toISOString().slice(11, 19).replace(/:/g, ""); // HHMMSS
+	const uuid = crypto.randomUUID();
+
+	const ext = originalName.split(".").pop() || "";
+	const filename = `${dateStr}-${timeStr}-${originalName.replace(/\.[^/.]+$/, "")}-${uuid}.${ext}`;
+	return filename;
+};
+
+// const toDatabase = async (file: File): Promise<void> => {
+// 	// TODO: [backend] swappable with actual DB logic
+// };
+
+const toDisk = async (file: File, filepath: string): Promise<void> => {
+	const buffer = await file.arrayBuffer();
+	await writeFile(filepath, Buffer.from(buffer));
+};
+
+const writeToStorage = async (file: File): Promise<UploadedFile> => {
+	const filename = renameFile(file.name);
+	const filepath = `./public/uploads/${filename}`;
+	await toDisk(file, filepath);
+
+	return {
+		id: filename,
+		name: file.name,
+		status: "uploaded",
+	};
+};
+
 export const uploadFiles = async (
 	_prevState: FileUploadState,
 	formData: FormData
@@ -43,32 +75,18 @@ export const uploadFiles = async (
 		const process = formData.get("process") as string;
 		const files = formData.getAll("files").filter((f): f is File => f instanceof File);
 
+		console.log(
+			"Files to upload:",
+			files.map((f) => f.name)
+		);
+		console.log("Selected process:", process);
 		// Simple validation
 		if (!process || files.length === 0) {
 			return { success: false, uploadedFiles: [], error: "Validation failed" };
 		}
 
 		// Save files with proper naming
-		const uploadedFiles = await Promise.all(
-			files.map(async (file) => {
-				const now = new Date();
-				const dateStr = now.toISOString().slice(0, 10).replace(/-/g, ""); // YYYYMMDD
-				const timeStr = now.toISOString().slice(11, 19).replace(/:/g, ""); // HHMMSS
-				const uuid = crypto.randomUUID();
-				const ext = file.name.split(".").pop() || "";
-				const filename = `${dateStr}-${timeStr}-${file.name.replace(/\.[^/.]+$/, "")}-${uuid}.${ext}`;
-				const filepath = `./public/uploads/${filename}`;
-
-				const buffer = await file.arrayBuffer();
-				await writeFile(filepath, Buffer.from(buffer));
-
-				return {
-					id: filename,
-					name: file.name,
-					status: "uploaded",
-				};
-			})
-		);
+		const uploadedFiles = await Promise.all(files.map(writeToStorage));
 
 		return { success: true, uploadedFiles, error: null };
 	} catch (error) {

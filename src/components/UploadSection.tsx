@@ -26,6 +26,14 @@ export const UploadSection = ({
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const tabsToShow = availableTabs || (showAutomationTab ? ["humans", "automations"] : ["humans"]);
 
+	const handleFilesChange = (updater: File[] | ((prev: File[]) => File[])) => {
+		if (typeof updater === "function") {
+			setSelectedFiles(updater);
+		} else {
+			setSelectedFiles(updater);
+		}
+	};
+
 	return (
 		<div>
 			<div className="mb-6 flex flex-row justify-end">
@@ -38,7 +46,7 @@ export const UploadSection = ({
 				{tabsToShow.length > 1 && <TabsTriggerBar availableTabs={tabsToShow} />}
 				<div className="p-2">
 					<Suspense fallback={<UploadAreaSkeleton />}>
-						<TabsContentHumans selectedFiles={selectedFiles} onFilesChange={setSelectedFiles} />
+						<TabsContentHumans selectedFiles={selectedFiles} onFilesChange={handleFilesChange} />
 					</Suspense>
 					{showAutomationTab && (
 						<Suspense fallback={<UploadAreaSkeleton />}>
