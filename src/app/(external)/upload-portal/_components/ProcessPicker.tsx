@@ -39,6 +39,7 @@ const ProcessPicker = ({ selectedFilesCount }: ProcessPickerProps) => {
 	const pushProcess = usePushFrom("process");
 
 	// Simulate loading state for better UX
+	// TODO: [backend] : can be removed when processes are fetched from backend (async anyway)
 	useEffect(() => {
 		if (processPickerItems.length > 0) {
 			// Small delay to show loading state briefly for polished feel

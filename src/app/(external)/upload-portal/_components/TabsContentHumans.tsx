@@ -13,21 +13,15 @@ import {
 } from "@/config/external/upload-config";
 import { uploadFiles } from "../actions";
 
-// interface UploadedFile {
-// 	id: string;
-// 	name: string;
-// 	status: string;
-// }
-
-// interface FileUploadState {
-// 	success: boolean;
-// 	uploadedFiles: UploadedFile[];
-// 	error: string | null;
-// }
+interface FileWithStatus {
+	file: File;
+	isRejected: boolean;
+	errors: string[];
+}
 
 interface TabsContentHumansProps {
-	selectedFiles: File[];
-	onFilesChange: (updater: File[] | ((prev: File[]) => File[])) => void;
+	selectedFiles: FileWithStatus[];
+	onFilesChange: (files: FileWithStatus[]) => void;
 }
 
 const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansProps) => {
@@ -41,40 +35,53 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 		error: null,
 	});
 
-	const acceptedFilesRef = useRef<File[]>(selectedFiles);
-	acceptedFilesRef.current = selectedFiles;
+	// Extract valid files for form submission
+	// const formFiles = selectedFiles.filter((f) => !f.isRejected).map((f) => f.file);
+
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const dropZoneProps = {
 		accept: ACCEPTED_TYPES_MAP,
 		maxSize: MAX_FILE_SIZE,
 		multiple: true,
-		onDrop: (acceptedFiles: File[]) => {
-			// Sync with parent component state
-			acceptedFilesRef.current.push(...acceptedFiles);
-			console.log(
-				"Accepted files:",
-				acceptedFiles.map((f) => f.name)
-			);
-			onFilesChange([...acceptedFilesRef.current]);
-		},
-		onDropRejected: (fileRejections: FileRejection[]) => {
-			// Log rejected files
-			console.warn(
-				"Rejected files:",
-				fileRejections.map((rejection) => rejection.file.name)
-			);
+		// there's also an 'event' param here if needed
+		onDrop: (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+			// Combine accepted and rejected files and sync with parent state
+			const allFiles: FileWithStatus[] = [
+				...acceptedFiles.map((file) => ({ file, isRejected: false, errors: [] })), // where files are accepted
+				...rejectedFiles.map((rejection) => ({
+					file: rejection.file,
+					isRejected: true,
+					errors: rejection.errors.map((err) => err.message),
+				})),
+			];
+			onFilesChange(allFiles);
+
+			// Set the input's files for form submission
+			if (inputRef.current) {
+				const dt = new DataTransfer();
+				for (const file of acceptedFiles) {
+					dt.items.add(file);
+				}
+				inputRef.current.files = dt.files;
+			}
 		},
 	};
 
-	const { isDragActive, acceptedFiles, getInputProps, getRootProps } = useDropzone(dropZoneProps);
+	const { isDragActive, getInputProps, getRootProps } = useDropzone(dropZoneProps);
+
+	const inputProps = getInputProps();
 
 	const removeFile = (indexToRemove: number) => {
-		onFilesChange((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+		onFilesChange(selectedFiles.filter((_, index) => index !== indexToRemove));
 	};
+
+	const hasRejectedFiles = selectedFiles.some((f) => f.isRejected);
+	const validFilesForDisplay = selectedFiles.filter((f) => !f.isRejected);
 
 	return (
 		<TabsContent value="humans" className="mt-6">
-			{!hasProcessSelected && selectedFiles.length > 0 && (
+			{!hasProcessSelected && validFilesForDisplay.length > 0 && (
 				<div className="mb-2 p-2 rounded-md flex items-center gap-2">
 					<FiAlertCircle className="h-4 w-4 text-destructive" />
 					<p className="text-xs text-destructive">
@@ -88,6 +95,7 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 					<input type="hidden" name="process" value={selectedProcess || ""} />
 					<div
 						{...getRootProps()}
+						onClick={() => inputRef.current?.click()}
 						className={`
 							relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center cursor-pointer
 							transition-all duration-300 ease-in-out
@@ -96,7 +104,7 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 							${isDragActive ? "border-blue-500 bg-blue-500/10" : ""}
 						`}
 					>
-						<input {...getInputProps({ name: "files" })} />
+						<input {...inputProps} name="files" ref={inputRef} />
 						<FiUploadCloud className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
 						<h3 className="text-xl font-semibold text-foreground mb-2">
 							{isDragActive ? "Drop files here..." : "Drag & drop files here"}
@@ -116,10 +124,17 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 								{!state.success && (
 									<button
 										type="submit"
-										disabled={isPending || !hasProcessSelected}
+										disabled={isPending || !hasProcessSelected || hasRejectedFiles}
 										className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-md disabled:opacity-50"
 									>
-										{isPending ? "Uploading..." : "Upload Files"}
+										{
+											// TODO: [cleanup] Clean up this double-nested ternary later
+											isPending
+												? "Uploading..."
+												: hasRejectedFiles
+													? "Remove Invalid Files"
+													: "Upload Files"
+										}
 									</button>
 								)}
 							</div>
@@ -165,23 +180,33 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 												</div>
 											</div>
 										))
-									: selectedFiles.map((file, index) => (
+									: selectedFiles.map((fileWithStatus, index) => (
 											<div
-												key={`${file.name}-${file.size}-${index}`}
-												className="flex items-center gap-3 p-3 bg-background/50 rounded-lg border border-accent/30"
+												key={`${fileWithStatus.file.name}-${fileWithStatus.file.size}-${index}`}
+												className={`flex items-center gap-3 p-3 bg-background/50 rounded-lg border ${
+													fileWithStatus.isRejected
+														? "border-destructive/50 bg-destructive/5"
+														: "border-accent/30"
+												}`}
 											>
 												<div className="flex-1 min-w-0">
-													<p className="text-sm font-medium text-foreground truncate">
-														{file.name}
+													<p
+														className={`text-sm font-medium truncate ${
+															fileWithStatus.isRejected ? "text-destructive" : "text-foreground"
+														}`}
+													>
+														{fileWithStatus.file.name}
+														{fileWithStatus.isRejected && " (Invalid)"}
 													</p>
 													<p className="text-xs text-muted-foreground">
-														{(file.size / 1024 / 1024).toFixed(2)} MB
+														{(fileWithStatus.file.size / 1024 / 1024).toFixed(2)} MB
+														{fileWithStatus.isRejected && ` - ${fileWithStatus.errors.join(", ")}`}
 													</p>
 												</div>
 												<button
 													type="button"
 													onClick={() => removeFile(index)}
-													className="flex-shrink-0 p-1 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+													className="shrink-0 p-1 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
 													title="Remove file"
 												>
 													<FiX className="w-4 h-4" />

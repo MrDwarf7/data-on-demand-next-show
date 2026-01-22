@@ -18,27 +18,29 @@ interface UploadSectionProps {
 	defaultTab?: TabOptions;
 }
 
+interface FileWithStatus {
+	file: File;
+	isRejected: boolean;
+	errors: string[];
+}
+
 export const UploadSection = ({
 	showAutomationTab = true,
 	availableTabs,
 	defaultTab = "humans",
 }: UploadSectionProps) => {
-	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+	const [selectedFiles, setSelectedFiles] = useState<FileWithStatus[]>([]);
 	const tabsToShow = availableTabs || (showAutomationTab ? ["humans", "automations"] : ["humans"]);
 
-	const handleFilesChange = (updater: File[] | ((prev: File[]) => File[])) => {
-		if (typeof updater === "function") {
-			setSelectedFiles(updater);
-		} else {
-			setSelectedFiles(updater);
-		}
+	const handleFilesChange = (files: FileWithStatus[]) => {
+		setSelectedFiles(files);
 	};
 
 	return (
 		<div>
 			<div className="mb-6 flex flex-row justify-end">
 				<Suspense fallback={<ProcessPickerSkeleton />}>
-					<ProcessPicker selectedFilesCount={selectedFiles.length} />
+					<ProcessPicker selectedFilesCount={selectedFiles.filter((f) => !f.isRejected).length} />
 				</Suspense>
 			</div>
 

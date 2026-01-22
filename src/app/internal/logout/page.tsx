@@ -1,15 +1,7 @@
 import Link from "next/link";
-// import { useEffect } from "react";
 import { FiCheckCircle, FiLogIn } from "react-icons/fi";
 
 export default function LogoutPage() {
-	// useEffect(() => {
-	// 	// Here you would typically clear authentication tokens, cookies, etc.
-	// 	// For example: localStorage.removeItem('authToken');
-	// 	// Or call your logout API endpoint
-	// 	console.log("User logged out");
-	// }, []);
-
 	return (
 		<div className="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
 			<div className="max-w-md w-full">

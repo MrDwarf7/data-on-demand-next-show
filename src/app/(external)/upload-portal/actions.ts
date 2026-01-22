@@ -67,26 +67,61 @@ const writeToStorage = async (file: File): Promise<UploadedFile> => {
 	};
 };
 
+const isFileTypeValid = (file: File): boolean => {
+	const fileType = file.type;
+	const fileName = file.name.toLowerCase();
+
+	// Check if MIME type is accepted
+	if (
+		fileType &&
+		[
+			"text/csv",
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+			"application/vnd.ms-excel",
+			"application/json",
+			"text/plain",
+		].includes(fileType)
+	) {
+		return true;
+	}
+
+	// TODO: [cleanup] : We'd prefer to use MIME type checks over splitting file names as this can be DANGEROUS.
+	//
+	// Check if file extension is accepted
+	const extension = `.${fileName.split(".").pop()}`;
+	return [".csv", ".xlsx", ".xls", ".json", ".txt"].includes(extension);
+};
+
 export const uploadFiles = async (
 	_prevState: FileUploadState,
 	formData: FormData
 ): Promise<FileUploadState> => {
 	try {
 		const process = formData.get("process") as string;
-		const files = formData.getAll("files").filter((f): f is File => f instanceof File);
+		const allFiles = formData.getAll("files").filter((f): f is File => f instanceof File);
+		const validFiles = allFiles.filter(isFileTypeValid);
 
 		console.log(
 			"Files to upload:",
-			files.map((f) => f.name)
+			validFiles.map((f) => f.name)
 		);
 		console.log("Selected process:", process);
-		// Simple validation
-		if (!process || files.length === 0) {
-			return { success: false, uploadedFiles: [], error: "Validation failed" };
+		console.log(
+			"Rejected files:",
+			allFiles.filter((f) => !isFileTypeValid(f)).map((f) => f.name)
+		);
+
+		// Validation
+		if (!process || validFiles.length === 0) {
+			return {
+				success: false,
+				uploadedFiles: [],
+				error: "No valid files to upload or process not selected",
+			};
 		}
 
 		// Save files with proper naming
-		const uploadedFiles = await Promise.all(files.map(writeToStorage));
+		const uploadedFiles = await Promise.all(validFiles.map(writeToStorage));
 
 		return { success: true, uploadedFiles, error: null };
 	} catch (error) {
