@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
 import { TabsContentAutomation } from "@/app/(external)/upload-portal/_components/TabsContentAutomation";
 import { TabsContentHumans } from "@/app/(external)/upload-portal/_components/TabsContentHumans";
@@ -16,18 +19,19 @@ export const UploadSection = ({
 	availableTabs,
 	defaultTab = "humans",
 }: UploadSectionProps) => {
+	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const tabsToShow = availableTabs || (showAutomationTab ? ["humans", "automations"] : ["humans"]);
 
 	return (
 		<div>
 			<div className="mb-6 flex flex-row justify-end">
-				<ProcessPicker />
+				<ProcessPicker selectedFilesCount={selectedFiles.length} />
 			</div>
 
 			<Tabs defaultValue={defaultTab} className="mt-4">
 				{tabsToShow.length > 1 && <TabsTriggerBar availableTabs={tabsToShow} />}
 				<div className="p-2">
-					<TabsContentHumans />
+					<TabsContentHumans selectedFiles={selectedFiles} onFilesChange={setSelectedFiles} />
 					{showAutomationTab && <TabsContentAutomation />}
 				</div>
 			</Tabs>

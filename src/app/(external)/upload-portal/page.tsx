@@ -1,11 +1,11 @@
 "use server";
 
 import { Suspense } from "react";
+import { HeroSection } from "@/components/HeroSection";
 import { UploadSection } from "@/components/UploadSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RenderInfoTiles } from "./_components/RenderTileData";
 import { UploadPortalStatsCards } from "./_components/StatsCards";
-import { HeroSection } from "@/components/HeroSection";
 
 // TODO: See other [...] todo items regarding further refactoring
 // TODO: [tabs_content] :

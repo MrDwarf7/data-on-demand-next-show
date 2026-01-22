@@ -25,7 +25,7 @@ export type ClickToCopySnippetProps = {
 // export interface DataItemsProps extends ValueAndLabel {
 // }
 
-export type DataItemsProps = ValueAndLabel;
+export interface DataItemsProps extends ValueAndLabel {}
 
 export type ProcessPickerProps = {
 	searchParams?: {
