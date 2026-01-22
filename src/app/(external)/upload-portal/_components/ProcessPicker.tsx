@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +21,7 @@ import { useProcesses } from "@/hooks/use-processes";
 import { usePushFrom } from "@/lib/push-from-t";
 import { cn } from "@/lib/utils";
 import type { DataItemsProps } from "@/types/local";
+import { ProcessPickerSkeleton } from "./Skeletons";
 
 interface ProcessPickerProps {
 	selectedFilesCount: number;
@@ -28,6 +29,7 @@ interface ProcessPickerProps {
 
 const ProcessPicker = ({ selectedFilesCount }: ProcessPickerProps) => {
 	const [processPickerOpen, setProcessPickerOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const searchParams = useSearchParams();
 	const selectedProcess = searchParams.get("process");
@@ -36,7 +38,14 @@ const ProcessPicker = ({ selectedFilesCount }: ProcessPickerProps) => {
 	const processPickerItems = useProcesses();
 	const pushProcess = usePushFrom("process");
 
-	const variant = selectedFilesCount > 0 && !hasProcessSelected ? "border-destructive" : "";
+	// Simulate loading state for better UX
+	useEffect(() => {
+		if (processPickerItems.length > 0) {
+			// Small delay to show loading state briefly for polished feel
+			const timer = setTimeout(() => setIsLoading(false), 100);
+			return () => clearTimeout(timer);
+		}
+	}, [processPickerItems.length]);
 
 	const selectHandler = useCallback(
 		async (item: DataItemsProps) => {
@@ -45,6 +54,13 @@ const ProcessPicker = ({ selectedFilesCount }: ProcessPickerProps) => {
 		},
 		[pushProcess]
 	);
+
+	const variant = selectedFilesCount > 0 && !hasProcessSelected ? "border-destructive" : "";
+
+	// Show loading skeleton
+	if (isLoading || !processPickerItems.length) {
+		return <ProcessPickerSkeleton />;
+	}
 
 	return (
 		<div className={cn("justify-between w-full sm:w-80", "border rounded-md", variant)}>

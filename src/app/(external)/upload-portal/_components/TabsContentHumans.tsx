@@ -135,13 +135,28 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 							{isPending && (
 								<div className="mb-4">
 									<div className="flex items-center justify-between mb-2">
-										<span className="text-sm font-medium">Uploading...</span>
+										<span className="text-sm font-medium">Uploading files...</span>
 									</div>
 									<Progress value={undefined} className="w-full" />
+									<p className="text-xs text-muted-foreground mt-2">
+										Please wait while we process your files
+									</p>
 								</div>
 							)}
 
-							{state.error && <p className="text-sm text-destructive mb-4">{state.error}</p>}
+							{state.error && (
+								<div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+									<p className="text-sm text-destructive">{state.error}</p>
+								</div>
+							)}
+
+							{state.success && (
+								<div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-md">
+									<p className="text-sm text-green-700 dark:text-green-400">
+										Files uploaded successfully!
+									</p>
+								</div>
+							)}
 
 							<div className="space-y-3 max-h-96 overflow-y-auto">
 								{state.success

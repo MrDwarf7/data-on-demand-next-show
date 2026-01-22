@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
+import {
+	ProcessPickerSkeleton,
+	UploadAreaSkeleton,
+} from "@/app/(external)/upload-portal/_components/Skeletons";
 import { TabsContentAutomation } from "@/app/(external)/upload-portal/_components/TabsContentAutomation";
 import { TabsContentHumans } from "@/app/(external)/upload-portal/_components/TabsContentHumans";
 import { TabsTriggerBar } from "@/app/(external)/upload-portal/_components/TabsTriggerBar";
@@ -25,14 +29,22 @@ export const UploadSection = ({
 	return (
 		<div>
 			<div className="mb-6 flex flex-row justify-end">
-				<ProcessPicker selectedFilesCount={selectedFiles.length} />
+				<Suspense fallback={<ProcessPickerSkeleton />}>
+					<ProcessPicker selectedFilesCount={selectedFiles.length} />
+				</Suspense>
 			</div>
 
 			<Tabs defaultValue={defaultTab} className="mt-4">
 				{tabsToShow.length > 1 && <TabsTriggerBar availableTabs={tabsToShow} />}
 				<div className="p-2">
-					<TabsContentHumans selectedFiles={selectedFiles} onFilesChange={setSelectedFiles} />
-					{showAutomationTab && <TabsContentAutomation />}
+					<Suspense fallback={<UploadAreaSkeleton />}>
+						<TabsContentHumans selectedFiles={selectedFiles} onFilesChange={setSelectedFiles} />
+					</Suspense>
+					{showAutomationTab && (
+						<Suspense fallback={<UploadAreaSkeleton />}>
+							<TabsContentAutomation />
+						</Suspense>
+					)}
 				</div>
 			</Tabs>
 		</div>
