@@ -1,14 +1,13 @@
+import { Suspense } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import {
-	getStatisticsStatusStyles,
 	getTrendStyles,
-	SAMPLE_TABLE_DATA,
 	STATISTICS_METRICS,
-	type StatisticsStatus,
 	type TrendType,
 } from "@/config/external/statistics-config";
 import { cn } from "@/lib/utils";
+import { StatisticsTable, StatisticsTableSkeleton } from "./_components/StatisticsTable";
 
 export default function StatisticsPage() {
 	const getTrendIcon = (trend: TrendType) => {
@@ -17,20 +16,11 @@ export default function StatisticsPage() {
 	};
 
 	return (
-		// <MaxWidthWrapper className="py-8 sm:py-12">
 		<div className="max-w-7xl mx-auto">
 			<HeroSection
 				title="Live Statistics"
 				description="Real-time visibility into queue status, processing metrics, and system performance"
 			/>
-			{/* <div className="text-center mb-10 sm:mb-16"> */}
-			{/* 	<h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4"> */}
-			{/* 		Live Statistics */}
-			{/* 	</h1> */}
-			{/* 	<p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto"> */}
-			{/* 		Real-time visibility into queue status, processing metrics, and system performance */}
-			{/* 	</p> */}
-			{/* </div> */}
 
 			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
 				{STATISTICS_METRICS.map((metric) => (
@@ -63,57 +53,9 @@ export default function StatisticsPage() {
 				))}
 			</ul>
 
-			<div className="bg-accent/20 border border-accent rounded-2xl p-6 sm:p-8">
-				<div className="flex items-center justify-between mb-6">
-					<h2 className="text-2xl font-bold text-foreground">Process Overview</h2>
-					<button
-						type="button"
-						// className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-all text-sm"
-						className="px-4 py-2 bg-blue-600 shadow-lg shadow-blue-600/50 hover:bg-blue-700 hover:shadow-blue-700/50 text-white text-sm rounded-xl font-medium transition-all whitespace-nowrap"
-					>
-						Refresh Data
-					</button>
-				</div>
-
-				<div className="overflow-x-auto">
-					<table className="w-full">
-						<thead>
-							<tr className="border-b border-accent">
-								{SAMPLE_TABLE_DATA.columns.map((column) => (
-									<th
-										key={column.value}
-										className="text-left py-4 px-4 text-sm font-semibold text-foreground"
-									>
-										{column.label}
-									</th>
-								))}
-							</tr>
-						</thead>
-						<tbody>
-							{SAMPLE_TABLE_DATA.rows.map((row, index) => (
-								<tr
-									key={`${row.id}-${index}`}
-									className={`border-b border-accent/50 hover:bg-accent/30 transition-colors ${
-										index % 2 === 0 ? "bg-accent/10" : ""
-									}`}
-								>
-									<td className="py-4 px-4 font-medium text-foreground">{row.process}</td>
-									<td className="py-4 px-4">
-										<span
-											className={`px-3 py-1 rounded-full text-xs font-medium ${getStatisticsStatusStyles(row.status as StatisticsStatus).classNameBg} ${getStatisticsStatusStyles(row.status as StatisticsStatus).classNameColor}`}
-										>
-											{row.status}
-										</span>
-									</td>
-									<td className="py-4 px-4 text-muted-foreground">{row.count}</td>
-									<td className="py-4 px-4 text-muted-foreground">{row.avgTime}</td>
-									<td className="py-4 px-4 text-muted-foreground">{row.successRate}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</div>
-			</div>
+			<Suspense fallback={<StatisticsTableSkeleton />}>
+				<StatisticsTable />
+			</Suspense>
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
 				<div className="bg-accent/20 border border-accent rounded-2xl p-6">
@@ -133,6 +75,5 @@ export default function StatisticsPage() {
 				</div>
 			</div>
 		</div>
-		//		</MaxWidthWrapper>
 	);
 }

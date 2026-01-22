@@ -8,6 +8,7 @@ const processFileName = async (
 	uuid: string
 ): Promise<string> => {
 	// Async offloading for regex operations
+	// TODO: [backend] move to backend service
 	await new Promise((resolve) => setTimeout(resolve, 1)); // Simulate async work
 
 	// Use functional regex processing
