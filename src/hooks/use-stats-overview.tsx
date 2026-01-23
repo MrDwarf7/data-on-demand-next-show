@@ -13,7 +13,7 @@ import {
 	TIME_RANGES,
 } from "@/config/internal/stats-overview-config";
 
-interface StatsData {
+export interface StatsData {
 	statsCards: StatsCard[];
 	recentActivity: RecentActivity[];
 	systemMetrics: SystemMetric[];
@@ -51,14 +51,17 @@ const MOCK_STATS: Record<TimeRange, StatsData> = generateMockStats() as Record<
 >;
 
 // Function to get stats data (server-side compatible)
-export function getStatsOverview(timeRange: TimeRange): Readonly<StatsData> {
+export async function getStatsOverview(
+	// timeRange: TimeRange
+): Promise<Record<TimeRange, StatsData>> {
 	//   // TODO: [backend] : Replace with API call: fetch(`/api/stats?range=${timeRange}`)
 
-	if (!TIME_RANGES.includes(timeRange) || timeRange === undefined) {
-		return MOCK_STATS[TIME_RANGES[0]]; // use the first index of TIME_RANGES as default
-	}
+	// if (!TIME_RANGES.includes(timeRange) || timeRange === undefined) {
+	// 	// return MOCK_STATS[TIME_RANGES[0]]; // use the first index of TIME_RANGES as default
+	// 	return MOCK_STATS; // use the first index of TIME_RANGES as default
+	// }
 
-	return MOCK_STATS[timeRange];
+	return MOCK_STATS; //[timeRange];
 }
 
 // Hook to fetch stats data (currently mock, easily replaceable with API call)

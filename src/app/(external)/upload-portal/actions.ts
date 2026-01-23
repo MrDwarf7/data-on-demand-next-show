@@ -18,6 +18,7 @@ interface FileUploadState {
 const writeToStorage = async (file: File): Promise<UploadedFile> => {
 	const filename = renameFile(file.name);
 	const filepath = `./public/uploads/${filename}`;
+	// TODO: [backend] : Change to use a 'toDatabase' function when DB is set up
 	await toDisk(file, filepath);
 
 	return {
@@ -40,7 +41,7 @@ const supportedMimeType = (fileType: string): boolean => {
 	}
 };
 
-const isFileTypeValid = (file: File): boolean => {
+const validFile = (file: File): boolean => {
 	// TODO: [cleanup] : We'd prefer to use MIME type checks over splitting file names as this can be DANGEROUS.
 
 	const fileType = file.type;
@@ -62,7 +63,7 @@ export const uploadFiles = async (
 	try {
 		const process = formData.get("process") as string;
 		const allFiles = formData.getAll("files").filter((f): f is File => f instanceof File);
-		const validFiles = allFiles.filter(isFileTypeValid);
+		const validFiles = allFiles.filter(validFile);
 
 		console.log(
 			"Files to upload:",
@@ -71,7 +72,7 @@ export const uploadFiles = async (
 		console.log("Selected process:", process);
 		console.log(
 			"Rejected files:",
-			allFiles.filter((f) => !isFileTypeValid(f)).map((f) => f.name)
+			allFiles.filter((f) => !validFile(f)).map((f) => f.name)
 		);
 
 		// Validation

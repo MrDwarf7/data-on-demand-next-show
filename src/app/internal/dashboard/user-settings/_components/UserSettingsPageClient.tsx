@@ -6,6 +6,8 @@ import { UserSettingsContent } from "./UserSettingsContent";
 
 type Section = (typeof SETTINGS_SECTIONS)[number]["value"];
 
+// TODO: [perf] convert to server action almost entirely
+
 export function UserSettingsPageClient() {
 	const [activeSection, setActiveSection] = useState<SettingsSectionId>("profile");
 

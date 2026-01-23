@@ -1,26 +1,38 @@
-import { connection } from "next/server";
 import { Suspense } from "react";
+import type {
+	UploadPortalPageProps,
+	UploadPortalPagePropsResolved,
+} from "@/app/(external)/upload-portal/page";
+import { InternalHeroSection } from "@/components/InternalHeroSection";
 import { UploadSection } from "@/components/UploadSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFileStats } from "@/hooks/use-file-flow";
 import { FileHistory } from "./_components/FileHistory";
 
-export default async function FileFlowPage() {
+export interface FileFlowPageProps extends UploadPortalPageProps {}
+
+export interface FileFlowPagePropsResolved extends UploadPortalPagePropsResolved {}
+
+export default async function FileFlowPage({ searchParams }: FileFlowPageProps) {
 	// TODO: [refactor] : This causes dynamic rendering, we'd prefer to get the searchParams here, then pass them down,
 	// however... It's the client that 'picks' a process from the ProcessPicker component, that then used router.replace(...)
 	// to move the client.
 	// [see](https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout)
 	//
-	await connection();
+	// await connection();
 
 	const fileStats = useFileStats();
 
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-400 mx-auto space-y-6">
-			<h1 className="text-2xl sm:text-3xl font-bold text-foreground">External File Flow</h1>
-			<p className="text-sm text-muted-foreground mt-1">
-				Manage and monitor external file uploads and processing
-			</p>
+			<InternalHeroSection
+				title="External File Flow"
+				description="Manage and monitor external file uploads and processing"
+			/>
+			{/* <h1 className="text-2xl sm:text-3xl font-bold text-foreground">External File Flow</h1> */}
+			{/* <p className="text-sm text-muted-foreground mt-1"> */}
+			{/* 	Manage and monitor external file uploads and processing */}
+			{/* </p> */}
 
 			<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
 				{fileStats.map((stat) => (
@@ -38,7 +50,7 @@ export default async function FileFlowPage() {
 			</div>
 
 			<Suspense fallback={<Skeleton className="w-full h-4" />}>
-				<UploadSection showAutomationTab={false} />
+				<UploadSection searchParams={searchParams} showAutomationTab={false} />
 			</Suspense>
 
 			<FileHistory />

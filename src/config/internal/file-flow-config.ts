@@ -2,9 +2,8 @@ import { FiAlertCircle, FiCheckCircle, FiClock, FiUpload } from "react-icons/fi"
 import { MOCK_USERS } from "@/constants/mock-users";
 import { PROCESSES } from "@/constants/processes";
 import { STATUS_STYLES } from "@/constants/statuses";
-import type { ClassNameDataWithIcon } from "@/types/common";
+import type { ClassNameDataWithIcon, ValueAndLabel } from "@/types/common";
 import { createStyleGetter } from "@/utils/lookups";
-import type { ValueAndLabel } from "../external/contact-config";
 
 // TODO: Flatten out the data in here and ensure we're not repeating things,
 // once we're calling API's and such it will be easier to manage though.

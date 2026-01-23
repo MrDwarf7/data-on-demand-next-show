@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { ProcessPicker } from "@/app/(external)/upload-portal/_components/ProcessPicker";
 import {
 	ProcessPickerSkeleton,
-	UploadAreaSkeleton,
+	// UploadAreaSkeleton,
 } from "@/app/(external)/upload-portal/_components/Skeletons";
 import { TabsContentAutomation } from "@/app/(external)/upload-portal/_components/TabsContentAutomation";
 import { TabsContentHumans } from "@/app/(external)/upload-portal/_components/TabsContentHumans";
@@ -39,13 +39,13 @@ export const UploadSection = async ({
 					<div className="flex flex-col items-center mb-4 pb-2">
 						{tabsToShow.length > 1 && <TabsTriggerBar availableTabs={tabsToShow} />}
 					</div>
-					<Suspense fallback={<UploadAreaSkeleton />}>
-						<TabsContentHumans selectedProcess={selectedProcess} />
-					</Suspense>
+					{/* <Suspense fallback={<UploadAreaSkeleton />}> */}
+					<TabsContentHumans selectedProcess={selectedProcess} />
+					{/* </Suspense> */}
 					{showAutomationTab && (
-						<Suspense fallback={<UploadAreaSkeleton />}>
-							<TabsContentAutomation />
-						</Suspense>
+						// {/* <Suspense fallback={<UploadAreaSkeleton />}> */}
+						<TabsContentAutomation />
+						// {/* </Suspense> */}
 					)}
 				</div>
 			</Tabs>

@@ -1,60 +1,32 @@
 import { Suspense } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
-import {
-	FiAlertCircle,
-	FiCheckCircle,
-	FiServer,
-	FiTrendingDown,
-	FiTrendingUp,
-	FiZap,
-} from "react-icons/fi";
-import { HiOutlineChartBar } from "react-icons/hi";
+import { InternalHeroSection } from "@/components/InternalHeroSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { TimeRange } from "@/config/internal/stats-overview-config";
 import { getStatsOverview } from "@/hooks/use-stats-overview";
+import { PerformanceMetricsCharts } from "./_components/PerformanceMetricsCharts";
+import { RecentActivity } from "./_components/RecentActivity";
+import { StatsCards } from "./_components/StatsCards";
+import { SystemHealth } from "./_components/SystemHealth";
 import { TimeRangePicker } from "./_components/TimeRangePicker";
+import { TopProcesses, TopProcessesSkeleton } from "./_components/TopProcesses";
 
 interface StatsOverViewPageProps {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: Promise<{ range?: string }>;
 }
 
-const topProcessesSkeleton = (count: number) => (
-	<Skeleton className="space-y-4">
-		{Array.from({ length: count }).map((_, index) => (
-			<Skeleton key={index.toString()} className="group">
-				<Skeleton className="flex items-center justify-between mb-2">
-					<Skeleton className="flex items-center gap-3">
-						<Skeleton className="text-lg font-bold text-muted-foreground" />
-						<Skeleton className="text-sm font-medium text-foreground" />
-					</Skeleton>
-					<Skeleton className="text-sm font-semibold text-foreground">
-						<Skeleton />
-					</Skeleton>
-				</Skeleton>
-				<Skeleton className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
-					<Skeleton className="h-full bg-linear-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500 group-hover:from-green-400 group-hover:to-emerald-400" />
-				</Skeleton>
-			</Skeleton>
-		))}
-	</Skeleton>
-);
-
 export default async function StatsOverviewPage({ searchParams }: StatsOverViewPageProps) {
-	const params = await searchParams;
+	const [params, statsData] = await Promise.all([searchParams, getStatsOverview()]);
 	const range = (params.range as TimeRange) || "24h";
-	const { statsCards, recentActivity, systemMetrics, topProcesses } = getStatsOverview(range);
-
-	if (!statsCards || !recentActivity || !systemMetrics || !topProcesses) {
-		throw new Error("Failed to load statistics data.");
-	}
+	const { statsCards, recentActivity, systemMetrics, topProcesses } = statsData[range];
 
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-450 mx-auto space-y-6">
-			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-				<h1 className="text-2xl sm:text-3xl font-bold text-foreground">Statistics Overview</h1>
-				<p className="text-sm text-muted-foreground mt-1">
-					Real-time insights into your automation performance
-				</p>
+			<InternalHeroSection
+				title="Statistics Overview"
+				description="Real-time insights into your automation performance"
+			/>
+			<div className="flex flex-col lg:justify-end md:justify-end sm:flex-row sm:items-center sm:justify-end gap-4">
 				<Suspense fallback={<Skeleton className="w-full h-4" />}>
 					<TimeRangePicker />
 				</Suspense>
@@ -62,127 +34,22 @@ export default async function StatsOverviewPage({ searchParams }: StatsOverViewP
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
 				<Suspense>
-					{statsCards.map((stat, index) => (
-						<div
-							key={`${stat.title}__${stat.trend}__${stat.value}__${index}`}
-							className={`relative overflow-hidden rounded-xl border border-accent/50 bg-linear-to-br ${stat.bgGradient} p-6 transition-all hover:shadow-xl hover:scale-[1.02] group`}
-							style={{ animationDelay: `${index * 100}ms` }}
-						>
-							<div className="flex items-start justify-between mb-4">
-								<div
-									className={`p-3 rounded-lg bg-linear-to-br ${stat.gradient} text-white shadow-lg group-hover:scale-110 transition-transform`}
-								>
-									{stat.icon({})}
-								</div>
-								<div
-									className={`flex items-center gap-1 text-sm font-medium ${
-										stat.trend === "up" ? "text-green-600" : "text-red-600"
-									}`}
-								>
-									{stat.trend === "up" ? (
-										<FiTrendingUp className="w-4 h-4" />
-									) : (
-										<FiTrendingDown className="w-4 h-4" />
-									)}
-									{stat.change}
-								</div>
-							</div>
-							<h3 className="text-sm font-medium text-muted-foreground mb-1">{stat.title}</h3>
-							<p className="text-3xl font-bold text-foreground">{stat.value}</p>
-						</div>
-					))}
+					<StatsCards statsCards={statsCards} />
 				</Suspense>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-				<div className="lg:col-span-2 bg-accent/30 border border-accent/50 rounded-xl p-6">
-					<div className="flex items-center justify-between mb-6">
-						<div className="flex items-center gap-3">
-							<div className="p-2 rounded-lg bg-blue-600 text-white">
-								<HiOutlineChartBar className="w-5 h-5" />
-							</div>
-							<h2 className="text-xl font-semibold text-foreground">Performance Metrics</h2>
-						</div>
-					</div>
-					<div className="h-75 flex items-center justify-center bg-accent/20 rounded-lg border-2 border-dashed border-accent/50">
-						<div className="text-center">
-							<div className="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
-								<HiOutlineChartBar className="w-8 h-8" />
-							</div>
-							<p className="text-muted-foreground font-medium">Chart visualization placeholder</p>
-							<p className="text-sm text-muted-foreground mt-1">
-								Integrate Chart.js or Recharts here
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div className="bg-accent/30 border border-accent/50 rounded-xl p-6">
-					<div className="flex items-center gap-3 mb-6">
-						<div className="p-2 rounded-lg bg-purple-600 text-white">
-							<FiServer className="w-5 h-5" />
-						</div>
-						<h2 className="text-xl font-semibold text-foreground">System Health</h2>
-					</div>
-					<div className="space-y-4">
-						<Suspense>
-							{systemMetrics.map((metric) => (
-								<div key={metric.value}>
-									<div className="flex items-center justify-between mb-2">
-										<span className="text-sm font-medium text-foreground">{metric.label}</span>
-										<span className="text-sm font-semibold text-foreground">{metric.value}%</span>
-									</div>
-									<div className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
-										<div
-											className={`h-full ${metric.color} rounded-full transition-all duration-500`}
-											style={{ width: `${metric.value}%` }}
-										/>
-									</div>
-								</div>
-							))}
-						</Suspense>
-					</div>
-				</div>
+				<Suspense>
+					<PerformanceMetricsCharts />
+				</Suspense>
+				<Suspense>
+					<SystemHealth systemMetrics={systemMetrics} />
+				</Suspense>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-				<Suspense>
-					<div className="bg-accent/30 border border-accent/50 rounded-xl p-6">
-						<div className="flex items-center gap-3 mb-6">
-							<div className="p-2 rounded-lg bg-green-600 text-white">
-								<FiZap className="w-5 h-5" />
-							</div>
-							<h2 className="text-xl font-semibold text-foreground">Top Processes</h2>
-						</div>
-						<div className="space-y-4">
-							<Suspense fallback={topProcessesSkeleton(topProcesses.length)}>
-								{topProcesses.map((process, index) => (
-									<div
-										key={`${process.name}__${process.count}__${process.percentage}__${index}`}
-										className="group"
-									>
-										<div className="flex items-center justify-between mb-2">
-											<div className="flex items-center gap-3">
-												<span className="text-lg font-bold text-muted-foreground">
-													#{index + 1}
-												</span>
-												<span className="text-sm font-medium text-foreground">{process.name}</span>
-											</div>
-											<span className="text-sm font-semibold text-foreground">
-												{process.count.toLocaleString()}
-											</span>
-										</div>
-										<div className="w-full h-2 bg-accent/50 rounded-full overflow-hidden">
-											<div
-												className="h-full bg-linear-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500 group-hover:from-green-400 group-hover:to-emerald-400"
-												style={{ width: `${process.percentage}%` }}
-											/>
-										</div>
-									</div>
-								))}
-							</Suspense>
-						</div>
-					</div>
+				<Suspense fallback={<TopProcessesSkeleton count={5} />}>
+					<TopProcesses topProcesses={topProcesses} />
 				</Suspense>
 
 				<div className="bg-accent/30 border border-accent/50 rounded-xl p-6">
@@ -192,41 +59,9 @@ export default async function StatsOverviewPage({ searchParams }: StatsOverViewP
 						</div>
 						<h2 className="text-xl font-semibold text-foreground">Recent Activity</h2>
 					</div>
-					<div className="space-y-3 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
-						<Suspense>
-							{recentActivity.map((activity) => (
-								<div
-									key={activity.id}
-									className="flex items-start gap-3 p-3 rounded-lg bg-background/50 border border-accent/30 hover:border-accent/60 transition-all"
-								>
-									<div
-										className={`mt-1 w-2 h-2 rounded-full shrink-0 ${
-											activity.status === "success"
-												? "bg-green-500"
-												: activity.status === "error"
-													? "bg-red-500"
-													: activity.status === "processing"
-														? "bg-blue-500 animate-pulse"
-														: "bg-gray-500"
-										}`}
-									/>
-									<div className="flex-1 min-w-0">
-										<p className="text-sm font-medium text-foreground truncate">
-											{activity.action}
-										</p>
-										<p className="text-xs text-muted-foreground truncate">{activity.process}</p>
-										<p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
-									</div>
-									{activity.status === "error" && (
-										<FiAlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-									)}
-									{activity.status === "success" && (
-										<FiCheckCircle className="w-4 h-4 text-green-500 shrink-0" />
-									)}
-								</div>
-							))}
-						</Suspense>
-					</div>
+					<Suspense>
+						<RecentActivity recentActivity={recentActivity} />
+					</Suspense>
 				</div>
 			</div>
 		</div>

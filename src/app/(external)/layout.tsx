@@ -5,9 +5,10 @@ import "@/app/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import FooterBlock from "@/app/(external)/_components/FooterComponent";
-import HeaderBar from "@/app/(external)/_components/HeaderBar";
+import { HeaderBar } from "@/app/(external)/_components/HeaderBar";
 import ProviderWrapper from "@/components/ProviderWrapper";
 import { cn } from "@/lib/utils";
+import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 
 // import TitleHeader from "@/components/generic/TitleHeader";
 
@@ -29,10 +30,7 @@ export default function RootExternalLayout({ children }: React.PropsWithChildren
 							{/* <div> */}
 							<HeaderBar />
 							{/* </div> */}
-							{children}
-							{/* Portal container for progress bars */}
-							{/* <div id="progress-portal" className="fixed inset-0 pointer-events-none z-50" /> */}
-							{/*  */}
+							<MaxWidthWrapper className="py-8 sm:py-12">{children}</MaxWidthWrapper>
 							<div className="flex flex-row justify-center">
 								<FooterBlock className="my-2 pb-2" />
 							</div>

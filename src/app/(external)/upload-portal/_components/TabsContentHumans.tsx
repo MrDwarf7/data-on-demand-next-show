@@ -1,25 +1,20 @@
 "use client";
 
 import { useActionState, useRef, useState } from "react";
-import { type FileRejection, useDropzone } from "react-dropzone";
+import { type DropzoneOptions, useDropzone } from "react-dropzone";
 import { FiAlertCircle, FiUploadCloud, FiX } from "react-icons/fi";
 import { Progress } from "@/components/ui/progress";
 import { TabsContent } from "@/components/ui/tabs";
 import { UPLOAD_CONFIG } from "@/config/external/upload-config";
+import { type FileWithStatus, useDropzoneCallbacks } from "@/lib/dropzone-callbacks";
 import { uploadFiles } from "../actions";
 import type { UploadPortalPagePropsResolved } from "../page";
-
-interface FileWithStatus {
-	file: File;
-	isRejected: boolean;
-	errors: string[];
-}
 
 interface TabsContentHumansProps {
 	selectedProcess?: UploadPortalPagePropsResolved["process"];
 }
 
-const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
+export const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
 	const [localFiles, setLocalFiles] = useState<FileWithStatus[]>([]);
 	const [state, formAction, isPending] = useActionState(uploadFiles, {
 		success: false,
@@ -27,44 +22,23 @@ const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
 		error: null,
 	});
 
-	const inputRef = useRef<HTMLInputElement>(null);
+	const inputRefTabsLocal = useRef<HTMLInputElement>(null);
 
-	const dropZoneProps = {
-		accept: UPLOAD_CONFIG.acceptedFileTypes.reduce(
-			(acc, type) => {
-				acc[type] = [];
-				return acc;
-			},
-			{} as Record<string, string[]>
-		),
+	const { onDrop, onDropRejected, acceptedFileTypeReduction } = useDropzoneCallbacks({
+		inputRef: inputRefTabsLocal,
+		setLocalFiles,
+	});
 
+	const dropZoneOpts: DropzoneOptions = {
+		accept: acceptedFileTypeReduction(UPLOAD_CONFIG.acceptedFileTypes),
 		maxSize: UPLOAD_CONFIG.maxFileSize,
 		multiple: UPLOAD_CONFIG.allowMultiple,
-		// there's also an 'event' param here if needed
-		onDrop: (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-			// Combine accepted and rejected files and sync with parent state
-			const allFiles: FileWithStatus[] = [
-				...acceptedFiles.map((file) => ({ file, isRejected: false, errors: [] })), // where files are accepted
-				...rejectedFiles.map((rejection) => ({
-					file: rejection.file,
-					isRejected: true,
-					errors: rejection.errors.map((err) => err.message),
-				})),
-			];
-			setLocalFiles(allFiles);
-
-			// Set the input's files for form submission
-			if (inputRef.current) {
-				const dt = new DataTransfer();
-				for (const file of acceptedFiles) {
-					dt.items.add(file);
-				}
-				inputRef.current.files = dt.files;
-			}
-		},
+		maxFiles: UPLOAD_CONFIG.maxFilesPerUpload,
+		onDrop: onDrop,
+		onDropRejected: onDropRejected,
 	};
 
-	const { isDragActive, getInputProps, getRootProps } = useDropzone(dropZoneProps);
+	const { isDragActive, getInputProps, getRootProps } = useDropzone(dropZoneOpts);
 
 	const removeFile = (indexToRemove: number) => {
 		setLocalFiles(localFiles.filter((_, index) => index !== indexToRemove));
@@ -72,6 +46,10 @@ const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
 
 	const hasRejectedFiles = localFiles.some((f) => f.isRejected);
 	const validFilesForDisplay = localFiles.filter((f) => !f.isRejected);
+
+	if (state.success && validFilesForDisplay.length === 0) {
+		setLocalFiles([]);
+	}
 
 	return (
 		<TabsContent value="humans" className="pt-2">
@@ -91,7 +69,7 @@ const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
 					<input type="hidden" name="process" value={selectedProcess || ""} />
 					<div
 						{...getRootProps()}
-						onClick={() => inputRef.current?.click()}
+						onClick={() => inputRefTabsLocal.current?.click()}
 						className={`
 							relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center cursor-pointer
 							transition-all duration-300 ease-in-out
@@ -100,7 +78,7 @@ const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
 							${isDragActive ? "border-blue-500 bg-blue-500/10" : ""}
 						`}
 					>
-						<input {...getInputProps()} name="files" ref={inputRef} />
+						<input {...getInputProps()} name="files" ref={inputRefTabsLocal} />
 						<FiUploadCloud className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
 						<h3 className="text-xl font-semibold text-foreground mb-2">
 							{isDragActive ? "Drop files here..." : "Drag & drop files here"}
@@ -217,5 +195,3 @@ const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
 		</TabsContent>
 	);
 };
-
-export { TabsContentHumans };

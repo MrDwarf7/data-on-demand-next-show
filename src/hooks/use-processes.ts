@@ -1,3 +1,5 @@
+"use server";
+
 import { useMemo } from "react";
 import type { DataItemsProps } from "@/types/local";
 
@@ -25,7 +27,10 @@ const PROCESSES: DataItemsProps[] = [
 
 export async function useProcesses(): Promise<DataItemsProps[]> {
 	// TODO: [backend] : Add loading state, error handling when fetching from API
-	// return useMemo(() => getProcesses(), []);
+	//
+	return useMemo(() => {
+		return PROCESSES;
+	}, []);
 
-	return PROCESSES;
+	// return PROCESSES;
 }

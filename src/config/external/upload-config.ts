@@ -53,7 +53,7 @@ export const FILE_SIZE_STRS = ["bytes", "KB", "MB", "GB", "TB"] as FileSizeStrs[
 export const FILE_SIZE_VALUES = [1, ONE_KB, ONE_MB, ONE_GB, ONE_TB];
 
 export const humanReadableFileSize = (sizeInBytes: number): string => {
-	const i = FILE_SIZE_VALUES.findIndex((value, index) => {
+	const i = FILE_SIZE_VALUES.findIndex((_value, index) => {
 		return sizeInBytes < FILE_SIZE_VALUES[index + 1] || index === FILE_SIZE_VALUES.length - 1;
 	});
 
@@ -72,7 +72,7 @@ export const UPLOAD_CONFIG = {
 
 		// testing viable options
 		"application/json",
-	] as const,
+	],
 
 	// Human Readable file type labels
 	supportedExtensions: [
@@ -85,9 +85,9 @@ export const UPLOAD_CONFIG = {
 		".txt",
 	],
 
-	allowMultiple: true,
-
 	maxFileSize: maxFileSize,
-
 	maxFileSizeDisplay: `${humanReadableFileSize(maxFileSize)}`,
+
+	allowMultiple: true,
+	maxFilesPerUpload: 30,
 };

@@ -1,16 +1,23 @@
 import { FiAlertCircle, FiEdit } from "react-icons/fi";
 import { FORM_CONFIG, PUBLISHING_TIPS } from "@/config/internal/create-news-config";
 import { CreateNewsForm } from "./_components/CreateNewsForm";
+import { InternalHeroSection } from "@/components/InternalHeroSection";
 
 export default function CreateNewsPage() {
 	return (
-		<div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
-			<div className="mb-6">
-				<h1 className="text-2xl sm:text-3xl font-bold text-foreground">Create News Post</h1>
-				<p className="text-sm text-muted-foreground mt-1">
-					Publish updates and announcements for your users
-				</p>
-			</div>
+		// <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
+
+		<div className="p-4 sm:p-6 lg:p-8 max-w-450 mx-auto space-y-6">
+			{/* <div className="mb-6"> */}
+			<InternalHeroSection
+				title="Create News Post"
+				description="Publish updates and announcements for your users"
+			/>
+			{/* <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Create News Post</h1> */}
+			{/* <p className="text-sm text-muted-foreground mt-1"> */}
+			{/* 	Publish updates and announcements for your users */}
+			{/* </p> */}
+			{/* </div> */}
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 				<div className="lg:col-span-2">

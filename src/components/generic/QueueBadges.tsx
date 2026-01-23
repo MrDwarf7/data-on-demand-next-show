@@ -1,7 +1,7 @@
 import {
 	QUEUE_TYPE_STYLES,
 	type QueueStatsType,
-	type QueueTypePriority,
+	type QueueItemPriority,
 } from "@/config/internal/queue-data-config";
 
 interface StatusIconProps {
@@ -33,7 +33,7 @@ export function StatusBadge({ status, children }: StatusBadgeProps) {
 }
 
 interface PriorityBadgeProps {
-	priority: QueueTypePriority;
+	priority: QueueItemPriority;
 }
 
 export function PriorityBadge({ priority }: PriorityBadgeProps) {
