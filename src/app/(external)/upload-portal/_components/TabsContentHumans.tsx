@@ -3,6 +3,8 @@
 import { useActionState, useRef, useState } from "react";
 import { type DropzoneOptions, useDropzone } from "react-dropzone";
 import { FiAlertCircle, FiUploadCloud, FiX } from "react-icons/fi";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { TabsContent } from "@/components/ui/tabs";
 import { UPLOAD_CONFIG } from "@/config/external/upload-config";
@@ -66,7 +68,7 @@ export const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) =
 
 			<div className="mb-8">
 				<form action={formAction}>
-					<input type="hidden" name="process" value={selectedProcess || ""} />
+					<Input type="hidden" name="process" value={selectedProcess || ""} />
 					<div
 						{...getRootProps()}
 						onClick={() => inputRefTabsLocal.current?.click()}
@@ -78,7 +80,7 @@ export const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) =
 							${isDragActive ? "border-blue-500 bg-blue-500/10" : ""}
 						`}
 					>
-						<input {...getInputProps()} name="files" ref={inputRefTabsLocal} />
+						<Input {...getInputProps()} name="files" ref={inputRefTabsLocal} />
 						<FiUploadCloud className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
 						<h3 className="text-xl font-semibold text-foreground mb-2">
 							{isDragActive ? "Drop files here..." : "Drag & drop files here"}
@@ -96,7 +98,7 @@ export const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) =
 									{state.success ? "Uploaded Files" : "Selected Files"}
 								</h4>
 								{!state.success && (
-									<button
+									<Button
 										type="submit"
 										disabled={isPending || !selectedProcess || hasRejectedFiles}
 										className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-md disabled:opacity-50"
@@ -109,7 +111,7 @@ export const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) =
 													? "Remove Invalid Files"
 													: "Upload Files"
 										}
-									</button>
+									</Button>
 								)}
 							</div>
 

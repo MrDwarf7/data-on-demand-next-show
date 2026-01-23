@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/HeroSection";
+import { Button } from "@/components/ui/button";
 import { SelectedCategory } from "./_components/selectedCategory";
 
 export default function NewsPage() {
@@ -21,13 +22,13 @@ export default function NewsPage() {
 						</p>
 					</div>
 					{/* <ShadowedButton className="px-6 py-3"> */}
-					<button
+					<Button
 						type="button"
-						className="px-6 py-3 bg-blue-600 shadow-lg shadow-blue-600/50 hover:bg-blue-700 hover:shadow-blue-700/50 text-white rounded-xl font-medium transition-all whitespace-nowrap"
+						className="px-6 py-3 bg-blue-600 shadow-lg shadow-blue-600/50 hover:bg-blue-700 hover:shadow-blue-700/50 text-white rounded-lg font-medium transition-all whitespace-nowrap"
 					>
 						Subscribe Now
 						{/* </ShadowedButton> */}
-					</button>
+					</Button>
 				</div>
 			</div>
 		</div>

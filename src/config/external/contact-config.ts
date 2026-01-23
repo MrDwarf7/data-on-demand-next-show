@@ -50,7 +50,7 @@ export const FORM_LABELS: Record<FormLabelExt, string | number> = {
 	namePlaceholder: "Your name",
 	emailPlaceholder: "your.email@company.com",
 	messagePlaceholder: "Tell us how we can help you...",
-	messageRows: 4,
+	messageRows: 6,
 };
 
 const spreadKeys = <K extends keyof object, V = string | number | symbol>(

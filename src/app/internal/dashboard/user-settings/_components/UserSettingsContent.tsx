@@ -3,6 +3,7 @@ import { ActionButton } from "@/components/generic/ActionButton";
 import { FormInput } from "@/components/generic/FormInput";
 import { SectionCard } from "@/components/generic/SectionCard";
 import { SelectDropdown } from "@/components/generic/SelectDropdown";
+import { Button } from "@/components/ui/button";
 import {
 	DATE_FORMAT_OPTIONS,
 	LANGUAGE_OPTIONS,
@@ -28,12 +29,12 @@ export function UserSettingsContent({ activeSection }: UserSettingsContentProps)
 								JD
 							</div>
 							<div>
-								<button
+								<Button
 									type="button"
 									className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all text-sm"
 								>
 									Change Avatar
-								</button>
+								</Button>
 								<p className="text-xs text-muted-foreground mt-2">
 									{PROFILE_CONFIG.avatarFormats}. Max size {PROFILE_CONFIG.avatarMaxSize}.
 								</p>

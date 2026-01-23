@@ -3,6 +3,8 @@ import { FiArrowLeft, FiCalendar, FiTag, FiUser } from "react-icons/fi";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { NEWS_POSTS } from "@/config/external/news-config";
 import { getCategoryColor, getPriorityBadge } from "@/lib/news-utils";
+import { Button } from "@/components/ui/button";
+import { PATHS } from "@/constants/paths";
 
 export default async function DynamicNewsPage({ params }: { params: { newsId: string } }) {
 	const { newsId } = await params;
@@ -102,26 +104,26 @@ export default async function DynamicNewsPage({ params }: { params: { newsId: st
 									Subscribe to get notifications about new posts
 								</p>
 							</div>
-							<button
+							<Button
 								type="button"
 								className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all shadow-lg whitespace-nowrap"
 							>
 								Subscribe Now
-							</button>
+							</Button>
 						</div>
 					</div>
 				</article>
 
 				<div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<Link
-						href="/news"
+						href={PATHS.NEWS}
 						className="bg-accent/30 border border-accent/50 rounded-xl p-6 hover:shadow-lg hover:scale-[1.02] transition-all text-center"
 					>
 						<h3 className="font-semibold text-foreground mb-2">Browse All News</h3>
 						<p className="text-sm text-muted-foreground">View all announcements and updates</p>
 					</Link>
 					<Link
-						href="/contact"
+						href={PATHS.CONTACT}
 						className="bg-accent/30 border border-accent/50 rounded-xl p-6 hover:shadow-lg hover:scale-[1.02] transition-all text-center"
 					>
 						<h3 className="font-semibold text-foreground mb-2">Contact Support</h3>

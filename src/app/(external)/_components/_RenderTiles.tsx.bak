@@ -13,15 +13,7 @@ import {
 // 	classNameNotActive: "bg-accent/50 hover:bg-ring/80 text-foreground",
 // };
 
-export const RenderTiles = (): React.ReactNode[] | React.JSX.Element[] =>
-	EXTERNAL_MENU_ITEMS.filter(
-		(item) => item.path && !EXTERNAL_MENU_ITEMS_HIDDEN_PATHS.includes(item.path)
-	).map((item) => (
-		<RenderTile
-			key={item.title}
-			icon={item.icon}
-			path={item.path}
-			title={item.title}
-			{...tileClassValues}
-		/>
-	));
+// export const RenderTiles = (): React.ReactNode[] | React.JSX.Element[] =>
+// 	EXTERNAL_MENU_ITEMS.filter(
+// 		(item) => item.path && !EXTERNAL_MENU_ITEMS_HIDDEN_PATHS.includes(item.path)
+// 	).map((item) => <RenderTile key={item.title} {...item} {...tileClassValues} />);

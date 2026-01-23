@@ -5,6 +5,17 @@ import { useState } from "react";
 import { SubmitButton } from "@/components/generic/SubmitButton";
 import { CONTACT_SUBJECTS, FORM_CONFIG } from "@/config/external/contact-config";
 import { sendContactMessage } from "../actions";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 export function ContactForm() {
 	const [formData, setFormData] = useState({
@@ -28,9 +39,10 @@ export function ContactForm() {
 			<h2 className="text-2xl font-bold text-foreground mb-6">Send us a Message</h2>
 			<form action={sendContactMessage} className="space-y-6">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-					<div>
-						<label className="block text-sm font-medium text-foreground mb-2">Name</label>
-						<input
+					<Field>
+						<FieldLabel htmlFor="input-field-name">Name</FieldLabel>
+						<Input
+							id="input-field-name"
 							type="text"
 							name="name"
 							value={formData.name}
@@ -39,10 +51,26 @@ export function ContactForm() {
 							className="w-full px-4 py-3 rounded-lg bg-background border border-accent/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
 							required
 						/>
-					</div>
+						<FieldDescription>
+							Please enter your name (can be your username or first name).
+						</FieldDescription>
+					</Field>
+
 					<div>
-						<label className="block text-sm font-medium text-foreground mb-2">Email</label>
-						<input
+						{/* 	<label className="block text-sm font-medium text-foreground mb-2">Name</label> */}
+						{/* 	<input */}
+						{/* 		type="text" */}
+						{/* 		name="name" */}
+						{/* 		value={formData.name} */}
+						{/* 		onChange={handleChange} */}
+						{/* 		placeholder={FORM_CONFIG.namePlaceholder} */}
+						{/* 		className="w-full px-4 py-3 rounded-lg bg-background border border-accent/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" */}
+						{/* 		required */}
+						{/* 	/> */}
+						{/* </div> */}
+						{/* <div> */}
+						<Label className="block text-sm font-medium text-foreground mb-2">Email</Label>
+						<Input
 							type="email"
 							name="email"
 							value={formData.email}
@@ -55,24 +83,31 @@ export function ContactForm() {
 				</div>
 
 				<div>
-					<label className="block text-sm font-medium text-foreground mb-2">Subject</label>
-					<select
+					<Label className="block text-sm font-medium text-foreground mb-2">Subject</Label>
+					<Select
 						name="subject"
 						value={formData.subject}
-						onChange={handleChange}
-						className="w-full px-4 py-3 rounded-lg bg-background border border-accent/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-foreground"
+						defaultValue={formData.subject}
+						required
+						// onValueChange={(value) => handleChange}
 					>
-						{CONTACT_SUBJECTS.map((subject) => (
-							<option key={subject.value} value={subject.value}>
-								{subject.label}
-							</option>
-						))}
-					</select>
+						<SelectTrigger className="w-full px-4 py-3 rounded-lg bg-background border border-accent/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-foreground">
+							<SelectValue placeholder="Select a subject..." />
+						</SelectTrigger>
+
+						<SelectContent className="w-full p-1">
+							{CONTACT_SUBJECTS.map((subject) => (
+								<SelectItem key={subject.value} value={subject.value}>
+									{subject.label}
+								</SelectItem>
+							))}{" "}
+						</SelectContent>
+					</Select>
 				</div>
 
 				<div>
-					<label className="block text-sm font-medium text-foreground mb-2">Message</label>
-					<textarea
+					<Label className="block text-sm font-medium text-foreground mb-2">Message</Label>
+					<Textarea
 						name="message"
 						value={formData.message}
 						onChange={handleChange}

@@ -8,6 +8,7 @@ import ThemeToggler from "@/components/ThemeToggler";
 import { Skeleton } from "@/components/ui/skeleton";
 import { INTERNAL_SIDEBAR_ITEMS } from "@/config/internal/sidebar-config";
 import type { TileProps } from "@/types/local";
+import { Button } from "@/components/ui/button";
 
 // TODO:[sidebar] : use the provided shadcn/ui component instead?
 
@@ -111,14 +112,14 @@ const Sidebar = () => {
 					${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
 				`}
 			>
-				<button
+				<Button
 					type="button"
 					className="lg:hidden absolute top-4 -right-12 p-2 rounded-lg bg-accent hover:bg-accent/80 transition-colors shadow-lg"
 					onClick={() => setMobileOpen(!mobileOpen)}
 					aria-label="Toggle sidebar"
 				>
 					{mobileOpen ? <HiX size={24} /> : <HiMenu size={24} />}
-				</button>
+				</Button>
 				<SidebarContent />
 			</aside>
 		</>

@@ -1,6 +1,8 @@
 "use client";
 
 import { forwardRef } from "react";
+import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
 
 interface FormInputProps {
 	label: string;
@@ -20,7 +22,7 @@ export const FormInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Form
 			<div>
 				<label className="block text-sm font-medium text-foreground mb-2">{label}</label>
 				{type === "textarea" ? (
-					<textarea
+					<Textarea
 						ref={ref as React.Ref<HTMLTextAreaElement>}
 						rows={rows}
 						placeholder={placeholder}
@@ -29,7 +31,7 @@ export const FormInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Form
 						className={`${inputClassName} resize-none`}
 					/>
 				) : (
-					<input
+					<Input
 						ref={ref as React.Ref<HTMLInputElement>}
 						type={type}
 						placeholder={placeholder}

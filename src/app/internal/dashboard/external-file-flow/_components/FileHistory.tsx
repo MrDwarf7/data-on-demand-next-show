@@ -12,6 +12,7 @@ import {
 	STATUS_BADGE_STYLES,
 } from "@/config/internal/file-flow-config";
 import { useRecentFiles } from "@/hooks/use-file-flow";
+import { Button } from "@/components/ui/button";
 
 /**
  * Get a filter function for files based on selected tab
@@ -61,18 +62,19 @@ export function FileHistory() {
 				<h2 className="text-xl font-semibold text-foreground">File History</h2>
 				<div className="flex gap-2">
 					{FILE_TABS.map((tab) => (
-						<button
+						<Button
+							variant="ghost"
 							type="button"
 							key={tab}
 							onClick={() => setSelectedTab(tab)}
 							className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-								selectedTab === tab
-									? "bg-blue-600 text-white shadow-lg"
-									: "bg-accent/50 text-foreground hover:bg-accent"
+								selectedTab === tab && "bg-blue-600 hover:bg-blue-700 text-white"
+								// ? "bg-blue-600 text-white shadow-lg"
+								// : "bg-accent/50 text-foreground hover:bg-accent"
 							}`}
 						>
 							{tab.charAt(0).toUpperCase() + tab.slice(1)}
-						</button>
+						</Button>
 					))}
 				</div>
 			</div>

@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { GridItem } from "@/components/generic/GridItem";
 import { EXTERNAL_MENU_ITEMS, type ExternalMenuItem } from "@/config/external/headerbar-config";
-import { PATHS } from "@/constants/paths";
 import { GLOW_EFFECT_DEFAULTS } from "@/config/glow-effects";
+import { PATHS } from "@/constants/paths";
 
 export interface RenderGridItemsProps {
 	title: string;

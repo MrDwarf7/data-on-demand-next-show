@@ -27,7 +27,6 @@ export const RenderTile = ({ variant = "button", ...props }: RenderTileProps): J
 
 	const classNameC =
 		pathName === path ? cn(className, classNameActive) : cn(className, classNameNotActive);
-	const iconElement = icon({ size: 20 });
 
 	const handleOnClick = () => {
 		if (searchParams.size === 0) return;
@@ -43,7 +42,7 @@ export const RenderTile = ({ variant = "button", ...props }: RenderTileProps): J
 	if (variant === "link") {
 		return (
 			<Link href={path} className={classNameC} onClick={handleOnClick()}>
-				<span className="shrink-0">{iconElement}</span>
+				<span className="shrink-0">{icon({ size: 20 })}</span>
 				<span className="flex-1">{title}</span>
 			</Link>
 		);
@@ -52,8 +51,16 @@ export const RenderTile = ({ variant = "button", ...props }: RenderTileProps): J
 	return (
 		<div className="inline-block w-full" key={title}>
 			<Link href={path} onClick={handleOnClick()}>
-				<Button tabIndex={-1} variant="secondary" className={classNameC} aria-label={title}>
-					<span className="mr-2 inline-flex">{iconElement}</span>
+				{/* <Button tabIndex={-1} variant="secondary" className={classNameC} aria-label={title}> */}
+				<Button
+					tabIndex={-1}
+					variant="secondary"
+					className={`px-4 py-2 rounded-lg text-sm font-medium transition-all gap-2 shadow-lg hover:bg-ring/20 ${
+						pathName === path && "bg-blue-600 hover:bg-blue-700 text-white"
+					}`}
+					aria-label={title}
+				>
+					<span className="mr-2 inline-flex">{icon({ size: 20 })}</span>
 					{title}
 				</Button>
 			</Link>

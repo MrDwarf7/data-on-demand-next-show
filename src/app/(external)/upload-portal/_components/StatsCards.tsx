@@ -10,6 +10,7 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { capitalizeLetters } from "@/lib/utils";
+import { Suspense } from "react";
 
 export type UploadPortalStatsCardsProps = {
 	lastReportDate: Date;
@@ -114,10 +115,12 @@ export const UploadPortalStatsCards = ({ lastReportDate }: UploadPortalStatsCard
 					<DialogHeader>
 						<DialogTitle>Report Calendar</DialogTitle>
 					</DialogHeader>
-					<ReportCalendar defaultOpenDate={new Date()} />
-					<p className="text-sm text-muted-foreground text-center">
-						Last report date: <span className="text-ring font-semibold">{prettifiedDate}</span>
-					</p>
+					<Suspense fallback={<div>Loading Calendar...</div>}>
+						<ReportCalendar defaultOpenDate={new Date()} />
+						<p className="text-sm text-muted-foreground text-center">
+							Last report date: <span className="text-ring font-semibold">{prettifiedDate}</span>
+						</p>
+					</Suspense>
 				</DialogContent>
 			</Dialog>
 		</div>

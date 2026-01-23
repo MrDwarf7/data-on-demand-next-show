@@ -13,7 +13,10 @@ import { PATHS } from "@/constants/paths";
 
 export const tileClassValues = {
 	className: "gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-	classNameActive: "bg-ring shadow-sm text-foreground",
+
+	classNameActive: "bg-blue-600 hover:bg-blue-700 text-white",
+	// classNameActive: "bg-ring shadow-sm text-foreground",
+	// classNameNotActive: "bg-accent/50 hover:bg-ring/80 text-foreground",
 	classNameNotActive: "bg-accent/50 hover:bg-ring/80 text-foreground",
 };
 
@@ -63,12 +66,7 @@ export const HeaderBar = () => {
 									onClick={() => setMobileMenuOpen(false)}
 								>
 									<Suspense fallback={<Skeleton className="w-full h-10" />} key={item.title}>
-										<RenderTile
-											{...item}
-											className="w-full justify-start gap-3 px-4 py-3 rounded-lg text-base font-medium transition-colors"
-											classNameActive="bg-ring shadow-sm text-foreground"
-											classNameNotActive="bg-accent/30 hover:bg-ring/80 text-foreground"
-										/>
+										<RenderTile {...item} {...tileClassValues} />
 									</Suspense>
 								</div>
 							))}
