@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type { DataItemsProps } from "@/types/local";
 
 // TODO: [backend] : Replace with API call: fetch('/api/processes')
-const getProcesses = (): DataItemsProps[] => [
+const PROCESSES: DataItemsProps[] = [
 	{ value: "number_one", label: "My Value 1" },
 	{ value: "very_cool", label: "Super Cool 2" },
 	{ value: "process_three_memes", label: "Memes 3" },
@@ -23,7 +23,9 @@ const getProcesses = (): DataItemsProps[] => [
 	{ value: "18", label: "Process 18" },
 ];
 
-export function useProcesses(): Readonly<DataItemsProps[]> {
+export async function useProcesses(): Promise<DataItemsProps[]> {
 	// TODO: [backend] : Add loading state, error handling when fetching from API
-	return useMemo(() => getProcesses(), []);
+	// return useMemo(() => getProcesses(), []);
+
+	return PROCESSES;
 }

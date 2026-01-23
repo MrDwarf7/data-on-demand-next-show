@@ -1,7 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useActionState, useRef } from "react";
+import { useActionState, useRef, useState } from "react";
 import { type FileRejection, useDropzone } from "react-dropzone";
 import { FiAlertCircle, FiUploadCloud, FiX } from "react-icons/fi";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +11,7 @@ import {
 	SUPPORTED_EXTENSIONS,
 } from "@/config/external/upload-config";
 import { uploadFiles } from "../actions";
+import type { UploadPortalPagePropsResolved } from "../page";
 
 interface FileWithStatus {
 	file: File;
@@ -20,14 +20,17 @@ interface FileWithStatus {
 }
 
 interface TabsContentHumansProps {
-	selectedFiles: FileWithStatus[];
-	onFilesChange: (files: FileWithStatus[]) => void;
+	// selectedFiles: FileWithStatus[];
+	// onFilesChange: (files: FileWithStatus[]) => void;
+	selectedProcess?: UploadPortalPagePropsResolved["process"];
 }
 
-const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansProps) => {
-	const searchParams = useSearchParams();
-	const selectedProcess = searchParams.get("process");
-	const hasProcessSelected = !!selectedProcess;
+const TabsContentHumans = ({ selectedProcess }: TabsContentHumansProps) => {
+	// const searchParams = useSearchParams();
+	// const selectedProcess = searchParams.get("process");
+	// const hasProcessSelected = !!selectedProcess;
+
+	const [localFiles, setLocalFiles] = useState<FileWithStatus[]>([]);
 
 	const [state, formAction, isPending] = useActionState(uploadFiles, {
 		success: false,
@@ -55,7 +58,8 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 					errors: rejection.errors.map((err) => err.message),
 				})),
 			];
-			onFilesChange(allFiles);
+			// onFilesChange(allFiles);
+			setLocalFiles(allFiles);
 
 			// Set the input's files for form submission
 			if (inputRef.current) {
@@ -71,15 +75,20 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 	const { isDragActive, getInputProps, getRootProps } = useDropzone(dropZoneProps);
 
 	const removeFile = (indexToRemove: number) => {
-		onFilesChange(selectedFiles.filter((_, index) => index !== indexToRemove));
+		// onFilesChange(selectedFiles.filter((_, index) => index !== indexToRemove));
+		setLocalFiles(localFiles.filter((_, index) => index !== indexToRemove));
 	};
 
-	const hasRejectedFiles = selectedFiles.some((f) => f.isRejected);
-	const validFilesForDisplay = selectedFiles.filter((f) => !f.isRejected);
+	// const hasRejectedFiles = selectedFiles.some((f) => f.isRejected);
+	// const validFilesForDisplay = selectedFiles.filter((f) => !f.isRejected);
+
+	const hasRejectedFiles = localFiles.some((f) => f.isRejected);
+	const validFilesForDisplay = localFiles.filter((f) => !f.isRejected);
 
 	return (
 		<TabsContent value="humans" className="mt-6">
-			{!hasProcessSelected && validFilesForDisplay.length > 0 && (
+			{/* {!hasProcessSelected && validFilesForDisplay.length > 0 && ( */}
+			{selectedProcess == null && validFilesForDisplay.length > 0 && (
 				<div className="mb-2 p-2 rounded-md flex items-center gap-2">
 					<FiAlertCircle className="h-4 w-4 text-destructive" />
 					<p className="text-xs text-destructive">
@@ -113,7 +122,8 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 						</p>
 					</div>
 
-					{selectedFiles.length > 0 && (
+					{/* {selectedFiles.length > 0 && ( */}
+					{localFiles.length > 0 && (
 						<div className="mt-6 bg-accent/20 border border-accent/50 rounded-xl p-6">
 							<div className="flex items-center justify-between mb-4">
 								<h4 className="text-lg font-semibold text-foreground">
@@ -122,7 +132,8 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 								{!state.success && (
 									<button
 										type="submit"
-										disabled={isPending || !hasProcessSelected || hasRejectedFiles}
+										// disabled={isPending || !hasProcessSelected || hasRejectedFiles}
+										disabled={isPending || !selectedProcess || hasRejectedFiles}
 										className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-md disabled:opacity-50"
 									>
 										{
@@ -178,7 +189,8 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 												</div>
 											</div>
 										))
-									: selectedFiles.map((fileWithStatus, index) => (
+									: // : selectedFiles.map((fileWithStatus, index) => (
+										localFiles.map((fileWithStatus, index) => (
 											<div
 												key={`${fileWithStatus.file.name}-${fileWithStatus.file.size}-${index}`}
 												className={`flex items-center gap-3 p-3 bg-background/50 rounded-lg border ${

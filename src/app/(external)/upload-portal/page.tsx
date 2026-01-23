@@ -11,6 +11,14 @@ import { UploadPortalStatsCards } from "./_components/StatsCards";
 // TODO: [tabs_content] :
 // TODO: [process_picker] :
 
+export interface UploadPortalPageProps {
+	searchParams: Promise<{ process?: string }>;
+}
+
+export interface UploadPortalPagePropsResolved {
+	process?: string | null;
+}
+
 async function tabsContentLoading() {
 	return (
 		<Skeleton>
@@ -24,7 +32,7 @@ async function tabsContentLoading() {
 	);
 }
 
-export default async function UploadPortalPage() {
+export default async function UploadPortalPage({ searchParams }: UploadPortalPageProps) {
 	// Queue statistics (TODO: [backend] : Replace with live data)
 	const statCardsProps = { lastReportDate: new Date() };
 
@@ -41,7 +49,7 @@ export default async function UploadPortalPage() {
 			{/* Upload Section */}
 			<div className="mb-8">
 				<Suspense fallback={tabsContentLoading()}>
-					<UploadSection />
+					<UploadSection searchParams={searchParams} />
 				</Suspense>
 			</div>
 
