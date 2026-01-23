@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SETTINGS_SECTIONS, type SettingsSectionId } from "@/config/internal/user-settings-config";
-import { cn } from "@/lib/utils";
 import { UserSettingsContent } from "./UserSettingsContent";
 
 // type Section = (typeof SETTINGS_SECTIONS)[number]["value"];
