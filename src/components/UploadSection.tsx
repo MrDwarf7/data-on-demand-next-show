@@ -37,7 +37,7 @@ export const UploadSection = ({
 	};
 
 	return (
-		<div>
+		<>
 			<div className="mb-6 flex flex-row justify-end">
 				<Suspense fallback={<ProcessPickerSkeleton />}>
 					<ProcessPicker selectedFilesCount={selectedFiles.filter((f) => !f.isRejected).length} />
@@ -57,6 +57,6 @@ export const UploadSection = ({
 					)}
 				</div>
 			</Tabs>
-		</div>
+		</>
 	);
 };

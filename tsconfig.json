@@ -36,9 +36,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "postcss.config.mjs",
-    "src/components/ComponentProvider.tsx.bak",
-    ".old_files/_PREV_command.tsx"
+    "postcss.config.mjs"
   ],
   "exclude": [
     "node_modules",

@@ -70,8 +70,6 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 
 	const { isDragActive, getInputProps, getRootProps } = useDropzone(dropZoneProps);
 
-	const inputProps = getInputProps();
-
 	const removeFile = (indexToRemove: number) => {
 		onFilesChange(selectedFiles.filter((_, index) => index !== indexToRemove));
 	};
@@ -104,7 +102,7 @@ const TabsContentHumans = ({ selectedFiles, onFilesChange }: TabsContentHumansPr
 							${isDragActive ? "border-blue-500 bg-blue-500/10" : ""}
 						`}
 					>
-						<input {...inputProps} name="files" ref={inputRef} />
+						<input {...getInputProps()} name="files" ref={inputRef} />
 						<FiUploadCloud className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
 						<h3 className="text-xl font-semibold text-foreground mb-2">
 							{isDragActive ? "Drop files here..." : "Drag & drop files here"}

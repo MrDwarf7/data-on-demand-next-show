@@ -11,29 +11,22 @@ import { UploadPortalStatsCards } from "./_components/StatsCards";
 // TODO: [tabs_content] :
 // TODO: [process_picker] :
 
-export default async function UploadPortalPage() {
-	async function tabsContentLoading() {
-		return (
-			<Skeleton>
-				<div className="flex items-center justify-center py-12">
-					<div className="text-center">
-						<div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-						<p className="text-muted-foreground">Loading upload interface...</p>
-					</div>
+async function tabsContentLoading() {
+	return (
+		<Skeleton>
+			<div className="flex items-center justify-center py-12">
+				<div className="text-center">
+					<div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+					<p className="text-muted-foreground">Loading upload interface...</p>
 				</div>
-			</Skeleton>
-		);
-	}
+			</div>
+		</Skeleton>
+	);
+}
 
+export default async function UploadPortalPage() {
 	// Queue statistics (TODO: [backend] : Replace with live data)
-	const statCardsProps = {
-		// pending: 588,
-		// exception: 14,
-		// completed: 200,
-		lastReportDate: new Date(),
-		// new Date().getDay().toString(),
-		// .toLocaleDateString(),
-	};
+	const statCardsProps = { lastReportDate: new Date() };
 
 	return (
 		<>

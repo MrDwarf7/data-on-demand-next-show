@@ -27,7 +27,7 @@ interface ProcessPickerProps {
 	selectedFilesCount: number;
 }
 
-const ProcessPicker = ({ selectedFilesCount }: ProcessPickerProps) => {
+export const ProcessPicker = ({ selectedFilesCount }: ProcessPickerProps) => {
 	const [processPickerOpen, setProcessPickerOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -108,5 +108,3 @@ const ProcessPicker = ({ selectedFilesCount }: ProcessPickerProps) => {
 		</div>
 	);
 };
-
-export { ProcessPicker };
