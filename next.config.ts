@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
+  reactCompiler: true,
 	allowedDevOrigins: [
 		"localhost:3000",
 		"10.0.0.*",
