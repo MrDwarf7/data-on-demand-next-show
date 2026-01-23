@@ -3,11 +3,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { FiArrowRight, FiCalendar, FiUser } from "react-icons/fi";
 import { NEWS_CATEGORIES, NEWS_POSTS } from "@/config/external/news-config";
-import { NEWS_CATEGORY_VALUES, type NewsCategory } from "@/constants/news-categories";
+import { NEWS_CATEGORY_VALUES, type NewsCategoryExt } from "@/constants/news-categories";
 import { getCategoryColor, getPriorityBadge } from "@/lib/news-utils";
 
 export const SelectedCategory = () => {
-	const [selectedCategory, setSelectedCategory] = useState<NewsCategory>(NEWS_CATEGORY_VALUES.ALL);
+	const [selectedCategory, setSelectedCategory] = useState<NewsCategoryExt>(
+		NEWS_CATEGORY_VALUES.ALL
+	);
 	const filteredPosts =
 		selectedCategory === NEWS_CATEGORY_VALUES.ALL
 			? NEWS_POSTS
@@ -19,9 +21,9 @@ export const SelectedCategory = () => {
 				<button
 					type="button"
 					key={category.value}
-					onClick={() => setSelectedCategory(category.value as NewsCategory)}
+					onClick={() => setSelectedCategory(category.value as NewsCategoryExt)}
 					className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-						selectedCategory === (category.value as NewsCategory)
+						selectedCategory === (category.value as NewsCategoryExt)
 							? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
 							: "bg-accent/50 text-foreground hover:bg-accent"
 					}`}

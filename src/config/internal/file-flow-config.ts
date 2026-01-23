@@ -131,7 +131,7 @@ export const RECENT_FILES: RecentFile[] = [
 	},
 ];
 
-export const UPLOAD_CONFIG = {
+export const UPLOAD_CONFIG_FILE_FLOW = {
 	supportedFormats: "PDF, DOCX, XLSX, CSV",
 	maxSize: "10MB",
 	uploadText: "Upload Files",

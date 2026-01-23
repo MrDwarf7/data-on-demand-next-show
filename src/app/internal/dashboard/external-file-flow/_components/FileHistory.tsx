@@ -8,10 +8,24 @@ import type { IconTypeMap } from "@/config/external/statistics-config";
 import {
 	FILE_TABS,
 	type FileTabType,
+	type RecentFile,
 	STATUS_BADGE_STYLES,
 } from "@/config/internal/file-flow-config";
 import { useRecentFiles } from "@/hooks/use-file-flow";
-import { getFileFilter } from "@/lib/file-utils";
+
+/**
+ * Get a filter function for files based on selected tab
+ */
+export const getFileFilter = (selectedTab: string) => (file: RecentFile) => {
+	switch (selectedTab) {
+		case "recent":
+			return true;
+		case "processed":
+			return file.status === "processed";
+		default:
+			return file.status === selectedTab;
+	}
+};
 
 export function FileHistory() {
 	const [selectedTab, setSelectedTab] = useState("recent");

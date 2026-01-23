@@ -5,7 +5,7 @@ import { FiCheckCircle, FiX } from "react-icons/fi";
 import { MdUploadFile } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { UPLOAD_CONFIG } from "@/config/internal/file-flow-config";
+import { UPLOAD_CONFIG_FILE_FLOW } from "@/config/internal/file-flow-config";
 import { useFileUpload } from "@/hooks/upload";
 
 export const UploadArea = () => {
@@ -59,22 +59,27 @@ export const UploadArea = () => {
 					multiple
 					className="hidden"
 					onChange={handleFileSelect}
-					accept={UPLOAD_CONFIG.supportedFormats}
+					accept={UPLOAD_CONFIG_FILE_FLOW.supportedFormats}
 				/>
 				<div className="text-center">
 					<div className="mx-auto mb-4 w-16 h-16 rounded-full bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
 						<MdUploadFile className="w-8 h-8" />
 					</div>
-					<h3 className="text-lg font-semibold text-foreground mb-2">{UPLOAD_CONFIG.uploadText}</h3>
-					<p className="text-sm text-muted-foreground mb-4">{UPLOAD_CONFIG.dragDropText}</p>
+					<h3 className="text-lg font-semibold text-foreground mb-2">
+						{UPLOAD_CONFIG_FILE_FLOW.uploadText}
+					</h3>
+					<p className="text-sm text-muted-foreground mb-4">
+						{UPLOAD_CONFIG_FILE_FLOW.dragDropText}
+					</p>
 					<Button
 						type="button"
 						className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
 					>
-						{UPLOAD_CONFIG.buttonText}
+						{UPLOAD_CONFIG_FILE_FLOW.buttonText}
 					</Button>
 					<p className="text-xs text-muted-foreground mt-4">
-						Supported: {UPLOAD_CONFIG.supportedFormats} • Max size: {UPLOAD_CONFIG.maxSize}
+						Supported: {UPLOAD_CONFIG_FILE_FLOW.supportedFormats} • Max size:{" "}
+						{UPLOAD_CONFIG_FILE_FLOW.maxSize}
 					</p>
 				</div>
 			</div>
